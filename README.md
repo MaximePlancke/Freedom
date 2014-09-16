@@ -1,5 +1,4 @@
 Freedom Website
-
 ========================
 
 Personnal project using PHP5, Symfony2, AngularJS. 

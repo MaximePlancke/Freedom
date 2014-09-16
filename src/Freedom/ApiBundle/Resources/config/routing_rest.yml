@@ -1,0 +1,21 @@
+objective : 
+    type: rest
+    resource:     "FreedomApiBundle:Objective"
+    name_prefix:  api_objective
+
+step : 
+    type: rest
+    parent:   objective
+    resource:     "FreedomApiBundle:Stepobjective"
+    name_prefix:  api_step
+
+advice : 
+    type: rest
+    parent:   objective
+    resource:     "FreedomApiBundle:Advice"
+    name_prefix:  api_advice
+
+user : 
+    type: rest
+    resource:     "FreedomApiBundle:User"
+    name_prefix:  api_user

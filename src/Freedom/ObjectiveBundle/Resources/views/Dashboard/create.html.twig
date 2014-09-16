@@ -1,0 +1,95 @@
+{% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
+
+{% block title %}Freedom - Create{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+<h3>Create your objective</h3>
+
+<form action="{{ path('freedom_objective_dashboard_create') }}" method="post" {{ form_enctype(form) }}>
+
+	{{ form_errors(form) }}
+
+	<div>
+    {{ form_label(form.name, "Titre de l'objectif") }}
+    {{ form_errors(form.name) }}
+    {{ form_widget(form.name) }}
+ </div>
+
+ <div>
+    {{ form_label(form.category, "Choisissez une catégorie") }}
+    {{ form_errors(form.category) }}
+    {{ form_widget(form.category) }}
+ </div>
+
+ <div>
+    {{ form_label(form.dategoal, "Quand finirez vous ce projet?") }}
+    {{ form_errors(form.dategoal) }}
+    {{ form_widget(form.dategoal) }}
+</div>
+
+{{ form_rest(form) }}
+
+<input type="submit" class="btn btn-primary" />
+
+</form>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+  // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+  var $container = $('div#freedom_objectivebundle_objectivetype_steps');
+
+  var $lienAjout = $('<a href="#" id="add_step" class="btn">Ajouter une étape</a>');
+  $container.append($lienAjout);
+
+  $lienAjout.click(function(e) {
+    addStep($container);
+    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+    return false;
+});
+
+  var index = $container.find(':input').length;
+
+  if (index == 0) {
+    addStep($container);
+} else {
+    // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+    $container.children('div').each(function() {
+      addLinkDelete($(this));
+  });
+}
+
+function addStep($container) {
+    // Dans le contenu de l'attribut « data-prototype », on remplace :
+    // - le texte "__name__label__" qu'il contient par le label du champ
+    // - le texte "__name__" qu'il contient par le numéro du champ
+    var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Etape n°' + (index+1)).replace(/__name__/g, index));
+
+    addLinkDelete($prototype);
+    $container.append($prototype);
+
+    index++;
+}
+
+function addLinkDelete($prototype) {
+    // Création du lien
+    $lienSuppression = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+    // Ajout du lien
+    $prototype.append($lienSuppression);
+
+    // Ajout du listener sur le clic du lien
+    $lienSuppression.click(function(e) {
+      $prototype.remove();
+      index--;
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+  });
+}
+});
+</script>
+
+{% endblock %}

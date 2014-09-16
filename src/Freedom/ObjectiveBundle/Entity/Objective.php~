@@ -1,0 +1,423 @@
+<?php
+
+namespace Freedom\ObjectiveBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Objective
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Freedom\ObjectiveBundle\Entity\ObjectiveRepository")
+ */
+class Objective extends ObjectiveManager
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Freedom\UserBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="text")
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="category", type="string", length=255)
+     */
+    private $category;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbsteps", type="integer")
+     */
+    private $nbsteps;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="done", type="boolean")
+     */
+    private $done;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="private", type="boolean")
+     */
+    private $private;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="likes", type="integer")
+     */
+    private $likes;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="groups", type="string", length=255, nullable=true)
+     */
+    private $groups;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="datecreation", type="datetime")
+     */
+    private $datecreation;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dategoal", type="datetime")
+     */
+    private $dategoal;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Stepobjective", mappedBy="objective", cascade={"persist"})
+    */
+    private $steps;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Advice", mappedBy="objective", cascade={"persist"})
+    */
+    private $advices;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userlikeobjective", mappedBy="objective", cascade={"persist"})
+    */
+    private $userlikeobjectives;
+    
+
+    public function __construct()
+    {
+        $this->done = false;
+        $this->likes  = 0;
+        $this->datecreation = new \Datetime;
+        $this->dategoal = new \Datetime;
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Objective
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return Objective
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set nbsteps
+     *
+     * @param integer $nbsteps
+     * @return Objective
+     */
+    public function setNbsteps($nbsteps)
+    {
+        $this->nbsteps = $nbsteps;
+
+        return $this;
+    }
+
+    /**
+     * Get nbsteps
+     *
+     * @return integer 
+     */
+    public function getNbsteps()
+    {
+        return $this->nbsteps;
+    }
+
+    /**
+     * Set done
+     *
+     * @param boolean $done
+     * @return Objective
+     */
+    public function setDone($done)
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    /**
+     * Get done
+     *
+     * @return boolean 
+     */
+    public function getDone()
+    {
+        return $this->done;
+    }
+
+    /**
+     * Set likes
+     *
+     * @param integer $likes
+     * @return Objective
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Get likes
+     *
+     * @return integer 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Set groups
+     *
+     * @param string $groups
+     * @return Objective
+     */
+    public function setGroups($groups)
+    {
+        $this->groups = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Get groups
+     *
+     * @return string 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * Set datecreation
+     *
+     * @param \DateTime $datecreation
+     * @return Objective
+     */
+    public function setDatecreation($datecreation)
+    {
+        $this->datecreation = $datecreation;
+
+        return $this;
+    }
+
+    /**
+     * Get datecreation
+     *
+     * @return \DateTime 
+     */
+    public function getDatecreation()
+    {
+        return $this->datecreation;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Freedom\UserBundle\Entity\User $user
+     * @return Objective
+     */
+    public function setUser(\Freedom\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Freedom\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set private
+     *
+     * @param boolean $private
+     * @return Objective
+     */
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return boolean 
+     */
+    public function getPrivate()
+    {
+        return $this->private;
+    }
+
+    /**
+     * Add steps
+     *
+     * @param \Freedom\ObjectiveBundle\Entity\Stepobjective $steps
+     * @return Objective
+     */
+    public function addStep(\Freedom\ObjectiveBundle\Entity\Stepobjective $steps)
+    {
+        $this->steps[] = $steps;
+
+        return $this;
+    }
+
+    /**
+     * Remove steps
+     *
+     * @param \Freedom\ObjectiveBundle\Entity\Stepobjective $steps
+     */
+    public function removeStep(\Freedom\ObjectiveBundle\Entity\Stepobjective $steps)
+    {
+        $this->steps->removeElement($steps);
+    }
+
+    /**
+     * Get steps
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSteps()
+    {
+        return $this->steps;
+    }
+
+    /**
+     * Set dategoal
+     *
+     * @param \DateTime $dategoal
+     * @return Objective
+     */
+    public function setDategoal($dategoal)
+    {
+        $this->dategoal = $dategoal;
+
+        return $this;
+    }
+
+    /**
+     * Get dategoal
+     *
+     * @return \DateTime 
+     */
+    public function getDategoal()
+    {
+        return $this->dategoal;
+    }
+
+    /**
+     * Add advices
+     *
+     * @param \Freedom\ObjectiveBundle\Entity\Advice $advices
+     * @return Objective
+     */
+    public function addAdvice(\Freedom\ObjectiveBundle\Entity\Advice $advices)
+    {
+        $this->advices[] = $advices;
+
+        return $this;
+    }
+
+    /**
+     * Remove advices
+     *
+     * @param \Freedom\ObjectiveBundle\Entity\Advice $advices
+     */
+    public function removeAdvice(\Freedom\ObjectiveBundle\Entity\Advice $advices)
+    {
+        $this->advices->removeElement($advices);
+    }
+
+    /**
+     * Get advices
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAdvices()
+    {
+        return $this->advices;
+    }
+}

@@ -1,0 +1,9 @@
+objective_dashboard:
+    prefix:     /ob/
+    type:     annotation
+    resource: "@FreedomObjectiveBundle/Controller/DashboardController.php"
+
+objective_profile:
+    prefix:     /
+    type:     annotation
+    resource: "@FreedomObjectiveBundle/Controller/ProfileController.php"

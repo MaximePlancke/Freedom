@@ -1,0 +1,7 @@
+parameters:
+#    freedom_explore.example.class: Freedom\ExploreBundle\Example
+
+services:
+#    freedom_explore.example:
+#        class: %freedom_explore.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

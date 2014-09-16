@@ -1,0 +1,124 @@
+{% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
+
+{% block title %}Freedom - Dashboard{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+	<h3><i class="glyphicon glyphicon-dashboard"></i> Dashboard</h3>  	
+	<hr>
+	<div class="well">Inbox Messages <span class="badge pull-right">3</span></div>
+	<hr>
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h4>Objectives Status</h4></div>
+		<div class="panel-body">
+
+			<small>{{ pourcentComplete }}% Complete</small>
+			<div class="progress">
+				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ pourcentComplete }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ pourcentComplete }}%">
+					<span class="sr-only">{{ pourcentComplete }}% Complete</span>
+				</div>
+			</div>
+			<small>Your Rating</small>
+			<div class="progress">
+				<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+					<span class="sr-only">20% Complete</span>
+				</div>
+			</div>
+
+		</div><!--/panel-body-->
+	</div><!--/panel--> 
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h4>Last Current Objective - <a href="{{ path('freedom_objective_dashboard_current') }}">See more...</a></h4></div>
+		<div class="panel-body">
+			{% if lastCurrentObjective %}
+				<span>{{ lastCurrentObjective.userlikeobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span></span>
+				<span>{{ lastCurrentObjective.category|capitalize }} <span class="glyphicon glyphicon-tag"></span></span>
+				<span>{{ lastCurrentObjective.getNumberOfDays }} <span class="glyphicon glyphicon-time"></span></span>
+				<h3><a href="{{ path('freedom_objective_dashboard_details', {'id': lastCurrentObjective.id }) }}">{{ lastCurrentObjective.name|e|capitalize }}</a></h3>
+				<div>Steps</div>
+				<ul>
+					{% for step in lastCurrentObjective.getSteps %}
+			        	<li>
+			        		{% if step.done == true %}
+			        			<span class="glyphicon glyphicon-check"></span>
+			        		{% else %}
+			        			<span class="glyphicon glyphicon-retweet"></span>
+			        		{% endif %}
+			        		{{ step.name|e|capitalize }} - {{ step.userlikestepobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span>
+			        	</li>
+			    	{% endfor %}
+			    </ul>
+			    <div>Advices</div>
+			    {% if lastCurrentObjective.getAdvices is empty %}
+			    	<div>No advices yet. Be the first!</div>
+			    {% else %}
+				    <ul>
+						{% for advice in lastCurrentObjective.getAdvices %}
+						<li>{{ advice.name }} - {{ advice.userlikeadvices | length }} <span class="glyphicon glyphicon-heart-empty"></span> - By {{ advice.user|capitalize }}</li>
+				    	{% endfor %}
+				    </ul>
+			    {% endif %}
+			{% else %}
+			<h4>No current objective. <a href="{{ path('freedom_objective_dashboard_create') }}">Create one?</a></h4>
+			{% endif %}
+		</div>
+	</div>   
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h4>Last Complete Objective - <a href="{{ path('freedom_objective_dashboard_done') }}">See more...</a></h4></div>
+		<div class="panel-body">
+			{% if lastDoneObjective %}
+				<span>{{ lastDoneObjective.userlikeobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span></span>
+				<span>{{ lastDoneObjective.category|capitalize }} <span class="glyphicon glyphicon-tag"></span></span>
+				<span>{{ lastDoneObjective.getNumberOfDays }} <span class="glyphicon glyphicon-time"></span></span>
+				<h3><a href="{{ path('freedom_objective_dashboard_details', {'id': lastDoneObjective.id }) }}">{{ lastDoneObjective.name|e|capitalize }}</a></h3>
+				<div>Steps</div>
+				<ul>
+					{% for step in lastDoneObjective.getSteps %}
+			        	<li>
+			        		{% if step.done == true %}
+			        			<span class="glyphicon glyphicon-check"></span>
+			        		{% else %}
+			        			<span class="glyphicon glyphicon-retweet"></span>
+			        		{% endif %}
+			        		{{ step.name|e|capitalize }} - {{ step.userlikestepobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span>
+			        	</li>
+			    	{% endfor %}
+			    </ul>
+			    <div>Advices</div>
+			    {% if lastDoneObjective.getAdvices is empty %}
+			    	<div>No advices yet. Be the first!</div>
+			    {% else %}
+				    <ul>
+						{% for advice in lastDoneObjective.getAdvices %}
+						<li>{{ advice.name }} - {{ advice.userlikeadvices | length }} <span class="glyphicon glyphicon-heart-empty"></span> - By {{ advice.user|capitalize }}</li>
+				    	{% endfor %}
+				    </ul>
+			    {% endif %}
+			{% else %}
+			<h4>No objective completed yet. Don't surrender!</h4>
+			{% endif %}
+		</div>
+	</div>  
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h4>Last Tips/Knowledge given - <a href="#">See more...</a></h4></div>
+		<div class="panel-body">
+
+
+		</div>
+	</div>   
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h4>Last Advice given - <a href="#">See more...</a></h4></div>
+		<div class="panel-body">
+
+
+		</div>
+	</div>         
+
+{% endblock %}

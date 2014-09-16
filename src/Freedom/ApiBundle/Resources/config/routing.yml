@@ -1,0 +1,12 @@
+# api_advice:
+#     prefix:     /advice/
+#     type:     annotation
+#     defaults: { _format: 'json' }
+#     resource: "@FreedomApiBundle/Controller/AdviceController.php"
+
+# api_objective:
+#     prefix:     /objective/
+#     type:     annotation
+#     defaults: { _format: 'json' }
+#     resource: "@FreedomApiBundle/Controller/ObjectiveController.php"
+

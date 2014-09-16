@@ -1,0 +1,3 @@
+# freedom_menu_homepage:
+#     path:     /hello/{name}
+#     defaults: { _controller: FreedomMenuBundle:Default:index }

@@ -1,0 +1,3 @@
+freedom_explore_homepage:
+    path:     /
+    defaults: { _controller: FreedomExploreBundle:Default:index }

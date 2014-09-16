@@ -1,0 +1,7 @@
+parameters:
+#    freedom_menu.example.class: Freedom\MenuBundle\Example
+
+services:
+#    freedom_menu.example:
+#        class: %freedom_menu.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

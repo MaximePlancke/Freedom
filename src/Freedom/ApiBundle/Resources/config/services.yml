@@ -1,0 +1,7 @@
+parameters:
+#    freedom_api.example.class: Freedom\ApiBundle\Example
+
+services:
+#    freedom_api.example:
+#        class: %freedom_api.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

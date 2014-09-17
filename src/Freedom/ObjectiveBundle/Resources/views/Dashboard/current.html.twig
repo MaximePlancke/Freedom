@@ -1,3 +1,5 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
 {% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
 
 {% block title %}Freedom - Current{% endblock %}
@@ -5,6 +7,53 @@
 {% block content_header '' %}
 
 {% block content %}
+
+<div ng-controller="ObjectiveCurrentCtrl" ng-init="userLogged = {{ userLogged.getId }}">
+	<div ng-repeat="objective in objectives">
+ 		<h3>
+	        <span ng-if="objective.done == true">
+	            <span class="glyphicon glyphicon-check"></span>
+	        </span><span ng-if="objective.done != true">
+	            <span class="glyphicon glyphicon-retweet"></span>
+	        </span>
+	    	<a href="#">{[{objective.name | capitalize}]}</a> - by {[{ objective.user.username }]}
+	        <span ng-if="{{ userLogged.getId }} == objective.user.id">
+	            <span ng-click="deleteObjective($index)" class="clickable glyphicon glyphicon-remove"></span>
+	            <span ng-click="doneObjective($index)" class="clickable glyphicon glyphicon-refresh"></span>
+	        </span>
+	    </h3>
+		<hr>
+		<span>{[{objective.userlikeobjectives.length}]}
+	        <allow-like-objective user-logged='userLogged' objective='objective'></allow-like-objective>
+	    </span>
+		<span>{[{objective.category | capitalize}]} <span class="glyphicon glyphicon-tag"></span></span>
+		<span>{[{ objective.number_of_days }]} <span class="glyphicon glyphicon-time"></span></span>
+		<div>Steps</div>
+		<ul ng-repeat="step in objective.steps">
+	    	<li>
+	    		<span ng-if="step.done == true">
+	    			<span class="glyphicon glyphicon-check"></span>
+	    		</span><span ng-if="step.done != true">
+	    			<span class="glyphicon glyphicon-retweet"></span>
+	    		</span>
+	    		{[{ step.name | capitalize }]} - {[{ step.userlikestepobjectives.length }]} <allow-like-step user-logged='userLogged' objective='objective' idx='$index'></allow-like-step>
+	            <span ng-if="{{ userLogged.getId }} == objective.user.id">
+	                <span ng-click="deleteStep($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span>
+	                <span ng-click="doneStep($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-refresh"></span>
+	            </span>
+	    	</li>
+	    </ul>
+	    <div>Advices</div>
+		<div ng-hide="objective.advices.length">No advices yet. Be the first!</div>
+	    <ul ng-repeat="advice in objective.advices">
+			<li>{[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} <allow-like-advice user-logged='userLogged' objective='objective' idx='$index'></allow-like-advice> - By {[{ advice.user.username | capitalize }]} <span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span></li>
+	    </ul>
+	    <textarea submit-advice id="text-advice" placeholder="Write your advice"></textarea>
+	</div>
+	<div ng-if="objectives.length == 0">
+		<h4>No current objective. <a href="{{ path('freedom_objective_dashboard_create') }}">Create one?</a></h4>
+	</div>
+</div>
 
 
 {% endblock %}

@@ -1,68 +1,3 @@
-var ObjectiveApp = angular.module('ObjectiveApp', ['ngResource']);
-
-var pathArray = window.location.pathname.split( '/' );
-
-ObjectiveApp.config(function($interpolateProvider){
-    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
-}
-);
-
-// ObjectiveApp.filter('numberofdays', function() {
-//     return function(input, scope) {
-//         if (input.done == true) {
-//             return 'Done';
-//         }
-//         var now = new Date();
-//         var date = Date.parse(input.dategoal);
-//         var diff = (date - now);
-//         diff = Math.ceil(diff/(1000 * 3600 * 24));
-//         if(diff == 0) { diff = 'Today!';}
-//         else
-//         if(diff < 0) {diff = 'Too late!';}
-//         else { diff = diff+' days left';}
-        
-//         return diff;
-//     }
-// });
-
-ObjectiveApp.filter('capitalize', function() {
-    return function(input, scope) {
-        if (input!=null) {
-            return input.substring(0,1).toUpperCase()+input.substring(1);
-        }
-    }
-});
-
-ObjectiveApp.factory('Objective', ['$resource', function($resource){
-    return $resource('/api/objectives/:id', { id: '@id'}, {
-        delete: {method:'DELETE', params:{}},
-        query: {method: 'GET', params:{}},
-        update: {method: 'PUT', params:{}},
-        like: {method: 'POST', url: '/api/objectives/:id/userlikeobjectives', params:{}},
-        dislike: {method: 'DELETE', url: '/api/objectives/:id/userlikeobjectives/:id_like', params:{}}
-    });
-}]);
-
-ObjectiveApp.factory('Step', ['$resource', function($resource){
-    return $resource('/api/stepobjectives/:id', { id: '@id'}, {
-        delete: {method:'DELETE', url: '/api/objectives/:id/stepobjectives/:id_step', params:{}},
-        update: {method: 'PUT', url: '/api/objectives/:id/stepobjectives/:id_step',params:{}},
-        like: {method: 'POST', url: '/api/objectives/:id/stepobjectives/:id_step/userlikestepobjectives', params:{}},
-        dislike: {method: 'DELETE', url: '/api/objectives/:id/stepobjectives/:id_step/userlikestepobjectives/:id_like', params:{}}
-    });
-}]);
-
-ObjectiveApp.factory('Advice', ['$resource', function($resource){
-    return $resource('/api/objectives/:id/advices/:id_advice', { id: '@id'}, {
-        query: {method: 'GET', params:{}},
-        create: {method: 'POST', url: '/api/objectives/:id/advices', params:{}},
-        delete: {method:'DELETE', url: '/api/objectives/:id/advices/:id_advice',params:{}},
-        update: {method: 'PUT', url: '/api/objectives/:id/advices/:id_advice',params:{}},
-        like: {method: 'POST', url: '/api/objectives/:id/advices/:id_advice/userlikeadvices', params:{}},
-        dislike: {method: 'DELETE', url: '/api/objectives/:id/advices/:id_advice/userlikeadvices/:id_like', params:{}}
-    });
-}]);
-
 ObjectiveApp.directive('allowLikeObjective', function(Objective) {
     return {
         restrict: 'E',
@@ -123,7 +58,7 @@ ObjectiveApp.directive('allowLikeAdvice', function(Advice) {
                         scope.icon = "glyphicon-heart";  
                     };
                 });
-                console.log(scope.alreadyLikedAdvice);
+                // console.log(scope.alreadyLikedAdvice);
             });
             scope.likeAdvice = function(){
                 var idx = scope.idx;
@@ -167,7 +102,7 @@ ObjectiveApp.directive('allowLikeStep', function(Step) {
                         scope.icon = "glyphicon-heart";  
                     };
                 });
-                console.log(scope.alreadyLikedStep);
+                // console.log(scope.alreadyLikedStep);
             });
             scope.likeStep = function(){
                 var idx = scope.idx;
@@ -206,70 +141,9 @@ ObjectiveApp.directive('submitAdvice', function(Advice) {
                     });
                     element.val('');
                     event.preventDefault();
-                    console.log(scope.objective)
+                    // console.log(scope.objective);
                 }
             });
     	}
     };
 });
-
-
-ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
-
-    //Init
-    $scope.objective = [];
-
-    Objective.query({id: parseInt(pathArray[2])},{}, function(data){
-        $scope.objective = data;
-    });
-
-    Advice.query({id: parseInt(pathArray[2]), id_advice: 2},{}, function(data){
-        console.log(data);
-    });
-
-    $scope.deleteObjective = function(id){
-        Objective.delete({id: id},{});
-        document.location.href="/";
-    }
-
-    $scope.doneObjective = function(id){
-        var objective = $scope.objective;
-        objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd hh:mm:ss');
-        objective.datedone = now;
-        $scope.objective = Objective.update({id: id}, objective);
-    }
-
-
-    $scope.deleteStep = function(idx){
-        var step = $scope.objective.steps[idx];
-        Step.delete({id: $scope.objective.id, id_step: step.id},{});
-        $scope.objective.steps.splice(idx,1);
-
-    }
-
-    $scope.doneStep = function(idx){
-        var step = $scope.objective.steps[idx];
-        step.done = !step.done;
-        $scope.objective.steps[idx] = Step.update({id: $scope.objective.id , id_step: step.id},step);
-    }
-
-    $scope.likeAdvice = function(idx){
-        var advice = $scope.objective.advices[idx];;
-        if($scope.alreadyLikedAdvice) {
-            advice.likes--; 
-        } else {
-            advice.likes++; 
-        } 
-        $scope.alreadyLikedAdvice = !$scope.alreadyLikedAdvice;
-        $scope.objective.advices[idx] = Advice.update({id: $scope.objective.id, id_advice: advice.id},advice);
-    }
-
-    $scope.deleteAdvice = function(idx){
-        var advice = $scope.objective.advices[idx];
-        Advice.delete({id: $scope.objective.id, id_advice: advice.id},{});
-        $scope.objective.advices.splice(idx,1);
-    }
-
-}]);
-

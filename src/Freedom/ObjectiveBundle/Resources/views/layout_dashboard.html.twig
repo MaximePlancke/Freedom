@@ -5,9 +5,9 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts '@FreedomObjectiveBundle/Resources/public/js/app.js' %}
+{#     {% javascripts '@FreedomObjectiveBundle/Resources/public/js/*' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% endjavascripts %} #}
 {% endblock %}
 
 {% block title 'Dashboard' %}
@@ -19,7 +19,7 @@
         </div>
     {% endfor %}
 
-    <div ng-app="ObjectiveApp" class="block">
+    <div class="block">
         <!-- upper section -->
         <div class="row">
             <div class="col-sm-2">

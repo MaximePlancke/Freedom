@@ -53,7 +53,7 @@ class ObjectiveController extends VoryxController
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
-     * @QueryParam(name="order_by", nullable=true, array=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
+     * @QueryParam(name="order_by", nullable=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
      * @QueryParam(name="filters", nullable=true, description="Filter by fields. Must be an array")
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
@@ -64,6 +64,7 @@ class ObjectiveController extends VoryxController
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
+            $order_by = json_decode($order_by, true);
             $filters = json_decode($filters, true);
 
             $em = $this->getDoctrine()->getManager();

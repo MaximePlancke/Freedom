@@ -4,7 +4,7 @@ namespace Freedom\ObjectiveBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Freedom\ObjectiveBundle\Entity\Objective;
-use Freedom\ObjectiveBundle\Form\ObjectiveType;
+use Freedom\ObjectiveBundle\Form\ObjectiveCreateType;
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -43,31 +43,48 @@ class ProfileController extends Controller
         );
     }
 
+
     /**
     * @Route("/current", name="freedom_objective_profile_current")
     * @Template()
     */
-    public function currentAction()
+    public function currentAction($idProfile)
     {
-        return array();
+
+        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:User');
+        $userProfile = $repository->find($idProfile);
+        
+        return array(
+                'userProfile' => $userProfile,
+            );
     }
 
     /**
     * @Route("/done", name="freedom_objective_profile_done")
     * @Template()
     */
-    public function doneAction()
+    public function doneAction($idProfile)
     {
-        return array();
+        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:User');
+        $userProfile = $repository->find($idProfile);
+        
+        return array(
+                'userProfile' => $userProfile,
+            );
     }
 
     /**
     * @Route("/followed", name="freedom_objective_profile_followed")
     * @Template()
     */
-    public function followedAction()
+    public function followedAction($idProfile)
     {
-        return array();
+        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:User');
+        $userProfile = $repository->find($idProfile);
+        
+        return array(
+                'userProfile' => $userProfile,
+            );
     }
 
 }

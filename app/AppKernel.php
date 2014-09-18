@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Freedom\MenuBundle\FreedomMenuBundle(),
             new Freedom\ExploreBundle\FreedomExploreBundle(),
             new Freedom\ApiBundle\FreedomApiBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

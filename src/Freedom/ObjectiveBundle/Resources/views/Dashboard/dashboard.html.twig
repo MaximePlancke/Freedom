@@ -1,3 +1,5 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
 {% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
 
 {% block title %}Freedom - Dashboard{% endblock %}
@@ -32,7 +34,7 @@
 	</div><!--/panel--> 
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h4>Last Current Objective - <a href="{{ path('freedom_objective_dashboard_current') }}">See more...</a></h4></div>
+		<div class="panel-heading"><h4>Last Current Objective - <a href="{{ path('freedom_objective_profile_current', {idProfile: userLogged.id}) }}">See more...</a></h4></div>
 		<div class="panel-body">
 			{% if lastCurrentObjective %}
 				<span>{{ lastCurrentObjective.userlikeobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span></span>
@@ -69,7 +71,7 @@
 	</div>   
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h4>Last Complete Objective - <a href="{{ path('freedom_objective_dashboard_done') }}">See more...</a></h4></div>
+		<div class="panel-heading"><h4>Last Complete Objective - <a href="{{ path('freedom_objective_profile_done', {idProfile: userLogged.id}) }}">See more...</a></h4></div>
 		<div class="panel-body">
 			{% if lastDoneObjective %}
 				<span>{{ lastDoneObjective.userlikeobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span></span>

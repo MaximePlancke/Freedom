@@ -1,3 +1,5 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
 {% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
 
 {% block title %}Freedom - Create{% endblock %}

@@ -1,11 +1,9 @@
 ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
 
     //Init
-    var filters = new Array();
-    filters['done'] = 1;
     $scope.objectives = [];
 
-    Objective.queries({limit: 10, filters : {done: 0}},{}, function(data){
+    Objective.queries({limit: 10, filters : {user: parseInt(pathArray[1]), done: 0}, order_by :{datecreation: 'DESC'}},{}, function(data){
         $scope.objectives = data;
 
     });
@@ -45,18 +43,20 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$scope', 'Advice' , 'Objectiv
         $scope.objectives[idxObj].advices.splice(idx,1);
     }
 
+    //la transformer en methode globale (service)
+    $scope.url = function(route, params){
+        var url = Routing.generate('freedom_objective_dashboard_details', params, true);
+        window.location.href= url;
+    }
+
 }]);
 
 ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
 
     //Init
-    var filters = new Array();
-    filters['done'] = 1;
     $scope.objectives = [];
-
-    Objective.queries({limit: 10, filters : {done: 1}},{}, function(data){
+    Objective.queries({limit: 10, filters : {user: parseInt(pathArray[1]), done: 1}, order_by :{datedone: 'DESC'}},{}, function(data){
         $scope.objectives = data;
-
     });
 
     $scope.deleteObjective = function(idx){

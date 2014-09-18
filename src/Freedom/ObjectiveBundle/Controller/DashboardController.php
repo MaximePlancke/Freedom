@@ -36,7 +36,7 @@ class DashboardController extends Controller
     }
 
 	/**
-    * @Route("/create", name="freedom_objective_dashboard_create")
+    * @Route("/create", name="freedom_objective_dashboard_create", options={"expose"=true})
     * @Template()
     */
     public function createAction()
@@ -70,7 +70,7 @@ class DashboardController extends Controller
     }
 
     /**
-    * @Route("/{id}", requirements={"id" = "\d+"}, name="freedom_objective_dashboard_details")
+    * @Route("/{id}", requirements={"id" = "\d+"}, name="freedom_objective_dashboard_details", options={"expose"=true})
     * @Template()
     */
     public function detailsAction($id)
@@ -83,27 +83,27 @@ class DashboardController extends Controller
     * @Route("/current", name="freedom_objective_dashboard_current")
     * @Template()
     */
-    public function currentAction()
-    {
-        return array();
-    }
+    // public function currentAction()
+    // {
+    //     return array();
+    // }
 
     /**
     * @Route("/done", name="freedom_objective_dashboard_done")
     * @Template()
     */
-    public function doneAction()
-    {
-        return array();
-    }
+    // public function doneAction()
+    // {
+    //     return array();
+    // }
 
     /**
     * @Route("/followed", name="freedom_objective_dashboard_followed")
     * @Template()
     */
-    public function followedAction()
-    {
-        return array();
-    }
+    // public function followedAction()
+    // {
+    //     return array();
+    // }
 
 }

@@ -129,13 +129,17 @@ ObjectiveApp.directive('allowLikeStep', function(Step) {
 ObjectiveApp.directive('submitAdvice', function(Advice) {
     return {
     	restrict: 'A',
+        scope: {
+            objective : '=objective',
+        },
     	link: function(scope, element, attrs) {
     		element.bind("keydown keypress", function(event) {
                 if(event.which === 13) {
+                    // console.log(attrs);
                     var advice = new Advice;
                     advice.name = element.val();
-                    Advice.create({id: parseInt(pathArray[2])}, advice, function(data){
-                        Advice.query({id: parseInt(pathArray[2]), id_advice: data.id},{}, function(data){ 
+                    Advice.create({id: scope.objective.id}, advice, function(data){
+                        Advice.query({id: scope.objective.id, id_advice: data.id},{}, function(data){ 
                             scope.objective.advices.push(data);
                         });
                     });

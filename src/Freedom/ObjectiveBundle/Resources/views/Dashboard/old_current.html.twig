@@ -2,13 +2,13 @@
 
 {% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
 
-{% block title %}Freedom - Done{% endblock %}
+{% block title %}Freedom - Current{% endblock %}
 
 {% block content_header '' %}
 
 {% block content %}
 
-<div ng-controller="ObjectiveDoneCtrl" ng-init="userLogged = {{ userLogged.getId }}">
+<div ng-controller="ObjectiveCurrentCtrl" ng-init="userLogged = {{ userLogged.getId }}">
 	<div ng-repeat="objective in objectives">
  		<h3>
 	        <span ng-if="objective.done == true">
@@ -16,7 +16,7 @@
 	        </span><span ng-if="objective.done != true">
 	            <span class="glyphicon glyphicon-retweet"></span>
 	        </span>
-	    	{[{objective.name | capitalize}]} - by {[{ objective.user.username }]}
+	    	<a href="#">{[{objective.name | capitalize}]}</a> - by {[{ objective.user.username }]}
 	        <span ng-if="{{ userLogged.getId }} == objective.user.id">
 	            <span ng-click="deleteObjective($index)" class="clickable glyphicon glyphicon-remove"></span>
 	            <span ng-click="doneObjective($index)" class="clickable glyphicon glyphicon-refresh"></span>
@@ -48,10 +48,10 @@
 	    <ul ng-repeat="advice in objective.advices">
 			<li>{[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} <allow-like-advice user-logged='userLogged' objective='objective' idx='$index'></allow-like-advice> - By {[{ advice.user.username | capitalize }]} <span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span></li>
 	    </ul>
-	    <textarea submit-advice id="text-advice" placeholder="Write your advice"></textarea>
+	    <textarea submit-advice objective="objective" id="text-advice" placeholder="Write your advice"></textarea>
 	</div>
 	<div ng-if="objectives.length == 0">
-		<h4>No completed objective. <a href="{{ path('freedom_objective_dashboard_create') }}">Create one?</a></h4>
+		<h4>No current objective. <a href="{{ path('freedom_objective_dashboard_create') }}">Create one?</a></h4>
 	</div>
 </div>
 

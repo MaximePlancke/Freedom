@@ -9,6 +9,8 @@
             <link rel="stylesheet" href="{{ asset('public/css/style.css') }}" />
         {% endblock %}
         {% block javascripts %}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
             <script type="text/javascript" src="{{ asset('public/js/bootstrap.js') }}"></script>
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>

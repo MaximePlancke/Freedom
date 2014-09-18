@@ -26,12 +26,12 @@
                 <!-- left -->
                 <h3><i class="glyphicon glyphicon-briefcase"></i> Menu</h3>
                 <ul class="nav nav-stacked">
-                    <li><a href="{{ path('freedom_objective_dashboard_dashboard') }}"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a></li>
+                    {# <li><a href="{{ path('freedom_objective_dashboard_dashboard') }}"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a></li> #}
                     <li><a href="{{ path('freedom_objective_dashboard_create') }}"><i class="glyphicon glyphicon-plus"></i> Create</a></li>
-                    <li><a href="{{ path('freedom_objective_dashboard_current') }}"><i class="glyphicon glyphicon-retweet"></i> Current Objective</a></li>
-                    <li><a href="{{ path('freedom_objective_dashboard_done') }}"><i class="glyphicon glyphicon-check"></i> Done Objective</a></li>                    
+                    <li><a href="{{ path('freedom_objective_profile_current', {idProfile: userLogged.id}) }}"><i class="glyphicon glyphicon-retweet"></i> Current Objective</a></li>
+                    <li><a href="{{ path('freedom_objective_profile_done', {idProfile: userLogged.id}) }}"><i class="glyphicon glyphicon-check"></i> Done Objective</a></li>                    
                     <li><a href="javascript:;"><i class="glyphicon glyphicon-comment"></i> Tips Given</a></li>
-                    <li><a href="{{ path('freedom_objective_dashboard_followed') }}"><i class="glyphicon glyphicon-thumbs-up"></i> Followed</a></li>
+                    <li><a href="{{ path('freedom_objective_profile_followed', {idProfile: userLogged.id}) }}"><i class="glyphicon glyphicon-thumbs-up"></i> Followed</a></li>
                     <li><a href="javascript:;"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
                     {# <li><a href="javascript:;"><i class="glyphicon glyphicon-plus"></i> Advanced..</a></li> #}
                 </ul>

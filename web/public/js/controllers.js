@@ -136,16 +136,16 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
         $scope.objective.steps[idx] = Step.update({id: $scope.objective.id , id_step: step.id},step);
     }
 
-    $scope.likeAdvice = function(idx){
-        var advice = $scope.objective.advices[idx];;
-        if($scope.alreadyLikedAdvice) {
-            advice.likes--; 
-        } else {
-            advice.likes++; 
-        } 
-        $scope.alreadyLikedAdvice = !$scope.alreadyLikedAdvice;
-        $scope.objective.advices[idx] = Advice.update({id: $scope.objective.id, id_advice: advice.id},advice);
-    }
+    // $scope.likeAdvice = function(idx){
+    //     var advice = $scope.objective.advices[idx];;
+    //     if($scope.alreadyLikedAdvice) {
+    //         advice.likes--; 
+    //     } else {
+    //         advice.likes++; 
+    //     } 
+    //     $scope.alreadyLikedAdvice = !$scope.alreadyLikedAdvice;
+    //     $scope.objective.advices[idx] = Advice.update({id: $scope.objective.id, id_advice: advice.id},advice);
+    // }
 
     $scope.deleteAdvice = function(idx){
         var advice = $scope.objective.advices[idx];

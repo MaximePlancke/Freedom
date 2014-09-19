@@ -5,19 +5,16 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#     {% javascripts '@FreedomObjectiveBundle/Resources/public/js/*' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %} #}
 {% endblock %}
 
 {% block title 'Dashboard' %}
 
 {% block body %}
-    {% for flashMessage in app.session.flashbag.get('notice') %}
+{#     {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-message">
             <em>Notice</em>: {{ flashMessage }}
         </div>
-    {% endfor %}
+    {% endfor %} #}
 
     <div class="block">
         <!-- upper section -->

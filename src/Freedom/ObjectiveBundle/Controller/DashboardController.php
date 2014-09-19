@@ -22,11 +22,11 @@ class DashboardController extends Controller
         $repository = $this->getDoctrine()->getManager()->getRepository('FreedomObjectiveBundle:Objective');
 
         $lastCurrentObjective = $repository->findBy(array('user' => $user, 'done' => 0),array('datecreation' => 'desc'));
-        $lastCurrentObjective = $lastCurrentObjective ? $lastCurrentObjective[0] : null;
         $lastDoneObjective = $repository->findBy(array('user' => $user, 'done' => 1),array('datedone' => 'desc'));
-        $lastDoneObjective = $lastDoneObjective ? $lastDoneObjective[0] : null;
         $countTotalObjective = count($lastDoneObjective)+count($lastCurrentObjective);
         $pourcentComplete = ($countTotalObjective > 0) ? (int)(count($lastDoneObjective)/$countTotalObjective*100) : 0;
+        $lastCurrentObjective = $lastCurrentObjective ? $lastCurrentObjective[0] : null;
+        $lastDoneObjective = $lastDoneObjective ? $lastDoneObjective[0] : null;
 
         return array(
             'lastCurrentObjective' => $lastCurrentObjective,

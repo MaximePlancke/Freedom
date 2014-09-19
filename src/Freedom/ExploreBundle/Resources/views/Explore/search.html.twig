@@ -1,47 +1,37 @@
-{% extends "::base.html.twig" %}
+{% extends 'FreedomExploreBundle::layout.html.twig' %}
 
-{% block head %}
-{% endblock %}
+{% block title %}Freedom - Explore - Search{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
+{% block content_header '' %}
 
-{% block title 'Profile' %}
-
-{% block body %}
-{#     {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="flash-message">
-            <em>Notice</em>: {{ flashMessage }}
-        </div>
-    {% endfor %} #}
+{% block content %}
 
     <div class="block">
         <!-- upper section -->
         <div class="row">
             <div class="col-sm-2">
                 <!-- left -->
-                <h3>{{ userProfile|capitalize }}</h3>
+                <h3><i class="glyphicon glyphicon-cog"></i> Filters</h3>
                 <ul class="nav nav-stacked">
-                    <li><a href="{{ path('freedom_objective_profile_profile', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-dashboard"></i> Profile</a></li>
-                    <li><a href="{{ path('freedom_objective_profile_current', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-retweet"></i> Current Objective</a></li>
-                    <li><a href="{{ path('freedom_objective_profile_done', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-check"></i> Done Objective</a></li>                    
-                    <li><a href="javascript:;"><i class="glyphicon glyphicon-comment"></i> Your Tips</a></li>
-                    <li><a href="{{ path('freedom_objective_profile_followed', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-thumbs-up"></i> Followed</a></li>
-                    <li><a href="javascript:;"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
-                    {# <li><a href="javascript:;"><i class="glyphicon glyphicon-plus"></i> Advanced..</a></li> #}
+                    <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Create</a></li>
                 </ul>
                 <hr>
             </div>
             <div class="col-sm-10">
                 <div class="col-lg-10">
-                    <br/>
+                	</br>
+                	<span>What are you looking for? </span>
+                	<select>
+                		<option value="value1" selected>Valeur 1</option> 
+                		<option value="value2">Valeur 2</option> 
+                	</select>
+                	<input type="text" placeholder="Search...">
+                    </br>                   
                     <div ng-show="flashMessage" class="alert" ng-class="flashMessage.type">
                         <a href="#" class="close" ng-click="flashMessage = null">&times;</a>
                         <strong>{[{ flashMessage.message }]} </strong><span></span>
                     </div>
 
-                    {% block content %}{% endblock %}
 
                 </div><!--/col-->
 
@@ -51,9 +41,6 @@
                     <ul class="nav nav-justified">
                         <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-heart"></i></a></li>
-                        {# <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i><span class="count">3</span></a><ul class="dropdown-menu" role="menu"><li><a href="#">1. Is there a way..</a></li><li><a href="#">2. Hello, admin. I would..</a></li><li><a href="#"><strong>All messages</strong></a></li></ul></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
-                        <li><a title="Add Widget" data-toggle="modal" href="#addWidgetModal"><span class="glyphicon glyphicon-plus-sign"></span></a></li> #}
                     </ul>  
 
                     <hr>

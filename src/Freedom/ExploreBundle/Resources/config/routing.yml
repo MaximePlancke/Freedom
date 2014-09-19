@@ -1,3 +1,12 @@
-freedom_explore_homepage:
-    path:     /
-    defaults: { _controller: FreedomExploreBundle:Default:index }
+# freedom_explore_search:
+#     path:     /
+#     defaults: { _controller: FreedomExploreBundle:Default:index }
+
+# freedom_explore_news:
+#     path:     /
+#     defaults: { _controller: FreedomExploreBundle:Default:news }
+
+objective_explore:
+    prefix:     /
+    type:     annotation
+    resource: "@FreedomExploreBundle/Controller/ExploreController.php"

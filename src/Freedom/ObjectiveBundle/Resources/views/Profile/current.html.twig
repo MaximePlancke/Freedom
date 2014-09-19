@@ -16,7 +16,7 @@
 	        </span><span ng-if="objective.done != true">
 	            <span class="glyphicon glyphicon-retweet"></span>
 	        </span>
-	    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by {[{ objective.user.username }]}
+	    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username }]}</a>
 	        <span ng-if="{{ userLogged.getId }} == objective.user.id">
 	            <span ng-click="deleteObjective($index)" class="clickable glyphicon glyphicon-remove"></span>
 	            <span ng-click="doneObjective($index)" class="clickable glyphicon glyphicon-refresh"></span>
@@ -46,7 +46,7 @@
 	    <div>Advices</div>
 		<div ng-hide="objective.advices.length">No advices yet. Be the first!</div>
 	    <ul ng-repeat="advice in objective.advices">
-			<li>{[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} <allow-like-advice user-logged='userLogged' objective='objective' idx='$index'></allow-like-advice> - By {[{ advice.user.username | capitalize }]} <span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span></li>
+			<li>{[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} <allow-like-advice user-logged='userLogged' objective='objective' idx='$index'></allow-like-advice> - By <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: advice.user.id})">{[{ advice.user.username | capitalize }]}</a> <span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span></li>
 	    </ul>
 	    <textarea submit-advice objective="objective" id="text-advice" placeholder="Write your advice"></textarea>
 	</div>

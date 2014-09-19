@@ -5,4 +5,11 @@ ObjectiveApp.config(function($interpolateProvider){
 }
 );
 
+ObjectiveApp.run(function($rootScope) {
+	$rootScope.url = function(route, params){
+	    var url = Routing.generate(route, params, true);
+	    window.location.href= url;
+	}
+})
+
 var pathArray = window.location.pathname.split( '/' );

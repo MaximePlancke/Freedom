@@ -1,4 +1,4 @@
-ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
+ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$rootScope', '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($rootScope, $scope, Advice, Objective, Step, $filter) {
 
     //Init
     $scope.objectives = [];
@@ -12,6 +12,7 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$scope', 'Advice' , 'Objectiv
         var objective = $scope.objectives[idx];
         Objective.delete({id: objective.id},{});
         $scope.objectives.splice(idx,1);
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
     }
 
     $scope.doneObjective = function(idx){
@@ -21,7 +22,7 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$scope', 'Advice' , 'Objectiv
         objective.datedone = now;
         Objective.update({id: objective.id}, objective);
         $scope.objectives.splice(idx,1);
-        //Petit message pour dire que l'obj a éé déplacé
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Your post has been moved !'};
     }
 
     $scope.deleteStep = function(idx, idxObj){
@@ -44,14 +45,14 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$scope', 'Advice' , 'Objectiv
     }
 
     //la transformer en methode globale (service)
-    $scope.url = function(route, params){
-        var url = Routing.generate('freedom_objective_dashboard_details', params, true);
-        window.location.href= url;
-    }
+    // $scope.url = function(route, params){
+    //     var url = Routing.generate('freedom_objective_dashboard_details', params, true);
+    //     window.location.href= url;
+    // }
 
 }]);
 
-ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
+ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($rootScope, $scope, Advice, Objective, Step, $filter) {
 
     //Init
     $scope.objectives = [];
@@ -63,6 +64,7 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$scope', 'Advice' , 'Objective',
         var objective = $scope.objectives[idx];
         Objective.delete({id: objective.id},{});
         $scope.objectives.splice(idx,1);
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
     }
 
     $scope.doneObjective = function(idx){
@@ -73,6 +75,7 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$scope', 'Advice' , 'Objective',
         Objective.update({id: objective.id}, objective);
         $scope.objectives[idx]
         $scope.objectives.splice(idx,1);
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Your post has been moved !'};
     }
 
     $scope.deleteStep = function(idx, idxObj){

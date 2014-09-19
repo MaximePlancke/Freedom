@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ProfileController extends Controller
 {
 	/**
-    * @Route("/profile", name="freedom_objective_profile_profile")
+    * @Route("/profile", name="freedom_objective_profile_profile", options={"expose"=true})
     * @Template()
     */
     public function profileAction($idProfile)

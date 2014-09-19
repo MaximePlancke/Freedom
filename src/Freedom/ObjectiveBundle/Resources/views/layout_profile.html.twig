@@ -29,7 +29,7 @@
                     <li><a href="{{ path('freedom_objective_profile_profile', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-dashboard"></i> Profile</a></li>
                     <li><a href="{{ path('freedom_objective_profile_current', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-retweet"></i> Current Objective</a></li>
                     <li><a href="{{ path('freedom_objective_profile_done', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-check"></i> Done Objective</a></li>                    
-                    <li><a href="javascript:;"><i class="glyphicon glyphicon-comment"></i> Tips Given</a></li>
+                    <li><a href="javascript:;"><i class="glyphicon glyphicon-comment"></i> Your Tips</a></li>
                     <li><a href="{{ path('freedom_objective_profile_followed', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-thumbs-up"></i> Followed</a></li>
                     <li><a href="javascript:;"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
                     {# <li><a href="javascript:;"><i class="glyphicon glyphicon-plus"></i> Advanced..</a></li> #}
@@ -38,6 +38,11 @@
             </div>
             <div class="col-sm-10">
                 <div class="col-lg-10">
+                    <br/>
+                    <div ng-show="flashMessage" class="alert" ng-class="flashMessage.type">
+                        <a href="#" class="close" ng-click="flashMessage = null">&times;</a>
+                        <strong>{[{ flashMessage.message }]} </strong><span></span>
+                    </div>
 
                     {% block content %}{% endblock %}
 

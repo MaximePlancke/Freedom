@@ -44,12 +44,6 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$rootScope', '$scope', 'Advic
         $scope.objectives[idxObj].advices.splice(idx,1);
     }
 
-    //la transformer en methode globale (service)
-    // $scope.url = function(route, params){
-    //     var url = Routing.generate('freedom_objective_dashboard_details', params, true);
-    //     window.location.href= url;
-    // }
-
 }]);
 
 ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($rootScope, $scope, Advice, Objective, Step, $filter) {
@@ -136,17 +130,6 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
         $scope.objective.steps[idx] = Step.update({id: $scope.objective.id , id_step: step.id},step);
     }
 
-    // $scope.likeAdvice = function(idx){
-    //     var advice = $scope.objective.advices[idx];;
-    //     if($scope.alreadyLikedAdvice) {
-    //         advice.likes--; 
-    //     } else {
-    //         advice.likes++; 
-    //     } 
-    //     $scope.alreadyLikedAdvice = !$scope.alreadyLikedAdvice;
-    //     $scope.objective.advices[idx] = Advice.update({id: $scope.objective.id, id_advice: advice.id},advice);
-    // }
-
     $scope.deleteAdvice = function(idx){
         var advice = $scope.objective.advices[idx];
         Advice.delete({id: $scope.objective.id, id_advice: advice.id},{});
@@ -154,3 +137,29 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
     }
 
 }]);
+
+ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', '$filter', 'listCategoriesService', function ($scope, Objective, $filter, listCategoriesService) {
+
+    $scope.listCategories = listCategoriesService;
+
+    $scope.search = {};
+    $scope.search.name = '';
+    $scope.search.done = true;
+    $scope.search.category = [];
+
+    $scope.$watch('search', function(newValue, oldValue, scope) {
+        var filters = {};
+        angular.forEach(newValue, function(value, key) {
+            if(value.length != 0){
+                filters[key] = value;
+            }
+        });
+        Objective.queries({limit: 10, filters : filters, order_by :{datecreation: 'DESC'}},{}, function(data){
+            $scope.results = data;
+            // console.log(filters);
+        });
+    }, true);
+
+}]);
+
+

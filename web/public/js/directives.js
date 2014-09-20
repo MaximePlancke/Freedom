@@ -59,7 +59,6 @@ ObjectiveApp.directive('allowLikeAdvice', function(Advice) {
                         scope.icon = "glyphicon-heart";  
                     };
                 });
-                // console.log(scope.alreadyLikedAdvice);
             });
             scope.likeAdvice = function(){
                 var idx = scope.idx;
@@ -151,4 +150,28 @@ ObjectiveApp.directive('submitAdvice', function(Advice) {
             });
     	}
     };
+});
+
+ObjectiveApp.directive("checkboxCategories", function () {
+    return {
+        restrict: "A",
+        link: function (scope, elem, attrs) {
+            if (scope.search.category.indexOf(scope.category.key) !== -1) {
+                elem[0].checked = true;
+            }
+
+            elem.bind('click', function () {
+                var index = scope.search.category.indexOf(scope.category.key);
+                if (elem[0].checked) {
+                    if (index === -1) scope.search.category.push(scope.category.key);
+                }
+                else {
+                    if (index !== -1) scope.search.category.splice(index, 1);
+                }
+                scope.$apply(scope.search.category.sort(function (a, b) {
+                    return a - b;
+                }));
+            });
+        }
+    }
 });

@@ -28,3 +28,25 @@ ObjectiveApp.factory('Advice', ['$resource', function($resource){
         dislike: {method: 'DELETE', url: '/api/objectives/:id/advices/:id_advice/userlikeadvices/:id_like', params:{}}
     });
 }]);
+
+
+ObjectiveApp.factory('listCategoriesService', [ function(){
+    var listCategories = [{
+        "key": "personnel",
+        "value": "Personnel",
+    }, {
+        "key": "sportif",
+        "value": "Sportif",
+    }, {
+        "key": "professionnel",
+        "value": "Professionnel"
+    }, {
+        "key": "fun",
+        "value": "Fun"
+    }];
+    return listCategories;
+
+}]);
+
+
+

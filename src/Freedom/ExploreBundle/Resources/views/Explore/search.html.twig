@@ -8,12 +8,20 @@
 
     <div class="block">
         <!-- upper section -->
-        <div class="row">
+        <div class="row" ng-controller="ExploreSearchCtrl">
             <div class="col-sm-2">
                 <!-- left -->
                 <h3><i class="glyphicon glyphicon-cog"></i> Filters</h3>
                 <ul class="nav nav-stacked">
-                    <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Create</a></li>
+                    <li><i class="glyphicon glyphicon-plus"></i> Category</a></li>
+                    <div ng-repeat="category in listCategories">
+                    	<input checkbox-categories type="checkbox" name="option3" value="category.key"> {[{ category.value }]}<br>
+                    </div>
+                </ul>
+                <ul class="nav nav-stacked">
+                    <li><i class="glyphicon glyphicon-plus"></i> Completed ?</a></li>
+                    <input type="checkbox" name="done" ng-model="search.done"> Yes<br>
+                    <input type="checkbox" name="done" ng-model="search.done"> No<br>
                 </ul>
                 <hr>
             </div>
@@ -25,13 +33,16 @@
                 		<option value="value1" selected>Valeur 1</option> 
                 		<option value="value2">Valeur 2</option> 
                 	</select>
-                	<input type="text" placeholder="Search...">
-                    </br>                   
-                    <div ng-show="flashMessage" class="alert" ng-class="flashMessage.type">
+                	<input name="search_input" ng-model="search.name" type="text" placeholder="Search...">
+                    </br>  
+                    <!-- Root scope? No-->                 
+{#                     <div ng-show="flashMessage" class="alert" ng-class="flashMessage.type">
                         <a href="#" class="close" ng-click="flashMessage = null">&times;</a>
                         <strong>{[{ flashMessage.message }]} </strong><span></span>
+                    </div> #}
+                    <div ng-repeat="result in results">
+                    	{[{result.name}]} - {[{result.category}]}
                     </div>
-
 
                 </div><!--/col-->
 

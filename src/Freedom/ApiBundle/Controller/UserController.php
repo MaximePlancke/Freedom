@@ -50,6 +50,7 @@ class UserController extends VoryxController
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
      * @QueryParam(name="order_by", nullable=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
      * @QueryParam(name="filters", nullable=true, description="Filter by fields. Must be an array")
+     * @QueryParam(name="name", description="Name of the content. String")
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
@@ -57,12 +58,19 @@ class UserController extends VoryxController
             $offset = $paramFetcher->get('offset');
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
+            $name = $paramFetcher->get('name');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
             $order_by = json_decode($order_by, true);
             $filters = json_decode($filters, true);
 
-            $em = $this->getDoctrine()->getManager();
-            $entities = $em->getRepository('FreedomUserBundle:User')->findBy($filters, $order_by, $limit, $offset);
+            $entities = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('FreedomUserBundle:User')
+            ->apiSearch($name, $filters, $offset, $limit, $order_by);
+
+            // $em = $this->getDoctrine()->getManager();
+            // $entities = $em->getRepository('FreedomUserBundle:User')->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
                 return $entities;
             }

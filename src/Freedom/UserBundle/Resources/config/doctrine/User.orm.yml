@@ -1,5 +1,6 @@
 Freedom\UserBundle\Entity\User:
     type:  entity
+    repositoryClass: Freedom\UserBundle\Entity\UserRepository
     table: fos_user
     id:
         id:

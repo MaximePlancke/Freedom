@@ -1,5 +1,9 @@
 <h3><i class="glyphicon glyphicon-cog"></i> Filters Objectives</h3>
 <ul class="nav nav-stacked">
+    <li><i class="glyphicon glyphicon-plus"></i> Order By ?</a></li>
+    <select ng-model="search.orderBy.objective.key" ng-options="orderBy.value as orderBy.key for orderBy in objectiveOrderBy"></select>
+</ul>
+<ul class="nav nav-stacked">
     <li><i class="glyphicon glyphicon-plus"></i> Category</a></li>
     <div ng-repeat="category in listCategories">
     	<input checkbox-categories type="checkbox" name="option3" value="category.key"> {[{ category.value }]}<br>
@@ -7,6 +11,5 @@
 </ul>
 <ul class="nav nav-stacked">
     <li><i class="glyphicon glyphicon-plus"></i> Completed ?</a></li>
-    <input type="checkbox" name="done" ng-model="search.objective.done"> Yes<br>
-    <input type="checkbox" name="done" ng-model="search.objective.done"> No<br>
+    <select ng-model="search.objective.done" ng-options="doneType.value as doneType.key for doneType in doneTypes"></select>
 </ul>

@@ -3,6 +3,7 @@
 namespace Freedom\ObjectiveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * ObjectiveRepository
@@ -43,6 +44,35 @@ class ObjectiveRepository extends EntityRepository
 	    $objectiveArray['advices'] = !empty($qb2->getQuery()->getArrayResult()) ? $qb2->getQuery()->getArrayResult() : [];
 
 	    return $objectiveArray;
+	}
+
+	//Init filters
+	public function addFilters(QueryBuilder $qb, $filters)
+	{
+		foreach ($filters as $key => $value) {
+			$qb->andWhere('o.'.$key.' = :'.$key)->setParameter($key, $value);
+		}
+		
+	}
+
+	public function apiSearch($name, $filters, $offset, $limit, $order_by)
+	{
+
+		//Get the order_by's key
+		$keys = array_keys($order_by);
+
+	  	$qb = $this->_em->createQueryBuilder();
+	  	$qb->select('o')
+	    ->from('FreedomObjectiveBundle:Objective', 'o')
+	 	->where('o.name LIKE :name')            
+        ->setParameter('name', '%'.$name.'%')
+        ->orderBy('o.'.$keys[0], $order_by[$keys[0]])
+        ->setMaxResults($limit);
+        $this->addFilters($qb, $filters);
+
+	    $result = $qb->getQuery()->getArrayResult();
+	    return $result;
+
 	}
 
 }

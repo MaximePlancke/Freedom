@@ -140,42 +140,56 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
 
 ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$filter', 'modelService', function ($scope, Objective, User, $filter, modelService) {
 
-    //Init
-    $scope.loading = false;
-    $scope.listCategories = modelService.listCategories();
+    //Get models from factories
     $scope.types = modelService.types();
+    $scope.objectiveSort = modelService.sortTypes();
+    //Get models for objectives
+    $scope.listCategories = modelService.listCategories();
+    $scope.doneTypes = modelService.doneTypes();
+    $scope.objectiveOrderBy = modelService.objectiveOrderBy();
 
+    //Init
+    var timeOutID = 0;
+    $scope.loading = false; 
     $scope.search = {};
     $scope.search.objective = {};
-    $scope.search.name = '';
-    $scope.search.objective.done = true;
+    $scope.search.orderBy = {};
     $scope.search.objective.category = [];
+    $scope.search.orderBy.objective = {};
+    //Init default search values
+    $scope.search.name = '';
     $scope.search.type = $scope.types[0];
+    //Init objective default search values
+    $scope.search.objective.done = $scope.doneTypes[0].value;
 
     $scope.$watch('search', function(newValue, oldValue, scope) {
         var filters = {};
         $scope.loading = true;
-        if(newValue.type.name == 'objectives'){
-            angular.forEach(newValue.objective, function(value, key) {
-                if(value.length != 0){
-                    filters[key] = value;
-                }
-            });
-            Objective.queries({limit: 10, filters : filters, order_by :{datecreation: 'DESC'}},{}, function(data){
-                $scope.results = data;
-                $scope.loading = false;
-            });
-        } else if(newValue.type.name == 'users'){
-            angular.forEach(newValue.user, function(value, key) {
-                if(value.length != 0){
-                    filters[key] = value;
-                }
-            });
-            User.queries({limit: 10, filters : filters, order_by :{id: 'DESC'}},{}, function(data){
-                $scope.results = data;
-                $scope.loading = false;
-            });
-        }
+        if(timeOutID !== 0) clearTimeout(timeOutID);
+        timeOutID = setTimeout(function(){
+            timeOutID = 0;
+            if(newValue.type.name == 'objectives'){
+                angular.forEach(newValue.objective, function(value, key) {
+                    if(value.length != 0){
+                        filters[key] = value;
+                    }
+                });
+                Objective.queries({limit: 10, filters : filters, name : newValue.name, order_by : {datecreation: 'DESC'} },{}, function(data){
+                    $scope.results = data;
+                    $scope.loading = false;
+                });
+            } else if(newValue.type.name == 'users'){
+                angular.forEach(newValue.user, function(value, key) {
+                    if(value.length != 0){
+                        filters[key] = value;
+                    }
+                });
+                User.queries({limit: 10, filters : filters, name : newValue.name, order_by :{id: 'DESC'}},{}, function(data){
+                    $scope.results = data;
+                    $scope.loading = false;
+                });
+            }
+        }, 250);
     }, true);
 
 }]);

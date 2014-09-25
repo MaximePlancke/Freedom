@@ -41,22 +41,7 @@ ObjectiveApp.factory('Advice', ['$resource', function($resource){
 
 ObjectiveApp.factory('modelService', [ function(){
     return {
-        listCategories: function() {
-            var listCategories = [{
-                "key": "personnel",
-                "value": "Personnel",
-            }, {
-                "key": "sportif",
-                "value": "Sportif",
-            }, {
-                "key": "professionnel",
-                "value": "Professionnel"
-            }, {
-                "key": "fun",
-                "value": "Fun"
-            }];
-            return listCategories;
-        },
+        // ******** General Model ******** //
         types: function() {
             var types = [{ 
                 name: 'objectives', 
@@ -66,6 +51,54 @@ ObjectiveApp.factory('modelService', [ function(){
                 url: 'public/html/userSearchTemplate.html'
             }];
             return types;
+        },
+        sortTypes: function() {
+            var sortTypes = [{ 
+                key: 'DESC'
+            },{ 
+                key: 'ASC'
+            }];
+            return sortTypes;
+        },
+        // ******** Objective Model ******** //
+        listCategories: function() {
+            var listCategories = [{
+                key: "personnel",
+                value: "Personnel",
+            }, {
+                key: "sportif",
+                value: "Sportif",
+            }, {
+                key: "professionnel",
+                value: "Professionnel"
+            }, {
+                key: "fun",
+                value: "Fun"
+            }];
+            return listCategories;
+        },
+        doneTypes: function() {
+            var doneTypes = [{ 
+                key: 'All', 
+                value: ''
+            },{ 
+                key: 'Yes', 
+                value: true
+            },{ 
+                key: 'No', 
+                value: false
+            }];
+            return doneTypes;
+        },
+        objectiveOrderBy: function() {
+            var objectiveOrderBy = [{ 
+                key: 'Creation Date',
+                value: 'datecreation'
+            },{ 
+                key: 'Goal Date',
+                value: 'dategoal'
+            }];
+            return objectiveOrderBy;
         }
     };
 

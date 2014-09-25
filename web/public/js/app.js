@@ -1,4 +1,4 @@
-var ObjectiveApp = angular.module('ObjectiveApp', ['ngResource']);
+var ObjectiveApp = angular.module('ObjectiveApp', ['ngResource', 'ngAnimate']);
 
 ObjectiveApp.config(function($interpolateProvider){
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');

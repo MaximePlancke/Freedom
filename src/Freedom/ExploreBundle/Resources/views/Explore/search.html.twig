@@ -7,32 +7,16 @@
 {% block content %}
 
     <div class="block">
-        <!-- upper section -->
         <div class="row" ng-controller="ExploreSearchCtrl">
             <div class="col-sm-2">
-                <!-- left -->
-                <h3><i class="glyphicon glyphicon-cog"></i> Filters</h3>
-                <ul class="nav nav-stacked">
-                    <li><i class="glyphicon glyphicon-plus"></i> Category</a></li>
-                    <div ng-repeat="category in listCategories">
-                    	<input checkbox-categories type="checkbox" name="option3" value="category.key"> {[{ category.value }]}<br>
-                    </div>
-                </ul>
-                <ul class="nav nav-stacked">
-                    <li><i class="glyphicon glyphicon-plus"></i> Completed ?</a></li>
-                    <input type="checkbox" name="done" ng-model="search.done"> Yes<br>
-                    <input type="checkbox" name="done" ng-model="search.done"> No<br>
-                </ul>
+    			<div class="my-fade-animation" ng-include="search.type.url"></div>
                 <hr>
             </div>
             <div class="col-sm-10">
                 <div class="col-lg-10">
                 	</br>
                 	<span>What are you looking for? </span>
-                	<select>
-                		<option value="value1" selected>Valeur 1</option> 
-                		<option value="value2">Valeur 2</option> 
-                	</select>
+                	<select ng-model="search.type" ng-options="type.name for type in types"></select>
                 	<input name="search_input" ng-model="search.name" type="text" placeholder="Search...">
                     </br>  
                     <!-- Root scope? No-->                 
@@ -41,12 +25,16 @@
                         <strong>{[{ flashMessage.message }]} </strong><span></span>
                     </div> #}
                     <div ng-repeat="result in results">
-                    	{[{result.name}]} - {[{result.category}]}
+                    	<div ng-if="search.type.name == 'objectives'">
+                    		{[{result.name}]} - {[{result.category}]}
+                    	</div>
+                    	<div ng-if="search.type.name == 'users'">
+                    		{[{result.username}]}
+                    	</div>	
                     </div>
+                <div ng-show="loading"><img src="{{ asset('public/images/loading.gif') }}"></div>
+                </div>
 
-                </div><!--/col-->
-
-                <!--center-right-->
                 <div class="col-lg-2">
 
                     <ul class="nav nav-justified">
@@ -84,9 +72,9 @@
                         </a>
                     </div>
 
-                </div><!--/col-span-2-->
+                </div>
             </div>
-        </div><!--/row-->
+        </div>
     </div>
 
 {% endblock %}

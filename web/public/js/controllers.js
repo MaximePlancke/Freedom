@@ -138,26 +138,44 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
 
 }]);
 
-ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', '$filter', 'listCategoriesService', function ($scope, Objective, $filter, listCategoriesService) {
+ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$filter', 'modelService', function ($scope, Objective, User, $filter, modelService) {
 
-    $scope.listCategories = listCategoriesService;
+    //Init
+    $scope.loading = false;
+    $scope.listCategories = modelService.listCategories();
+    $scope.types = modelService.types();
 
     $scope.search = {};
+    $scope.search.objective = {};
     $scope.search.name = '';
-    $scope.search.done = true;
-    $scope.search.category = [];
+    $scope.search.objective.done = true;
+    $scope.search.objective.category = [];
+    $scope.search.type = $scope.types[0];
 
     $scope.$watch('search', function(newValue, oldValue, scope) {
         var filters = {};
-        angular.forEach(newValue, function(value, key) {
-            if(value.length != 0){
-                filters[key] = value;
-            }
-        });
-        Objective.queries({limit: 10, filters : filters, order_by :{datecreation: 'DESC'}},{}, function(data){
-            $scope.results = data;
-            // console.log(filters);
-        });
+        $scope.loading = true;
+        if(newValue.type.name == 'objectives'){
+            angular.forEach(newValue.objective, function(value, key) {
+                if(value.length != 0){
+                    filters[key] = value;
+                }
+            });
+            Objective.queries({limit: 10, filters : filters, order_by :{datecreation: 'DESC'}},{}, function(data){
+                $scope.results = data;
+                $scope.loading = false;
+            });
+        } else if(newValue.type.name == 'users'){
+            angular.forEach(newValue.user, function(value, key) {
+                if(value.length != 0){
+                    filters[key] = value;
+                }
+            });
+            User.queries({limit: 10, filters : filters, order_by :{id: 'DESC'}},{}, function(data){
+                $scope.results = data;
+                $scope.loading = false;
+            });
+        }
     }, true);
 
 }]);

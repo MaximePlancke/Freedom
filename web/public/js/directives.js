@@ -156,19 +156,19 @@ ObjectiveApp.directive("checkboxCategories", function () {
     return {
         restrict: "A",
         link: function (scope, elem, attrs) {
-            if (scope.search.category.indexOf(scope.category.key) !== -1) {
+            if (scope.search.objective.category.indexOf(scope.category.key) !== -1) {
                 elem[0].checked = true;
             }
 
             elem.bind('click', function () {
-                var index = scope.search.category.indexOf(scope.category.key);
+                var index = scope.search.objective.category.indexOf(scope.category.key);
                 if (elem[0].checked) {
-                    if (index === -1) scope.search.category.push(scope.category.key);
+                    if (index === -1) scope.search.objective.category.push(scope.category.key);
                 }
                 else {
-                    if (index !== -1) scope.search.category.splice(index, 1);
+                    if (index !== -1) scope.search.objective.category.splice(index, 1);
                 }
-                scope.$apply(scope.search.category.sort(function (a, b) {
+                scope.$apply(scope.search.objective.category.sort(function (a, b) {
                     return a - b;
                 }));
             });

@@ -9,6 +9,15 @@ ObjectiveApp.factory('Objective', ['$resource', function($resource){
     });
 }]);
 
+ObjectiveApp.factory('User', ['$resource', function($resource){
+    return $resource('/api/users/:id', { id: '@id'}, {
+        // delete: {method:'DELETE', params:{}},
+        // query: {method: 'GET', params:{}},
+        queries: {method: 'GET', params:{}, isArray:true},
+        // update: {method: 'PUT', params:{}},
+    });
+}]);
+
 ObjectiveApp.factory('Step', ['$resource', function($resource){
     return $resource('/api/stepobjectives/:id', { id: '@id'}, {
         delete: {method:'DELETE', url: '/api/objectives/:id/stepobjectives/:id_step', params:{}},
@@ -30,21 +39,35 @@ ObjectiveApp.factory('Advice', ['$resource', function($resource){
 }]);
 
 
-ObjectiveApp.factory('listCategoriesService', [ function(){
-    var listCategories = [{
-        "key": "personnel",
-        "value": "Personnel",
-    }, {
-        "key": "sportif",
-        "value": "Sportif",
-    }, {
-        "key": "professionnel",
-        "value": "Professionnel"
-    }, {
-        "key": "fun",
-        "value": "Fun"
-    }];
-    return listCategories;
+ObjectiveApp.factory('modelService', [ function(){
+    return {
+        listCategories: function() {
+            var listCategories = [{
+                "key": "personnel",
+                "value": "Personnel",
+            }, {
+                "key": "sportif",
+                "value": "Sportif",
+            }, {
+                "key": "professionnel",
+                "value": "Professionnel"
+            }, {
+                "key": "fun",
+                "value": "Fun"
+            }];
+            return listCategories;
+        },
+        types: function() {
+            var types = [{ 
+                name: 'objectives', 
+                url: 'public/html/objectiveSearchTemplate.html'
+            },{ 
+                name: 'users', 
+                url: 'public/html/userSearchTemplate.html'
+            }];
+            return types;
+        }
+    };
 
 }]);
 

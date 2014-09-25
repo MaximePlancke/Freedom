@@ -157,6 +157,8 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
     $scope.search.objective.category = [];
     $scope.search.orderBy.objective = {};
     //Init default search values
+    $scope.search.offset = 0;
+    $scope.search.limit = 5;
     $scope.search.name = '';
     $scope.search.type = $scope.types[0];
     //Init objective default search values
@@ -174,7 +176,7 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
                         filters[key] = value;
                     }
                 });
-                Objective.queries({limit: 10, filters : filters, name : newValue.name, order_by : {datecreation: 'DESC'} },{}, function(data){
+                Objective.queries({limit: newValue.limit, offset: newValue.offset, filters : filters, name : newValue.name, order_by : {datecreation: 'DESC'} },{}, function(data){
                     $scope.results = data;
                     $scope.loading = false;
                 });
@@ -184,7 +186,7 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
                         filters[key] = value;
                     }
                 });
-                User.queries({limit: 10, filters : filters, name : newValue.name, order_by :{id: 'DESC'}},{}, function(data){
+                User.queries({limit: newValue.limit, offset: newValue.offset, filters : filters, name : newValue.name, order_by :{id: 'DESC'}},{}, function(data){
                     $scope.results = data;
                     $scope.loading = false;
                 });

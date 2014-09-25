@@ -67,7 +67,8 @@ class ObjectiveRepository extends EntityRepository
 	 	->where('o.name LIKE :name')            
         ->setParameter('name', '%'.$name.'%')
         ->orderBy('o.'.$keys[0], $order_by[$keys[0]])
-        ->setMaxResults($limit);
+        ->setMaxResults($limit)
+        ->setFirstResult($offset);
         $this->addFilters($qb, $filters);
 
 	    $result = $qb->getQuery()->getArrayResult();

@@ -35,7 +35,8 @@ class UserRepository extends EntityRepository
 	 	->where('u.username LIKE :name')            
         ->setParameter('name', '%'.$name.'%')
         ->orderBy('u.'.$keys[0], $order_by[$keys[0]])
-        ->setMaxResults($limit);
+        ->setMaxResults($limit)
+        ->setFirstResult($offset);
         $this->addFilters($qb, $filters);
 
 	    $result = $qb->getQuery()->getArrayResult();

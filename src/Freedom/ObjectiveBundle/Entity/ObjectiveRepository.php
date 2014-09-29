@@ -14,37 +14,37 @@ use Doctrine\ORM\QueryBuilder;
 class ObjectiveRepository extends EntityRepository
 {
 
-	public function myFindOne($id)
-	{
-	  	$qb = $this->_em->createQueryBuilder();
-	  	$qb->select('o')
-	     ->from('FreedomObjectiveBundle:Objective', 'o')
-	     ->leftJoin('o.steps', 's')
-         ->addSelect('s')
-	     ->leftJoin('o.user', 'u')
-         ->addSelect('u')
-	     ->where('o.id = :id')
-	     ->setParameter('id', $id);
+	// public function myFindOne($id)
+	// {
+	//   	$qb = $this->_em->createQueryBuilder();
+	//   	$qb->select('o')
+	//      ->from('FreedomObjectiveBundle:Objective', 'o')
+	//      ->leftJoin('o.steps', 's')
+ //         ->addSelect('s')
+	//      ->leftJoin('o.user', 'u')
+ //         ->addSelect('u')
+	//      ->where('o.id = :id')
+	//      ->setParameter('id', $id);
 	    
-	    $objectiveArray = $qb->getQuery()->getArrayResult()[0];
+	//     $objectiveArray = $qb->getQuery()->getArrayResult()[0];
 
-	    //Get the number of days left
-	    $objectiveObject = $qb->getQuery()->getOneOrNullResult();
-	    $objectiveArray['numberOfDays'] = $objectiveObject->getNumberOfDays();
+	//     //Get the number of days left
+	//     $objectiveObject = $qb->getQuery()->getOneOrNullResult();
+	//     $objectiveArray['numberOfDays'] = $objectiveObject->getNumberOfDays();
 
-	    //Get advices with user joined
-	  	$qb2 = $this->_em->createQueryBuilder();
-	  	$qb2->select('a')
-	     ->from('FreedomObjectiveBundle:Advice', 'a')
-	     ->leftJoin('a.user', 'u')
-         ->addSelect('u')
-	     ->where('a.objective = :id')
-	     ->setParameter('id', $id);
+	//     //Get advices with user joined
+	//   	$qb2 = $this->_em->createQueryBuilder();
+	//   	$qb2->select('a')
+	//      ->from('FreedomObjectiveBundle:Advice', 'a')
+	//      ->leftJoin('a.user', 'u')
+ //         ->addSelect('u')
+	//      ->where('a.objective = :id')
+	//      ->setParameter('id', $id);
 
-	    $objectiveArray['advices'] = !empty($qb2->getQuery()->getArrayResult()) ? $qb2->getQuery()->getArrayResult() : [];
+	//     $objectiveArray['advices'] = !empty($qb2->getQuery()->getArrayResult()) ? $qb2->getQuery()->getArrayResult() : [];
 
-	    return $objectiveArray;
-	}
+	//     return $objectiveArray;
+	// }
 
 	//Init filters
 	public function addFilters(QueryBuilder $qb, $filters)
@@ -64,6 +64,16 @@ class ObjectiveRepository extends EntityRepository
 	  	$qb = $this->_em->createQueryBuilder();
 	  	$qb->select('o')
 	    ->from('FreedomObjectiveBundle:Objective', 'o')
+	    ->leftJoin('o.user', 'u')
+        ->addSelect('u')
+	    ->leftJoin('o.steps', 's')
+        ->addSelect('s')
+	    ->leftJoin('o.advices', 'a')
+        ->addSelect('a')
+ 	    ->leftJoin('a.user', 'au')
+        ->addSelect('au')
+        ->leftJoin('o.userlikeobjectives', 'l')
+        ->addSelect('l')
 	 	->where('o.name LIKE :name')            
         ->setParameter('name', '%'.$name.'%')
         ->orderBy('o.'.$keys[0], $order_by[$keys[0]])

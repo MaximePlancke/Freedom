@@ -18,7 +18,7 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$rootScope', '$scope', 'Advic
     $scope.doneObjective = function(idx){
         var objective = $scope.objectives[idx];
         objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd hh:mm:ss');
+        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
         objective.datedone = now;
         Objective.update({id: objective.id}, objective);
         $scope.objectives.splice(idx,1);
@@ -64,7 +64,7 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' 
     $scope.doneObjective = function(idx){
         var objective = $scope.objectives[idx];
         objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd hh:mm:ss');
+        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
         objective.datedone = now;
         Objective.update({id: objective.id}, objective);
         $scope.objectives[idx]
@@ -111,7 +111,7 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
     $scope.doneObjective = function(id){
         var objective = $scope.objective;
         objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd hh:mm:ss');
+        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
         objective.datedone = now;
         $scope.objective = Objective.update({id: id}, objective);
     }
@@ -158,11 +158,11 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
     $scope.search.orderBy.objective = {};
     //Init default search values
     $scope.search.offset = 0;
-    $scope.search.limit = 5;
+    $scope.search.limit = 15;
     $scope.search.name = '';
     $scope.search.type = $scope.types[0];
     //Init objective default search values
-    $scope.search.objective.done = $scope.doneTypes[0].value;
+    $scope.search.objective.done = $scope.doneTypes[0].key;
 
     $scope.$watch('search', function(newValue, oldValue, scope) {
         var filters = {};
@@ -170,7 +170,7 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
         if(timeOutID !== 0) clearTimeout(timeOutID);
         timeOutID = setTimeout(function(){
             timeOutID = 0;
-            if(newValue.type.name == 'objectives'){
+            if(newValue.type.key == 'objectives'){
                 angular.forEach(newValue.objective, function(value, key) {
                     if(value.length != 0){
                         filters[key] = value;
@@ -180,7 +180,7 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
                     $scope.results = data;
                     $scope.loading = false;
                 });
-            } else if(newValue.type.name == 'users'){
+            } else if(newValue.type.key == 'users'){
                 angular.forEach(newValue.user, function(value, key) {
                     if(value.length != 0){
                         filters[key] = value;

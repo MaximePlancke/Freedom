@@ -1,3 +1,5 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
 {% extends 'FreedomExploreBundle::layout.html.twig' %}
 
 {% block title %}Freedom - Explore - Search{% endblock %}
@@ -16,7 +18,7 @@
                 <div class="col-lg-10">
                 	</br>
                 	<span>What are you looking for? </span>
-                	<select ng-model="search.type" ng-options="type.name for type in types"></select>
+                	<select ng-model="search.type" ng-options="type as type.value for type in types"></select>
                 	<input name="search_input" ng-model="search.name" type="text" placeholder="Search...">
                     </br>  
                     <!-- Root scope? No-->                 
@@ -25,11 +27,20 @@
                         <strong>{[{ flashMessage.message }]} </strong><span></span>
                     </div> #}
                     <div ng-repeat="result in results">
-                    	<div ng-if="search.type.name == 'objectives'">
-                    		{[{result.name}]} - {[{result.category}]}
-                    	</div>
-                    	<div ng-if="search.type.name == 'users'">
-                    		{[{result.username}]}
+                        <hr>
+                        <!-- Objectives -->
+                    	<div ng-if="search.type.key == 'objectives'">
+                    		<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: result.id})">{[{result.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: result.user.id})">{[{result.user.username | capitalize}]}</a>
+                            <span>{[{result.userlikeobjectives.length}]}
+                                <allow-like-objective user-logged='{{ userLogged.getId }}' objective='result'></allow-like-objective>
+                            </span>
+                            <br>
+                            <span><span class="glyphicon glyphicon-tag"></span> {[{result.category | capitalize}]} </span>
+                            <span><span class="glyphicon glyphicon-time"></span> {[{ result.number_of_days }]} </span>
+                        </div>
+                        <!-- Users -->
+                    	<div ng-if="search.type.key == 'users'">
+                    		<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: result.id})">{[{result.username | capitalize}]}</a>
                     	</div>	
                     </div>
                 <div ng-show="loading"><img src="{{ asset('public/images/loading.gif') }}"></div>

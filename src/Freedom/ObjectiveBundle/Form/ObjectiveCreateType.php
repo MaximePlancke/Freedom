@@ -11,6 +11,12 @@ class ObjectiveCreateType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
+    ->add('done', 'choice', array(
+        'choices'   => array(
+            false   => 'Objectif',
+            true => 'Expérience',
+        ),
+    ))
     ->add('name',        'textarea')
     ->add('category', 'choice', array(
         'choices'   => array(
@@ -27,6 +33,7 @@ class ObjectiveCreateType extends AbstractType
         ),
     ))
     ->add('dategoal', 'date')
+    ->add('useradvice',        'textarea')
     ->add('steps', 'collection', array('type' => new StepobjectiveCreateType(),
         'allow_add'    => true,
         'allow_delete' => true))

@@ -50,7 +50,7 @@ class ObjectiveRepository extends EntityRepository
 	public function addFilters(QueryBuilder $qb, $filters)
 	{
 		foreach ($filters as $key => $value) {
-			$qb->andWhere('o.'.$key.' = :'.$key)->setParameter($key, $value);
+			$qb->andWhere('o.'.$key.' IN (:'.$key.')')->setParameter($key, $value);
 		}
 		
 	}
@@ -64,24 +64,14 @@ class ObjectiveRepository extends EntityRepository
 	  	$qb = $this->_em->createQueryBuilder();
 	  	$qb->select('o')
 	    ->from('FreedomObjectiveBundle:Objective', 'o')
-	    ->leftJoin('o.user', 'u')
-        ->addSelect('u')
-	    ->leftJoin('o.steps', 's')
-        ->addSelect('s')
-	    ->leftJoin('o.advices', 'a')
-        ->addSelect('a')
- 	    ->leftJoin('a.user', 'au')
-        ->addSelect('au')
-        ->leftJoin('o.userlikeobjectives', 'l')
-        ->addSelect('l')
 	 	->where('o.name LIKE :name')            
-        ->setParameter('name', '%'.$name.'%')
-        ->orderBy('o.'.$keys[0], $order_by[$keys[0]])
-        ->setMaxResults($limit)
-        ->setFirstResult($offset);
+        ->setParameter('name', '%'.$name.'%');
         $this->addFilters($qb, $filters);
+        $qb->select('o')->orderBy('o.'.$keys[0], $order_by[$keys[0]])
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
-	    $result = $qb->getQuery()->getArrayResult();
+	    $result = $qb->getQuery()->getResult();
 	    return $result;
 
 	}

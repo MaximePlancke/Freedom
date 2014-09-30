@@ -14,6 +14,12 @@
 
 	{{ form_errors(form) }}
 
+  <div>
+    {{ form_label(form.done, "Quel type?") }}
+    {{ form_errors(form.done) }}
+    {{ form_widget(form.done) }}
+ </div>
+
 	<div>
     {{ form_label(form.name, "Titre de l'objectif") }}
     {{ form_errors(form.name) }}
@@ -32,6 +38,18 @@
     {{ form_widget(form.dategoal) }}
 </div>
 
+  <div>
+    {{ form_label(form.private, "Private ?") }}
+    {{ form_errors(form.private) }}
+    {{ form_widget(form.private) }}
+ </div>
+
+   <div>
+    {{ form_label(form.useradvice, "An advice, a note ?") }}
+    {{ form_errors(form.useradvice) }}
+    {{ form_widget(form.useradvice) }}
+ </div>
+
 {{ form_rest(form) }}
 
 <input type="submit" class="btn btn-primary" />
@@ -44,7 +62,7 @@ $(document).ready(function() {
   // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
   var $container = $('div#freedom_objectivebundle_objectivetype_steps');
 
-  var $lienAjout = $('<a href="#" id="add_step" class="btn">Ajouter une étape</a>');
+  var $lienAjout = $('<a href="#" id="add_step" class="btn">Add a step</a>');
   $container.append($lienAjout);
 
   $lienAjout.click(function(e) {
@@ -78,7 +96,7 @@ function addStep($container) {
 
 function addLinkDelete($prototype) {
     // Création du lien
-    $lienSuppression = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+    $lienSuppression = $('<a href="#" class="btn btn-danger">Delete</a>');
 
     // Ajout du lien
     $prototype.append($lienSuppression);

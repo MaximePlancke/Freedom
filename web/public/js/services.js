@@ -44,10 +44,12 @@ ObjectiveApp.factory('modelService', [ function(){
         // ******** General Model ******** //
         types: function() {
             var types = [{ 
-                name: 'objectives', 
+                key: 'objectives',
+                value: 'Objectives/Experiences',
                 url: 'public/html/objectiveSearchTemplate.html'
             },{ 
-                name: 'users', 
+                key: 'users',
+                value: 'Users', 
                 url: 'public/html/userSearchTemplate.html'
             }];
             return types;
@@ -79,14 +81,14 @@ ObjectiveApp.factory('modelService', [ function(){
         },
         doneTypes: function() {
             var doneTypes = [{ 
-                key: 'All', 
-                value: ''
+                key: '', 
+                value: 'All'
             },{ 
-                key: 'Yes', 
-                value: true
+                key: false, 
+                value: 'Current'
             },{ 
-                key: 'No', 
-                value: false
+                key: true, 
+                value: 'Done'
             }];
             return doneTypes;
         },

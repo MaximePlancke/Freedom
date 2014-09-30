@@ -48,7 +48,6 @@ ObjectiveApp.directive('allowLikeAdvice', function(Advice) {
         },
         link: function(scope, element, attrs) {
             scope.$watch('objective', function() {
-                                            console.log(scope.userLogged);
                 scope.alreadyLikedAdvice = []; // Not clean code
                 scope.alreadyLikedAdvice[scope.idx] = false; 
                 scope.icon = "glyphicon-heart-empty"; 

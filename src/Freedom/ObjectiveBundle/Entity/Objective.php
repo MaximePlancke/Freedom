@@ -123,6 +123,14 @@ class Objective extends ObjectiveManager
     * @Expose
     */
     private $userlikeobjectives;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="useradvice", type="text", nullable=true)
+     * @Expose
+     */
+    private $useradvice;
     
 
     public function __construct()
@@ -471,5 +479,28 @@ class Objective extends ObjectiveManager
     public function getUserlikeobjectives()
     {
         return $this->userlikeobjectives;
+    }
+
+    /**
+     * Set useradvice
+     *
+     * @param string $useradvice
+     * @return Objective
+     */
+    public function setUseradvice($useradvice)
+    {
+        $this->useradvice = $useradvice;
+
+        return $this;
+    }
+
+    /**
+     * Get useradvice
+     *
+     * @return string 
+     */
+    public function getUseradvice()
+    {
+        return $this->useradvice;
     }
 }

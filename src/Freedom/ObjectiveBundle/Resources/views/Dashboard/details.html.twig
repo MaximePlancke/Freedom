@@ -27,7 +27,7 @@
     </span>
 	<span>{[{objective.category | capitalize}]} <span class="glyphicon glyphicon-tag"></span></span>
 	<span>{[{ objective.number_of_days }]} <span class="glyphicon glyphicon-time"></span></span>
-	<div>Steps</div>
+	<h3>Steps</h3>
 	<ul ng-repeat="step in objective.steps">
     	<li>
     		<span ng-if="step.done == true">
@@ -42,7 +42,11 @@
             </span>
     	</li>
     </ul>
-    <div>Advices</div>
+    <div ng-show="objective.useradvice">
+        <h3>Creator's advice</h3> 
+        <span>{[{objective.useradvice}]}</span>  
+    </div>
+    <h3>Advices</h3>
 	<div ng-hide="objective.advices.length">No advices yet. Be the first!</div>
     <ul ng-repeat="advice in objective.advices">
 		<li>

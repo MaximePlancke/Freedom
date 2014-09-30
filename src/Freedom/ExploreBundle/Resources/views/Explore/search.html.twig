@@ -34,6 +34,9 @@
                             <span>{[{result.userlikeobjectives.length}]}
                                 <allow-like-objective user-logged='{{ userLogged.getId }}' objective='result'></allow-like-objective>
                             </span>
+                            <span>{[{result.userfollowobjectives.length}]}
+                                <allow-follow-objective user-logged='{{ userLogged.getId }}' objective='result'></allow-follow-objective>
+                            </span>
                             <br>
                             <span><span class="glyphicon glyphicon-tag"></span> {[{result.category | capitalize}]} </span>
                             <span><span class="glyphicon glyphicon-time"></span> {[{ result.number_of_days }]} </span>

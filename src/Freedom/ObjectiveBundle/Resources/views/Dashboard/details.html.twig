@@ -25,6 +25,9 @@
 	<span>{[{objective.userlikeobjectives.length}]}
         <allow-like-objective user-logged='{{ userLogged.getId }}' objective='objective'></allow-like-objective>
     </span>
+    <span>{[{objective.userfollowobjectives.length}]}
+        <allow-follow-objective user-logged='{{ userLogged.getId }}' objective='objective'></allow-follow-objective>
+    </span>
 	<span>{[{objective.category | capitalize}]} <span class="glyphicon glyphicon-tag"></span></span>
 	<span>{[{ objective.number_of_days }]} <span class="glyphicon glyphicon-time"></span></span>
 	<h3>Steps</h3>

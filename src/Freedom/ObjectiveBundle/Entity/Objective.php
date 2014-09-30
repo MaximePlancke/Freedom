@@ -125,6 +125,12 @@ class Objective extends ObjectiveManager
     private $userlikeobjectives;
 
     /**
+    * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userfollowobjective", mappedBy="objective", cascade={"remove", "persist"})
+    * @Expose
+    */
+    private $userfollowobjectives;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="useradvice", type="text", nullable=true)
@@ -503,4 +509,38 @@ class Objective extends ObjectiveManager
     {
         return $this->useradvice;
     }
+
+    /**
+     * Add userfollowobjectives
+     *
+     * @param \Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives
+     * @return Objective
+     */
+    public function addUserfollowobjective(\Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives)
+    {
+        $this->userfollowobjectives[] = $userfollowobjectives;
+
+        return $this;
+    }
+
+    /**
+     * Remove userfollowobjectives
+     *
+     * @param \Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives
+     */
+    public function removeUserfollowobjective(\Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives)
+    {
+        $this->userfollowobjectives->removeElement($userfollowobjectives);
+    }
+
+    /**
+     * Get userfollowobjectives
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserfollowobjectives()
+    {
+        return $this->userfollowobjectives;
+    }
+
 }

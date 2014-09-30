@@ -1,0 +1,14 @@
+Freedom\UserBundle\Entity\Userfollowobjective:
+    type:  entity
+    table: Userfollowobjective
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    manyToOne:
+        user:
+            targetEntity: Freedom\UserBundle\Entity\User
+        objective: 
+            targetEntity: Freedom\ObjectiveBundle\Entity\Objective
+            inversedBy: userfollowobjectives

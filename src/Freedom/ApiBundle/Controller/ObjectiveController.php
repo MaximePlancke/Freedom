@@ -7,6 +7,7 @@ use Freedom\ObjectiveBundle\Form\ObjectiveType;
 use Freedom\ObjectiveBundle\Entity\Advice;
 use Freedom\ObjectiveBundle\Form\AdviceType;
 use Freedom\UserBundle\Entity\Userlikeobjective;
+use Freedom\UserBundle\Entity\Userfollowobjective;
 // use Freedom\UserBundle\Form\UserlikeobjectiveType;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -260,6 +261,72 @@ class ObjectiveController extends VoryxController
         } else {
             throw $this->createNotFoundException(
                 'No rights for this like : '.$entity
+            );
+        }
+    }
+
+    /**
+     * Create a Follow Objective entity.
+     *
+     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $objective
+     *
+     * @return Response
+     *
+     */
+    public function postUserfollowobjectivesAction(Request $request, Objective $objective)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userfollowobjective = new Userfollowobjective();
+        $userfollowobjective->setUser($this->getUser());
+        $userfollowobjective->setObjective($objective);
+
+        $entity = $em->getRepository('FreedomUserBundle:Userfollowobjective')->findOneBy(array('user' => $this->getUser(), 'objective' => $objective));
+
+        if ($entity == null) {
+
+        // if ($form->isValid()) {
+            $em->persist($userfollowobjective);
+            $em->flush();
+
+            return $userfollowobjective;
+        // }
+
+        }
+
+        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    } 
+
+    /**
+     * Delete a Follow Objective entity.
+     *
+     * @View(statusCode=204)
+     *
+     * @param Request $request
+     * @param $entity
+     * @internal param $id
+     *
+     * @return Response
+     */
+    public function deleteUserfollowobjectivesAction(Request $request, Objective $objective, Userfollowobjective $entity)
+    {
+        $user = $this->getUser();
+        if ($user == $entity->getUser()) {
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($entity);
+                $em->flush();
+
+                return null;
+            } catch (\Exception $e) {
+                return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            throw $this->createNotFoundException(
+                'No rights for this follow : '.$entity
             );
         }
     }

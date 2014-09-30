@@ -5,7 +5,9 @@ ObjectiveApp.factory('Objective', ['$resource', function($resource){
         queries: {method: 'GET', params:{}, isArray:true, url: '/api/objectives/:id'},
         update: {method: 'PUT', params:{}},
         like: {method: 'POST', url: '/api/objectives/:id/userlikeobjectives', params:{}},
-        dislike: {method: 'DELETE', url: '/api/objectives/:id/userlikeobjectives/:id_like', params:{}}
+        dislike: {method: 'DELETE', url: '/api/objectives/:id/userlikeobjectives/:id_like', params:{}},
+        follow: {method: 'POST', url: '/api/objectives/:id/userfollowobjectives', params:{}},
+        disfollow: {method: 'DELETE', url: '/api/objectives/:id/userfollowobjectives/:id_follow', params:{}}
     });
 }]);
 

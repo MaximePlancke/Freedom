@@ -38,6 +38,7 @@
 		<div class="panel-body">
 			{% if lastCurrentObjective %}
 				<span>{{ lastCurrentObjective.userlikeobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span></span>
+				<span>{{ lastCurrentObjective.userfollowobjectives | length }} <span class="glyphicon glyphicon-star-empty"></span></span>
 				<span><span class="glyphicon glyphicon-tag"></span> {{ lastCurrentObjective.category|capitalize }} </span>
 				<span><span class="glyphicon glyphicon-time"></span> {{ lastCurrentObjective.getNumberOfDays }} </span>
 				<h3><a href="{{ path('freedom_objective_dashboard_details', {'id': lastCurrentObjective.id }) }}">{{ lastCurrentObjective.name|e|capitalize }}</a></h3>
@@ -79,6 +80,7 @@
 		<div class="panel-body">
 			{% if lastDoneObjective %}
 				<span>{{ lastDoneObjective.userlikeobjectives | length }} <span class="glyphicon glyphicon-heart-empty"></span></span>
+				<span>{{ lastDoneObjective.userfollowobjectives | length }} <span class="glyphicon glyphicon-star-empty"></span></span>
 				<span>{{ lastDoneObjective.category|capitalize }} <span class="glyphicon glyphicon-tag"></span></span>
 				<span>{{ lastDoneObjective.getNumberOfDays }} <span class="glyphicon glyphicon-time"></span></span>
 				<h3><a href="{{ path('freedom_objective_dashboard_details', {'id': lastDoneObjective.id }) }}">{{ lastDoneObjective.name|e|capitalize }}</a></h3>

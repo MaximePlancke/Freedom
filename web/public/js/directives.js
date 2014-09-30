@@ -125,6 +125,46 @@ ObjectiveApp.directive('allowLikeStep', function(Step) {
     };
 });
 
+ObjectiveApp.directive('allowFollowObjective', function(Objective) {
+    return {
+        restrict: 'E',
+        scope: {
+            objective : '=objective',
+            userLogged : '=userLogged'
+        },
+        link: function(scope, element, attrs) { 
+            scope.$watch('objective', function() {
+                scope.alreadyFollowedObjective = false; 
+                scope.icon = "glyphicon-star-empty"; 
+                angular.forEach(scope.objective.userfollowobjectives, function(value, key) {
+                    if (value.user.id == scope.userLogged) {
+                        scope.userfollow = value;
+                        scope.alreadyFollowedObjective = true; 
+                        scope.icon = "glyphicon-star";  
+                    };
+                });
+            });
+            scope.followObjective = function(id){
+                var objective = scope.objective;
+                if(scope.alreadyFollowedObjective) {
+                    Objective.disfollow({id: id, id_follow: scope.userfollow.id},{});
+                    var index = scope.objective.userfollowobjectives.indexOf(scope.userfollow);
+                    scope.objective.userfollowobjectives.splice(index, 1);
+                    scope.icon = "glyphicon-star-empty";
+                } else {
+                    var follow = Objective.follow({id: id},{});
+                    scope.objective.userfollowobjectives.push(follow);
+                    scope.userfollow = follow;
+                    scope.icon = "glyphicon-star";  
+                } 
+                scope.alreadyFollowedObjective = !scope.alreadyFollowedObjective;
+            }
+
+        },
+        template: '<span ng-click="followObjective(objective.id)" class="clickable glyphicon {{icon}}"></span>'
+    };
+});
+
 ObjectiveApp.directive('submitAdvice', function(Advice) {
     return {
     	restrict: 'A',

@@ -9,7 +9,7 @@
 {% block content %}
 
 <div ng-controller="ObjectiveFollowedCtrl" ng-init="userLogged = {{ userLogged.getId }}">
-	{# <div ng-repeat="objective in objectives">
+{# 	<div ng-repeat="objective in objectives">
  		<h3>
 	        <span ng-if="objective.done == true">
 	            <span class="glyphicon glyphicon-check"></span>
@@ -61,15 +61,15 @@
 			</li>
 	    </ul>
 	    <textarea submit-advice objective="objective" id="text-advice" placeholder="Write your advice"></textarea>
-	</div>
+	</div> #}
 	<div ng-if="objectives.length == 0">
 		<div ng-if="{{ userLogged.getId }} == {{ idProfile }}">
-			<h4>No completed objective. <a href="{{ path('freedom_objective_dashboard_create') }}">Create a new one?</a></h4>
+			<h4>No followed objective. <a href="{{ path('freedom_explore_search') }}">Follow a new one?</a></h4>
 		</div>
 		<div ng-if="{{ userLogged.getId }} != {{ idProfile }}">
-			<h4>{{userProfile|capitalize}} has no completed objective</h4>
+			<h4>{{userProfile|capitalize}} doesn't follow any objective</h4>
 		</div>
-	</div> #}
+	</div>
 </div>
 
 

@@ -1,6 +1,7 @@
 Freedom\UserBundle\Entity\Userfollowobjective:
     type:  entity
     table: Userfollowobjective
+    repositoryClass: Freedom\UserBundle\Entity\UserfollowobjectiveRepository
     id:
         id:
             type: integer

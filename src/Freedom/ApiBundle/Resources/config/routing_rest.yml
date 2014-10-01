@@ -19,3 +19,8 @@ user :
     type: rest
     resource:     "FreedomApiBundle:User"
     name_prefix:  api_user
+
+userfollowobjective : 
+    type: rest
+    resource:     "FreedomApiBundle:Userfollowobjective"
+    name_prefix:  api_userfollowobjective

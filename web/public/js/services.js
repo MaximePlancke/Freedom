@@ -40,6 +40,15 @@ ObjectiveApp.factory('Advice', ['$resource', function($resource){
     });
 }]);
 
+ObjectiveApp.factory('Userfollowobjective', ['$resource', function($resource){
+    return $resource('/api/userfollowobjectives/:id', { id: '@id'}, {
+        // delete: {method:'DELETE', params:{}},
+        // query: {method: 'GET', params:{}},
+        queries: {method: 'GET', params:{}, isArray:true},
+        // update: {method: 'PUT', params:{}},
+    });
+}]);
+
 
 ObjectiveApp.factory('modelService', [ function(){
     return {

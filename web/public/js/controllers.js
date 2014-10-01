@@ -93,6 +93,18 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' 
 
 }]);
 
+ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$rootScope', '$scope', 'Userfollowobjective' , '$filter', function ($rootScope, $scope, Userfollowobjective, $filter) {
+
+    //Init
+    $scope.objectives = [];
+    Userfollowobjective.queries({limit: 10, user: parseInt(pathArray[1]) , filters : {}, order_by :{datedone: 'DESC'}},{}, function(data){
+        angular.forEach(data, function(value, index) {
+            $scope.objectives.push(value.objective);
+        });
+        console.log($scope.objectives);
+    });
+
+}]);
 
 ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
 

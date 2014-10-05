@@ -169,6 +169,51 @@ ObjectiveApp.directive('allowFollowObjective', function(Objective, $rootScope) {
     };
 });
 
+ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
+    return {
+        restrict: 'E',
+        scope: {
+            group : '=group',
+            userLogged : '=userLogged'
+        },
+        link: function(scope, element, attrs) { 
+            scope.$watch('group', function() {
+                scope.alreadyBelongGroup = false; 
+                scope.icon = "glyphicon-star-empty"; 
+                angular.forEach(scope.group.userbelonggroups, function(value, key) {
+                    if (value.user.id == scope.userLogged) {
+                        scope.userbelong = value;
+                        scope.alreadyBelongGroup = true; 
+                        scope.icon = "glyphicon-star";  
+                    };
+                });
+            });
+            scope.belongGroup = function(id){
+                var group = scope.group;
+                if(scope.alreadyBelongGroup) {
+                    if (scope.userbelong.role == 1) {
+                        $rootScope.flashMessage = {type: 'alert-warning', message: 'You can\'t leave your own group!'};
+                    }else{
+                        Group.unbelong({id: id, id_belong: scope.userbelong.id},{});
+                        var index = scope.group.userbelonggroups.indexOf(scope.userbelong);
+                        scope.group.userbelonggroups.splice(index, 1);
+                        scope.icon = "glyphicon-star-empty";
+                        $rootScope.flashMessage = {type: 'alert-success', message: 'You don\'t belong this group anymore !'};
+                    }
+                } else {
+                    var belong = Group.belong({id: id},{});
+                    scope.group.userbelonggroups.push(belong);
+                    scope.userbelong = belong;
+                    scope.icon = "glyphicon-star";  
+                } 
+                scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
+            }
+
+        },
+        template: '<span ng-click="belongGroup(group.id)" class="clickable glyphicon {{icon}}"></span>'
+    };
+});
+
 ObjectiveApp.directive('submitAdvice', function(Advice) {
     return {
     	restrict: 'A',

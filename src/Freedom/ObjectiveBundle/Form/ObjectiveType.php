@@ -21,7 +21,7 @@ class ObjectiveType extends AbstractType
             ->add('nbsteps')
             ->add('done')
             ->add('private')
-            ->add('groups')
+            // ->add('group')
             ->add('dategoal', 'datetime', array(
                 'widget' => 'single_text',
                 ))

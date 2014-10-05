@@ -4,6 +4,7 @@ namespace Freedom\ApiBundle\Controller;
 
 use Freedom\GroupBundle\Entity\Groups;
 use Freedom\GroupBundle\Form\GroupsType;
+use Freedom\UserBundle\Entity\Userbelonggroup;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -161,6 +162,72 @@ class GroupController extends VoryxController
             return null;
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+/**
+     * Create a Belong Group entity.
+     *
+     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $group
+     *
+     * @return Response
+     *
+     */
+    public function postUserbelonggroupsAction(Request $request, Groups $group)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userbelonggroup = new Userbelonggroup();
+        $userbelonggroup->setUser($this->getUser());
+        $userbelonggroup->setGroup($group);
+        $userbelonggroup->setRole(2);
+
+        $entity = $em->getRepository('FreedomUserBundle:Userbelonggroup')->findOneBy(array('user' => $this->getUser(), 'group' => $group));
+
+        if ($entity == null) {
+
+        // if ($form->isValid()) {
+            $em->persist($userbelonggroup);
+            $em->flush();
+
+            return $userbelonggroup;
+        // }
+
+        }
+
+        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    } 
+
+    /**
+     * Delete a Belong Group entity.
+     *
+     * @View(statusCode=204)
+     *
+     * @param Request $request
+     * @param $entity
+     * @internal param $id
+     *
+     * @return Response
+     */
+    public function deleteUserbelonggroupsAction(Request $request, Groups $group, Userbelonggroup $entity)
+    {
+        $user = $this->getUser();
+        if ($user == $entity->getUser() AND $entity->getRole() != 1) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($entity);
+                $em->flush();
+
+                return null;
+            } catch (\Exception $e) {
+                return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            throw $this->createNotFoundException(
+                'No able to modify : '.$entity
+            );
         }
     }
 }

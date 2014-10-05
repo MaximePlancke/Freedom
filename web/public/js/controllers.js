@@ -153,7 +153,7 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
 
     Objective.query({id: parseInt(pathArray[2])},{}, function(data){
         $scope.objective = data;
-        console.log(data);
+        // console.log(data);
     });
 
     $scope.deleteObjective = function(id){
@@ -261,7 +261,7 @@ ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scop
 
     Group.query({id: parseInt(pathArray[2])},{}, function(data){
         $scope.group = data;
-        console.log(data);
+        // console.log(data);
     });
 }]);
 

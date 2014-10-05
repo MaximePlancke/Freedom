@@ -30,7 +30,7 @@
                         <hr>
                         <!-- Objectives -->
                     	<div ng-if="search.type.key == 'objectives'">
-                    		<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: result.id})">{[{result.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: result.user.id})">{[{result.user.username | capitalize}]}</a>
+                    		<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: result.id})">{[{result.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: result.user.id})">{[{result.user.username | capitalize}]}</a><span ng-show="result.group"> - Belong to the group <a href="#" ng-click="url('freedom_group_details', {id: result.group.id})">{[{result.group.name | capitalize}]}</a></span>
                             <span>{[{result.userlikeobjectives.length}]}
                                 <allow-like-objective user-logged='{{ userLogged.getId }}' objective='result'></allow-like-objective>
                             </span>

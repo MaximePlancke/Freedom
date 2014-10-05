@@ -52,6 +52,8 @@ ObjectiveApp.factory('Userfollowobjective', ['$resource', function($resource){
 ObjectiveApp.factory('Group', ['$resource', function($resource){
     return $resource('/api/groups/:id', { id: '@id'}, {
         query: {method: 'GET', params:{}},
+        belong: {method: 'POST', url: '/api/groups/:id/userbelonggroups', params:{}},
+        unbelong: {method: 'DELETE', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}}
     });
 }]);
 

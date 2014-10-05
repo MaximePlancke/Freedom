@@ -1,0 +1,20 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
+{% extends 'FreedomObjectiveBundle::layout_profile.html.twig' %}
+
+{% block title %}Freedom - Groups{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+<div ng-controller="GroupDashboardCtrl" ng-init="userLogged = {{ userLogged.getId }}">
+	<span ng-if="{{ userLogged.getId }} == pathUser">
+		<h3><a href="{{ path('freedom_group_create') }}">Create a group</a></h3>
+	</span>
+
+	<h3>My groups</h3>
+
+</div>
+
+{% endblock %}

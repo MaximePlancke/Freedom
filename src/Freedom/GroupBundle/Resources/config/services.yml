@@ -1,0 +1,7 @@
+parameters:
+#    freedom_group.example.class: Freedom\GroupBundle\Example
+
+services:
+#    freedom_group.example:
+#        class: %freedom_group.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

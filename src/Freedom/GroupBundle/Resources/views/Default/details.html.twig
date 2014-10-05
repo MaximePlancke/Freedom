@@ -1,0 +1,14 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
+{% extends 'FreedomGroupBundle::layout_group.html.twig' %}
+
+{% block title %}Freedom - Groups{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+<div ng-controller="GroupDetailsCtrl" ng-init="userId = {{ userLogged.getId }}">
+</div>
+
+{% endblock %}

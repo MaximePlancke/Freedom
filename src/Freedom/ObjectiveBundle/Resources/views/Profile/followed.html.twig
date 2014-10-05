@@ -9,7 +9,7 @@
 {% block content %}
 
 <div ng-controller="ObjectiveFollowedCtrl" ng-init="userLogged = {{ userLogged.getId }}">
-{# 	<div ng-repeat="objective in objectives">
+	<div ng-repeat="objective in objectives">
  		<h3>
 	        <span ng-if="objective.done == true">
 	            <span class="glyphicon glyphicon-check"></span>
@@ -27,7 +27,7 @@
 	        <allow-like-objective user-logged='{{ userLogged.getId }}' objective='objective'></allow-like-objective>
 	    </span>
 		<span>{[{objective.userfollowobjectives.length}]}
-	        <allow-follow-objective user-logged='{{ userLogged.getId }}' objective='objective'></allow-follow-objective>
+	        <allow-follow-objective user-logged='{{ userLogged.getId }}' objective='objective' followpage='true'></allow-follow-objective>
 	    </span>
 		<span><span class="glyphicon glyphicon-tag"></span> {[{objective.category | capitalize}]} </span>
 		<span><span class="glyphicon glyphicon-time"></span> {[{ objective.number_of_days }]} </span>
@@ -61,7 +61,7 @@
 			</li>
 	    </ul>
 	    <textarea submit-advice objective="objective" id="text-advice" placeholder="Write your advice"></textarea>
-	</div> #}
+	</div>
 	<div ng-if="objectives.length == 0">
 		<div ng-if="{{ userLogged.getId }} == {{ idProfile }}">
 			<h4>No followed objective. <a href="{{ path('freedom_explore_search') }}">Follow a new one?</a></h4>

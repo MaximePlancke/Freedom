@@ -8,13 +8,13 @@ use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
- * Userfollowobjective
+ * Userbelonggroup
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Freedom\UserBundle\Entity\UserfollowobjectiveRepository")
+ * @ORM\Entity(repositoryClass="Freedom\UserBundle\Entity\UserbelonggroupRepository")
  * @ExclusionPolicy("all") 
  */
-class Userfollowobjective
+class Userbelonggroup
 {
     /**
      * @var integer
@@ -27,17 +27,24 @@ class Userfollowobjective
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="role", type="integer")
+     * @Expose
+     */
+    private $role;
+
+    /**
      * @var \Freedom\UserBundle\Entity\User
      * @Expose
      */
     private $user;
 
     /**
-     * @var \Freedom\ObjectiveBundle\Entity\Objective
+     * @var \Freedom\GroupBundle\Entity\Groups
      * @Expose
      */
-    private $objective;
-
+    private $group;
 
     /**
      * Get id
@@ -49,11 +56,12 @@ class Userfollowobjective
         return $this->id;
     }
 
+
     /**
      * Set user
      *
      * @param \Freedom\UserBundle\Entity\User $user
-     * @return Userfollowobjective
+     * @return Userbelonggroup
      */
     public function setUser(\Freedom\UserBundle\Entity\User $user = null)
     {
@@ -73,26 +81,48 @@ class Userfollowobjective
     }
 
     /**
-     * Set objective
+     * Set group
      *
-     * @param \Freedom\ObjectiveBundle\Entity\Objective $objective
-     * @return Userfollowobjective
+     * @param \Freedom\GroupBundle\Entity\Groups $group
+     * @return Userbelonggroup
      */
-    public function setObjective(\Freedom\ObjectiveBundle\Entity\Objective $objective = null)
+    public function setGroup(\Freedom\GroupBundle\Entity\Groups $group = null)
     {
-        $this->objective = $objective;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get objective
+     * Get group
      *
-     * @return \Freedom\ObjectiveBundle\Entity\Objective 
+     * @return \Freedom\GroupBundle\Entity\Groups 
      */
-    public function getObjective()
+    public function getGroup()
     {
-        return $this->objective;
+        return $this->group;
     }
-    
+
+    /**
+     * Set role
+     *
+     * @param integer $role
+     * @return Userbelonggroup
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return integer 
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
 }

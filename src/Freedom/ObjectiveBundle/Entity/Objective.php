@@ -77,10 +77,11 @@ class Objective extends ObjectiveManager
     /**
      * @var string
      *
-     * @ORM\Column(name="groups", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Freedom\GroupBundle\Entity\Groups", inversedBy="objectives")
+     * @ORM\JoinColumn(nullable=true)
      * @Expose
      */
-    private $groups;
+    private $group;
 
     /**
      * @var \DateTime
@@ -141,7 +142,7 @@ class Objective extends ObjectiveManager
 
     public function __construct()
     {
-        $this->done = false;
+        // $this->done = false;
         $this->datecreation = new \Datetime;
         $this->dategoal = new \Datetime;
         $this->datedone = new \Datetime;
@@ -248,29 +249,6 @@ class Objective extends ObjectiveManager
     public function getDone()
     {
         return $this->done;
-    }
-
-    /**
-     * Set groups
-     *
-     * @param string $groups
-     * @return Objective
-     */
-    public function setGroups($groups)
-    {
-        $this->groups = $groups;
-
-        return $this;
-    }
-
-    /**
-     * Get groups
-     *
-     * @return string 
-     */
-    public function getGroups()
-    {
-        return $this->groups;
     }
 
     /**
@@ -543,4 +521,27 @@ class Objective extends ObjectiveManager
         return $this->userfollowobjectives;
     }
 
+
+    /**
+     * Set group
+     *
+     * @param \Freedom\GroupBundle\Entity\Groups $group
+     * @return Objective
+     */
+    public function setGroup(\Freedom\GroupBundle\Entity\Groups $group = null)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return \Freedom\GroupBundle\Entity\Groups 
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
 }

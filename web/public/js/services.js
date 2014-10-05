@@ -49,6 +49,12 @@ ObjectiveApp.factory('Userfollowobjective', ['$resource', function($resource){
     });
 }]);
 
+ObjectiveApp.factory('Group', ['$resource', function($resource){
+    return $resource('/api/groups/:id', { id: '@id'}, {
+        query: {method: 'GET', params:{}},
+    });
+}]);
+
 
 ObjectiveApp.factory('modelService', [ function(){
     return {

@@ -1,14 +1,19 @@
 <?php
 
-namespace Freedom\ObjectiveBundle\Entity;
+namespace Freedom\GroupBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Groups
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Freedom\ObjectiveBundle\Entity\GroupsRepository")
+ * @ORM\Entity(repositoryClass="Freedom\GroupBundle\Entity\GroupsRepository")
+ *
+ * @ExclusionPolicy("all") 
  */
 class Groups
 {
@@ -18,23 +23,27 @@ class Groups
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Objective", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Objective", mappedBy="group", cascade={"remove", "persist"})
+    * @Expose
     */
     private $objectives;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Freedom\UserBundle\Entity\User", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userbelonggroup", mappedBy="group", cascade={"remove", "persist"})
+    * @Expose
     */
-    private $users;
+    private $userbelonggroup;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Expose
      */
     private $name;
 
@@ -42,6 +51,7 @@ class Groups
      * @var boolean
      *
      * @ORM\Column(name="private", type="boolean")
+     * @Expose
      */
     private $private;
 
@@ -49,9 +59,9 @@ class Groups
      * @var integer
      *
      * @ORM\Column(name="rate", type="integer")
+     * @Expose
      */
     private $rate;
-
 
     /**
      * Get id
@@ -131,4 +141,5 @@ class Groups
     {
         return $this->rate;
     }
+
 }

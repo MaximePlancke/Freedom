@@ -1,0 +1,4 @@
+group:
+    prefix:     /group/
+    type:     annotation
+    resource: "@FreedomGroupBundle/Controller/DefaultController.php"

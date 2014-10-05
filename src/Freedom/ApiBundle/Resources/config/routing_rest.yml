@@ -24,3 +24,8 @@ userfollowobjective :
     type: rest
     resource:     "FreedomApiBundle:Userfollowobjective"
     name_prefix:  api_userfollowobjective
+
+group : 
+    type: rest
+    resource:     "FreedomApiBundle:Group"
+    name_prefix:  api_group

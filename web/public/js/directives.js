@@ -125,7 +125,7 @@ ObjectiveApp.directive('allowLikeStep', function(Step) {
     };
 });
 
-ObjectiveApp.directive('allowFollowObjective', function(Objective) {
+ObjectiveApp.directive('allowFollowObjective', function(Objective, $rootScope) {
     return {
         restrict: 'E',
         scope: {
@@ -151,6 +151,10 @@ ObjectiveApp.directive('allowFollowObjective', function(Objective) {
                     var index = scope.objective.userfollowobjectives.indexOf(scope.userfollow);
                     scope.objective.userfollowobjectives.splice(index, 1);
                     scope.icon = "glyphicon-star-empty";
+                    if(attrs.followpage){
+                        // IMPORTANT Remove this objective from the array
+                        $rootScope.flashMessage = {type: 'alert-success', message: 'You don\'t follow this objective anymore !'};
+                    }
                 } else {
                     var follow = Objective.follow({id: id},{});
                     scope.objective.userfollowobjectives.push(follow);

@@ -1,0 +1,41 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
+{% extends 'FreedomGroupBundle::layout_group.html.twig' %}
+
+{% block title %}Freedom - Groups{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+<h3>Create a group</h3>
+
+<form action="{{ path('freedom_group_create') }}" method="post" {{ form_enctype(form) }}>
+
+	{{ form_errors(form) }}
+
+<div>
+    {{ form_label(form.name, "Group's name") }}
+    {{ form_errors(form.name) }}
+    {{ form_widget(form.name) }}
+ </div>
+
+<div>
+    {{ form_label(form.private, "Private ?") }}
+    {{ form_errors(form.private) }}
+    {{ form_widget(form.private) }}
+</div>
+
+<div>
+    {{ form_label(form.description, "Description") }}
+    {{ form_errors(form.description) }}
+    {{ form_widget(form.description) }}
+ </div>
+
+{{ form_rest(form) }}
+
+<input type="submit" class="btn btn-primary" />
+
+</form>
+
+{% endblock %}

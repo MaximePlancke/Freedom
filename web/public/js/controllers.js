@@ -67,7 +67,6 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' 
         var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
         objective.datedone = now;
         Objective.update({id: objective.id}, objective);
-        $scope.objectives[idx]
         $scope.objectives.splice(idx,1);
         $rootScope.flashMessage = {type: 'alert-success', message: 'Your post has been moved !'};
     }
@@ -93,16 +92,57 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' 
 
 }]);
 
-ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$rootScope', '$scope', 'Userfollowobjective' , '$filter', function ($rootScope, $scope, Userfollowobjective, $filter) {
+ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$rootScope', '$scope', 'Userfollowobjective' , 'Objective', 'Advice', 'Step', '$filter', function ($rootScope, $scope, Userfollowobjective, Objective, Advice, Step, $filter) {
 
     //Init
     $scope.objectives = [];
-    Userfollowobjective.queries({limit: 10, user: parseInt(pathArray[1]) , filters : {}, order_by :{datedone: 'DESC'}},{}, function(data){
+    Userfollowobjective.queries({limit: 10, user: parseInt(pathArray[1]) , filters : {}},{}, function(data){
+        console.log(data);
         angular.forEach(data, function(value, index) {
+            //Add the userfollowobjective object of the current user to the objective object
+            var followuser = {};
+            followuser.id = value.id;
+            followuser.user = value.user;
+            value.objective.userfollowobjectives.push(followuser);
+            //Add objective to scope
             $scope.objectives.push(value.objective);
         });
-        console.log($scope.objectives);
+        // console.log($scope.objectives);
     });
+
+    $scope.deleteObjective = function(idx){
+        var objective = $scope.objectives[idx];
+        Objective.delete({id: objective.id},{});
+        $scope.objectives.splice(idx,1);
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
+    }
+
+    $scope.doneObjective = function(idx){
+        var objective = $scope.objectives[idx];
+        objective.done = !objective.done;
+        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
+        objective.datedone = now;
+        Objective.update({id: objective.id}, objective);
+    }
+
+    $scope.deleteStep = function(idx, idxObj){
+        var step = $scope.objectives[idxObj].steps[idx];
+        Step.delete({id: $scope.objectives[idxObj].id, id_step: step.id},{});
+        $scope.objectives[idxObj].steps.splice(idx,1);
+
+    }
+
+    $scope.doneStep = function(idx, idxObj){
+        var step = $scope.objectives[idxObj].steps[idx];
+        step.done = !step.done;
+        $scope.objectives[idxObj].steps[idx] = Step.update({id: $scope.objectives[idxObj].id , id_step: step.id},step);
+    }
+
+    $scope.deleteAdvice = function(idx, idxObj){
+        var advice = $scope.objectives[idxObj].advices[idx];
+        Advice.delete({id: $scope.objectives[idxObj].id, id_advice: advice.id},{});
+        $scope.objectives[idxObj].advices.splice(idx,1);
+    }
 
 }]);
 
@@ -113,6 +153,7 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
 
     Objective.query({id: parseInt(pathArray[2])},{}, function(data){
         $scope.objective = data;
+        console.log(data);
     });
 
     $scope.deleteObjective = function(id){
@@ -207,5 +248,23 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
     }, true);
 
 }]);
+
+ObjectiveApp.controller('GroupDashboardCtrl', [ '$scope', function ($scope) {
+    $scope.pathUser = parseInt(pathArray[1]);
+}]);
+
+
+ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scope, Group) {
+
+    //Init
+    $scope.group = [];
+
+    Group.query({id: parseInt(pathArray[2])},{}, function(data){
+        $scope.group = data;
+        console.log(data);
+    });
+}]);
+
+
 
 

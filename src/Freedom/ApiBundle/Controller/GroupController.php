@@ -2,8 +2,8 @@
 
 namespace Freedom\ApiBundle\Controller;
 
-use Freedom\UserBundle\Entity\Userfollowobjective;
-use Freedom\UserBundle\Form\UserfollowobjectiveType;
+use Freedom\GroupBundle\Entity\Groups;
+use Freedom\GroupBundle\Form\GroupsType;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -20,25 +20,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Voryx\RESTGeneratorBundle\Controller\VoryxController;
 
 /**
- * Userfollowobjective controller.
- * @RouteResource("Userfollowobjective")
+ * Groups controller.
+ * @RouteResource("Group")
  */
-class UserfollowobjectiveController extends VoryxController
+class GroupController extends VoryxController
 {
     /**
-     * Get a Userfollowobjective entity
+     * Get a Groups entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @return Response
      *
      */
-    public function getAction(Userfollowobjective $entity)
+    public function getAction(Groups $entity)
     {
         return $entity;
     }
     /**
-     * Get all Userfollowobjective entities.
+     * Get all Groups entities.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -48,9 +48,8 @@ class UserfollowobjectiveController extends VoryxController
      *
      * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
      * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
-     * @QueryParam(name="order_by", nullable=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
-     * @QueryParam(name="filters", nullable=true, description="Filter by fields. Must be an array")
-     * @QueryParam(name="user", description="Name of the user. String")
+     * @QueryParam(name="order_by", nullable=true, array=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
+     * @QueryParam(name="filters", nullable=true, array=true, description="Filter by fields. Must be an array ie. &filters[id]=3")
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
@@ -58,24 +57,10 @@ class UserfollowobjectiveController extends VoryxController
             $offset = $paramFetcher->get('offset');
             $limit = $paramFetcher->get('limit');
             $order_by = $paramFetcher->get('order_by');
-            $user = $paramFetcher->get('user');
             $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-            $order_by = json_decode($order_by, true);
-            $filters = json_decode($filters, true);
 
-            $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('FreedomUserBundle:Userfollowobjective');
-            // ->apiSearch($user, $filters, $offset, $limit, $order_by);
-
-            $entities = $repository->findBy(
-              array('user' => $user), 
-              array('id' => 'desc'),        
-              $limit,                            
-              $offset                               
-            );
-
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('FreedomGroupBundle:Groups')->findBy($filters, $order_by, $limit, $offset);
             if ($entities) {
                 return $entities;
             }
@@ -86,7 +71,7 @@ class UserfollowobjectiveController extends VoryxController
         }
     }
     /**
-     * Create a Userfollowobjective entity.
+     * Create a Groups entity.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
@@ -97,8 +82,8 @@ class UserfollowobjectiveController extends VoryxController
      */
     public function postAction(Request $request)
     {
-        $entity = new Userfollowobjective();
-        $form = $this->createForm(new UserfollowobjectiveType(), $entity, array("method" => $request->getMethod()));
+        $entity = new Groups();
+        $form = $this->createForm(new GroupsType(), $entity, array("method" => $request->getMethod()));
         $this->removeExtraFields($request, $form);
         $form->handleRequest($request);
 
@@ -113,7 +98,7 @@ class UserfollowobjectiveController extends VoryxController
         return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
     /**
-     * Update a Userfollowobjective entity.
+     * Update a Groups entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -122,12 +107,12 @@ class UserfollowobjectiveController extends VoryxController
      *
      * @return Response
      */
-    public function putAction(Request $request, Userfollowobjective $entity)
+    public function putAction(Request $request, Groups $entity)
     {
         try {
             $em = $this->getDoctrine()->getManager();
             $request->setMethod('PATCH'); //Treat all PUTs as PATCH
-            $form = $this->createForm(new UserfollowobjectiveType(), $entity, array("method" => $request->getMethod()));
+            $form = $this->createForm(new GroupsType(), $entity, array("method" => $request->getMethod()));
             $this->removeExtraFields($request, $form);
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -142,7 +127,7 @@ class UserfollowobjectiveController extends VoryxController
         }
     }
     /**
-     * Partial Update to a Userfollowobjective entity.
+     * Partial Update to a Groups entity.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -151,12 +136,12 @@ class UserfollowobjectiveController extends VoryxController
      *
      * @return Response
 */
-    public function patchAction(Request $request, Userfollowobjective $entity)
+    public function patchAction(Request $request, Groups $entity)
     {
         return $this->putAction($request, $entity);
     }
     /**
-     * Delete a Userfollowobjective entity.
+     * Delete a Groups entity.
      *
      * @View(statusCode=204)
      *
@@ -166,7 +151,7 @@ class UserfollowobjectiveController extends VoryxController
      *
      * @return Response
      */
-    public function deleteAction(Request $request, Userfollowobjective $entity)
+    public function deleteAction(Request $request, Groups $entity)
     {
         try {
             $em = $this->getDoctrine()->getManager();

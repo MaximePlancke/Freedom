@@ -87,4 +87,18 @@ class ProfileController extends Controller
             );
     }
 
+    /**
+    * @Route("/groups", name="freedom_objective_profile_groups")
+    * @Template()
+    */
+    public function groupsAction($idProfile)
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:User');
+        $userProfile = $repository->find($idProfile);
+        
+        return array(
+                'userProfile' => $userProfile,
+            );
+    }
+
 }

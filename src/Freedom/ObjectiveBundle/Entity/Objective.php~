@@ -3,12 +3,17 @@
 namespace Freedom\ObjectiveBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Objective
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Freedom\ObjectiveBundle\Entity\ObjectiveRepository")
+ *
+ * @ExclusionPolicy("all") 
  */
 class Objective extends ObjectiveManager
 {
@@ -18,12 +23,14 @@ class Objective extends ObjectiveManager
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
     /**
     * @ORM\ManyToOne(targetEntity="Freedom\UserBundle\Entity\User")
     * @ORM\JoinColumn(nullable=false)
+    * @Expose
     */
     private $user;
 
@@ -31,6 +38,7 @@ class Objective extends ObjectiveManager
      * @var string
      *
      * @ORM\Column(name="name", type="text")
+     * @Expose
      */
     private $name;
 
@@ -38,6 +46,7 @@ class Objective extends ObjectiveManager
      * @var string
      *
      * @ORM\Column(name="category", type="string", length=255)
+     * @Expose
      */
     private $category;
 
@@ -45,6 +54,7 @@ class Objective extends ObjectiveManager
      * @var integer
      *
      * @ORM\Column(name="nbsteps", type="integer")
+     * @Expose
      */
     private $nbsteps;
 
@@ -52,6 +62,7 @@ class Objective extends ObjectiveManager
      * @var boolean
      *
      * @ORM\Column(name="done", type="boolean")
+     * @Expose
      */
     private $done;
 
@@ -59,27 +70,23 @@ class Objective extends ObjectiveManager
      * @var boolean
      *
      * @ORM\Column(name="private", type="boolean")
+     * @Expose
      */
     private $private;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="likes", type="integer")
-     */
-    private $likes;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="groups", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Freedom\ObjectiveBundle\Entity\Groups", inversedBy="objectives")
+     * @Expose
      */
-    private $groups;
+    private $group;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="datecreation", type="datetime")
+     * @Expose
      */
     private $datecreation;
 
@@ -87,31 +94,57 @@ class Objective extends ObjectiveManager
      * @var \DateTime
      *
      * @ORM\Column(name="dategoal", type="datetime")
+     * @Expose
      */
     private $dategoal;
 
     /**
-    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Stepobjective", mappedBy="objective", cascade={"persist"})
+     * @var \DateTime
+     *
+     * @ORM\Column(name="datedone", type="datetime")
+     * @Expose
+     */
+    private $datedone;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Stepobjective", mappedBy="objective", cascade={"remove", "persist"})
+    * @Expose
     */
     private $steps;
 
     /**
-    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Advice", mappedBy="objective", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Freedom\ObjectiveBundle\Entity\Advice", mappedBy="objective", cascade={"remove", "persist"})
+    * @Expose
     */
     private $advices;
 
     /**
-    * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userlikeobjective", mappedBy="objective", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userlikeobjective", mappedBy="objective", cascade={"remove", "persist"})
+    * @Expose
     */
     private $userlikeobjectives;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userfollowobjective", mappedBy="objective", cascade={"remove", "persist"})
+    * @Expose
+    */
+    private $userfollowobjectives;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="useradvice", type="text", nullable=true)
+     * @Expose
+     */
+    private $useradvice;
     
 
     public function __construct()
     {
         $this->done = false;
-        $this->likes  = 0;
         $this->datecreation = new \Datetime;
         $this->dategoal = new \Datetime;
+        $this->datedone = new \Datetime;
     }
 
 
@@ -215,52 +248,6 @@ class Objective extends ObjectiveManager
     public function getDone()
     {
         return $this->done;
-    }
-
-    /**
-     * Set likes
-     *
-     * @param integer $likes
-     * @return Objective
-     */
-    public function setLikes($likes)
-    {
-        $this->likes = $likes;
-
-        return $this;
-    }
-
-    /**
-     * Get likes
-     *
-     * @return integer 
-     */
-    public function getLikes()
-    {
-        return $this->likes;
-    }
-
-    /**
-     * Set groups
-     *
-     * @param string $groups
-     * @return Objective
-     */
-    public function setGroups($groups)
-    {
-        $this->groups = $groups;
-
-        return $this;
-    }
-
-    /**
-     * Get groups
-     *
-     * @return string 
-     */
-    public function getGroups()
-    {
-        return $this->groups;
     }
 
     /**
@@ -389,6 +376,29 @@ class Objective extends ObjectiveManager
     }
 
     /**
+     * Set datedone
+     *
+     * @param \DateTime $datedone
+     * @return Objective
+     */
+    public function setDatedone($datedone)
+    {
+        $this->datedone = $datedone;
+
+        return $this;
+    }
+
+    /**
+     * Get datedone
+     *
+     * @return \DateTime 
+     */
+    public function getDatedone()
+    {
+        return $this->datedone;
+    }
+
+    /**
      * Add advices
      *
      * @param \Freedom\ObjectiveBundle\Entity\Advice $advices
@@ -420,4 +430,94 @@ class Objective extends ObjectiveManager
     {
         return $this->advices;
     }
+
+    /**
+     * Add userlikeobjectives
+     *
+     * @param \Freedom\UserBundle\Entity\Userlikeobjective $userlikeobjectives
+     * @return Objective
+     */
+    public function addUserlikeobjective(\Freedom\UserBundle\Entity\Userlikeobjective $userlikeobjectives)
+    {
+        $this->userlikeobjectives[] = $userlikeobjectives;
+
+        return $this;
+    }
+
+    /**
+     * Remove userlikeobjectives
+     *
+     * @param \Freedom\UserBundle\Entity\Userlikeobjective $userlikeobjectives
+     */
+    public function removeUserlikeobjective(\Freedom\UserBundle\Entity\Userlikeobjective $userlikeobjectives)
+    {
+        $this->userlikeobjectives->removeElement($userlikeobjectives);
+    }
+
+    /**
+     * Get userlikeobjectives
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserlikeobjectives()
+    {
+        return $this->userlikeobjectives;
+    }
+
+    /**
+     * Set useradvice
+     *
+     * @param string $useradvice
+     * @return Objective
+     */
+    public function setUseradvice($useradvice)
+    {
+        $this->useradvice = $useradvice;
+
+        return $this;
+    }
+
+    /**
+     * Get useradvice
+     *
+     * @return string 
+     */
+    public function getUseradvice()
+    {
+        return $this->useradvice;
+    }
+
+    /**
+     * Add userfollowobjectives
+     *
+     * @param \Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives
+     * @return Objective
+     */
+    public function addUserfollowobjective(\Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives)
+    {
+        $this->userfollowobjectives[] = $userfollowobjectives;
+
+        return $this;
+    }
+
+    /**
+     * Remove userfollowobjectives
+     *
+     * @param \Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives
+     */
+    public function removeUserfollowobjective(\Freedom\UserBundle\Entity\Userfollowobjective $userfollowobjectives)
+    {
+        $this->userfollowobjectives->removeElement($userfollowobjectives);
+    }
+
+    /**
+     * Get userfollowobjectives
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserfollowobjectives()
+    {
+        return $this->userfollowobjectives;
+    }
+
 }

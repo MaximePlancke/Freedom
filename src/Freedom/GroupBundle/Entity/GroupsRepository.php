@@ -1,6 +1,6 @@
 <?php
 
-namespace Freedom\ObjectiveBundle\Entity;
+namespace Freedom\GroupBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,4 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupsRepository extends EntityRepository
 {
+	
 }

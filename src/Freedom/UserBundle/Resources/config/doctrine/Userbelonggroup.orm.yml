@@ -1,0 +1,19 @@
+Freedom\UserBundle\Entity\Userbelonggroup:
+    type:  entity
+    table: Userbelonggroup
+    repositoryClass: Freedom\UserBundle\Entity\UserbelonggroupRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        role:
+            type: integer
+            nullable: false
+    manyToOne:
+        user:
+            targetEntity: Freedom\UserBundle\Entity\User
+        group: 
+            targetEntity: Freedom\GroupBundle\Entity\Groups
+            inversedBy: userbelonggroups

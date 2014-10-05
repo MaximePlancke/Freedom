@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Freedom\MenuBundle\FreedomMenuBundle(),
             new Freedom\ExploreBundle\FreedomExploreBundle(),
             new Freedom\ApiBundle\FreedomApiBundle(),
+            new Freedom\GroupBundle\FreedomGroupBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 

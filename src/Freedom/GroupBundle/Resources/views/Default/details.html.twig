@@ -10,21 +10,24 @@
 
 <div ng-controller="GroupDetailsCtrl" ng-init="userId = {{ userLogged.getId }}">
 	<h3>
-		<allow-belong-group user-logged='{{ userLogged.getId }}' group='group'></allow-belong-group>
+		<allow-belong-group user-logged='{{ userLogged.getId }}' group='group' already-belong-group='alreadyBelongGroup'></allow-belong-group>
 		{[{group.name | capitalize}]} - {[{group.rate}]} / 10
 	</h3>
 	<h6>
 		{[{group.description | capitalize}]}
 	</h6>
+    <ul ng-show="alreadyBelongGroup" class="nav nav-stacked">
+        <li><a href="{{ path('freedom_group_create_objective', {id: id}) }}"><i class="glyphicon glyphicon-plus"></i> Create new objective for the group</a></li>
+    </ul>
 	<h3>Objectives (<span> {[{ group.objectives.length }]} </span>)</h3>
-		<ul ng-repeat="objective in group.objectives">
+		<ul ng-repeat="objective in group.objectives | orderBy :'-datecreation'">
 			<li>
 				<span ng-if="objective.done == true">
 	            <span class="glyphicon glyphicon-check"></span>
 		        </span><span ng-if="objective.done != true">
 		            <span class="glyphicon glyphicon-retweet"></span>
 		        </span>
-		    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username }]}</a>
+		    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username | capitalize}]}</a>
 		        <span ng-if="{{ userLogged.getId }} == objective.user.id">
 		            {# <span ng-click="deleteObjective(objective.id)" class="clickable glyphicon glyphicon-remove"></span> #}
 		            {# <span ng-click="doneObjective(objective.id)" class="clickable glyphicon glyphicon-refresh"></span> #}
@@ -32,7 +35,7 @@
 		    </li>
 		</ul>
 	<h3>Members (<span> {[{ group.userbelonggroups.length }]} </span>)</h3>
-		<ul ng-repeat="member in group.userbelonggroups">
+		<ul ng-repeat="member in group.userbelonggroups  | orderBy :'-id'">
 			<li>
 		    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.username | capitalize }]}</a><span ng-show="member.role == 1"> - ( Owner )</span>
 		    </li>

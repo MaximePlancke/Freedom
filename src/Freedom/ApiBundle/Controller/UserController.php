@@ -173,4 +173,93 @@ class UserController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Get all followed objectives entities.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     * @param $entity
+     *
+     * @return Response
+     *
+     * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
+     * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
+     * @QueryParam(name="order_by", nullable=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
+     * @QueryParam(name="filters", nullable=true, description="Filter by fields. Must be an array")
+     * @QueryParam(name="user", description="Name of the content. String")
+     */
+    public function cgetUserfollowobjectivesAction(ParamFetcherInterface $paramFetcher, User $entity)
+    {
+        try {
+            $offset = $paramFetcher->get('offset');
+            $limit = $paramFetcher->get('limit');
+            $order_by = $paramFetcher->get('order_by');
+            $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
+            $order_by = json_decode($order_by, true);
+            $filters = json_decode($filters, true);
+
+            $entities = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('FreedomObjectiveBundle:Objective')
+            ->apiFollowedSearch($entity, $filters, $offset, $limit, $order_by);
+
+            // $em = $this->getDoctrine()->getManager();
+            // $entities = $em->getRepository('FreedomUserBundle:User')->findBy($filters, $order_by, $limit, $offset);
+            if ($entities) {
+                return $entities;
+            }
+
+            return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Get all group from user entities.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     * @param $entity
+     *
+     * @return Response
+     *
+     * @QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing notes.")
+     * @QueryParam(name="limit", requirements="\d+", default="20", description="How many notes to return.")
+     * @QueryParam(name="order_by", nullable=true, description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC")
+     * @QueryParam(name="filters", nullable=true, description="Filter by fields. Must be an array")
+     * @QueryParam(name="user", description="Name of the content. String")
+     */
+    public function cgetUserbelonggroupsAction(ParamFetcherInterface $paramFetcher, User $entity)
+    {
+        try {
+            $offset = $paramFetcher->get('offset');
+            $limit = $paramFetcher->get('limit');
+            $order_by = $paramFetcher->get('order_by');
+            $filters = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
+            $order_by = json_decode($order_by, true);
+            $filters = json_decode($filters, true);
+
+            $entities = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('FreedomGroupBundle:Groups')
+            ->apiBelongSearch($entity, $filters, $offset, $limit, $order_by);
+
+            // $em = $this->getDoctrine()->getManager();
+            // $entities = $em->getRepository('FreedomUserBundle:User')->findBy($filters, $order_by, $limit, $offset);
+            if ($entities) {
+                return $entities;
+            }
+
+            return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

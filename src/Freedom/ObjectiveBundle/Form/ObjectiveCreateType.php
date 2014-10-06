@@ -33,7 +33,7 @@ class ObjectiveCreateType extends AbstractType
         ),
     ))
     ->add('dategoal', 'date')
-    ->add('useradvice',        'textarea')
+    ->add('useradvice', 'textarea', array('required' => false))
     ->add('steps', 'collection', array('type' => new StepobjectiveCreateType(),
         'allow_add'    => true,
         'allow_delete' => true))

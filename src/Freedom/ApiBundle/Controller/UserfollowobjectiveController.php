@@ -63,18 +63,18 @@ class UserfollowobjectiveController extends VoryxController
             $order_by = json_decode($order_by, true);
             $filters = json_decode($filters, true);
 
-            $repository = $this
+            $entities = $this
             ->getDoctrine()
             ->getManager()
-            ->getRepository('FreedomUserBundle:Userfollowobjective');
-            // ->apiSearch($user, $filters, $offset, $limit, $order_by);
+            ->getRepository('FreedomUserBundle:Userfollowobjective')
+            ->apiSearch($user, $filters, $offset, $limit, $order_by);
 
-            $entities = $repository->findBy(
-              array('user' => $user), 
-              array('id' => 'desc'),        
-              $limit,                            
-              $offset                               
-            );
+            // $entities = $repository->findBy(
+            //   array('user' => $user), 
+            //   array('id' => 'desc'),        
+            //   $limit,                            
+            //   $offset                               
+            // );
 
             if ($entities) {
                 return $entities;

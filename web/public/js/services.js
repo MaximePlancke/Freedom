@@ -7,7 +7,7 @@ ObjectiveApp.factory('Objective', ['$resource', function($resource){
         like: {method: 'POST', url: '/api/objectives/:id/userlikeobjectives', params:{}},
         dislike: {method: 'DELETE', url: '/api/objectives/:id/userlikeobjectives/:id_like', params:{}},
         follow: {method: 'POST', url: '/api/objectives/:id/userfollowobjectives', params:{}},
-        disfollow: {method: 'DELETE', url: '/api/objectives/:id/userfollowobjectives/:id_follow', params:{}}
+        disfollow: {method: 'DELETE', url: '/api/objectives/:id/userfollowobjectives/:id_follow', params:{}},
     });
 }]);
 
@@ -17,6 +17,8 @@ ObjectiveApp.factory('User', ['$resource', function($resource){
         // query: {method: 'GET', params:{}},
         queries: {method: 'GET', params:{}, isArray:true},
         // update: {method: 'PUT', params:{}},
+        followedObjective: {method: 'GET', url: '/api/users/:id/userfollowobjectives', params:{}, isArray:true},
+        belongGroup: {method: 'GET', url: '/api/users/:id/userbelonggroups', params:{}, isArray:true},
     });
 }]);
 
@@ -52,6 +54,7 @@ ObjectiveApp.factory('Userfollowobjective', ['$resource', function($resource){
 ObjectiveApp.factory('Group', ['$resource', function($resource){
     return $resource('/api/groups/:id', { id: '@id'}, {
         query: {method: 'GET', params:{}},
+        queries: {method: 'GET', params:{}, isArray:true},
         belong: {method: 'POST', url: '/api/groups/:id/userbelonggroups', params:{}},
         unbelong: {method: 'DELETE', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}}
     });
@@ -70,6 +73,10 @@ ObjectiveApp.factory('modelService', [ function(){
                 key: 'users',
                 value: 'Users', 
                 url: 'public/html/userSearchTemplate.html'
+            },{ 
+                key: 'groups',
+                value: 'Groups', 
+                url: 'public/html/groupSearchTemplate.html'
             }];
             return types;
         },

@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Freedom\GroupBundle\Entity\Groups;
 use Freedom\GroupBundle\Form\GroupsCreateType;
 use Freedom\UserBundle\Entity\Userbelonggroup;
+use Freedom\ObjectiveBundle\Entity\Objective;
+use Freedom\ObjectiveBundle\Form\ObjectiveCreateType;
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -56,4 +58,42 @@ class DefaultController extends Controller
 
         return array();
     }
+
+	/**
+    * @Route("/{id}/create", name="freedom_group_create_objective")
+    * @Template()
+    */
+    public function createObjectiveAction($id)
+    {
+        $objective = new Objective;
+        $form = $this->createForm(new ObjectiveCreateType, $objective);
+
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+            	$em = $this->getDoctrine()->getManager();
+
+                $objective->setUser($this->getUser());
+                $group = $em->getRepository('FreedomGroupBundle:Groups')->find($id);
+                $objective->setGroup($group);
+                $objective->setNbsteps(count($objective->getSteps()));
+                foreach ($objective->getSteps() as $key => $value) {
+                    $value->setObjective($objective);
+                    $objective->addStep($value);
+                }
+                $em->persist($objective);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('freedom_group_details', array('id' => $id)));
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+        );
+    }
+
 }

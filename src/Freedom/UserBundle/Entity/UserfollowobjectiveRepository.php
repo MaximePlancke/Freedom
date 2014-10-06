@@ -25,27 +25,24 @@ class UserfollowobjectiveRepository extends EntityRepository
 		
 	// }
 
-	// public function apiSearch($user, $filters, $offset, $limit, $order_by)
-	// {
+	public function apiSearch($user, $filters, $offset, $limit, $order_by)
+	{
 
-	// 	//Get the order_by's key
-	// 	$keys = array_keys($order_by);
+		//Get the order_by's key
+		// $keys = array_keys($order_by);
 
-	//   	$qb = $this->_em->createQueryBuilder();
-	//   	$qb->select('u')
-	//     ->from('FreedomUserBundle:Userfollowobjective', 'u')
-	// 	// ->join('u.objective', 'o')
-	//     ->where('u.user = :user')
-	//     ->setParameter('user', $user);
- //        $this->addFilters($qb, $filters);
- //        $qb->select('u')->orderBy('u.'.$keys[0], $order_by[$keys[0]])
- //        ->setFirstResult($offset)
- //        ->setMaxResults($limit);
+	  	// $qb = $this->_em->createQueryBuilder();
+	  	// $qb->select('IDENTITY(u.objective)')
+	   //  ->from('FreedomUserBundle:Userfollowobjective', 'u')
+	   //  ->where('u.user = :user')
+	   //  ->setParameter('user', $user);
+		// ->leftJoin('u.objective', 'o');
+        // $this->addFilters($qb, $filters);
+        // $qb->select('u')->orderBy('u.'.$keys[0], $order_by[$keys[0]])
+        // ->setFirstResult($offset)
+        // ->setMaxResults($limit);
 
-	//     $result = $qb->getQuery()->getResult();
-	//     return $result;
-
-	// }
+	}
 
 
 }

@@ -174,7 +174,8 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
         restrict: 'E',
         scope: {
             group : '=group',
-            userLogged : '=userLogged'
+            userLogged : '=userLogged',
+            alreadyBelongGroup : '=alreadyBelongGroup'
         },
         link: function(scope, element, attrs) { 
             scope.$watch('group', function() {
@@ -240,26 +241,26 @@ ObjectiveApp.directive('submitAdvice', function(Advice) {
     };
 });
 
-ObjectiveApp.directive("checkboxCategories", function () {
-    return {
-        restrict: "A",
-        link: function (scope, elem, attrs) {
-            if (scope.search.objective.category.indexOf(scope.category.key) !== -1) {
-                elem[0].checked = true;
-            }
+// ObjectiveApp.directive("checkboxCategories", function () {
+//     return {
+//         restrict: "A",
+//         link: function (scope, elem, attrs) {
+//             if (scope.search.objective.category.indexOf(scope.category.key) !== -1) {
+//                 elem[0].checked = true;
+//             }
 
-            elem.bind('click', function () {
-                var index = scope.search.objective.category.indexOf(scope.category.key);
-                if (elem[0].checked) {
-                    if (index === -1) scope.search.objective.category.push(scope.category.key);
-                }
-                else {
-                    if (index !== -1) scope.search.objective.category.splice(index, 1);
-                }
-                scope.$apply(scope.search.objective.category.sort(function (a, b) {
-                    return a - b;
-                }));
-            });
-        }
-    }
-});
+//             elem.bind('click', function () {
+//                 var index = scope.search.objective.category.indexOf(scope.category.key);
+//                 if (elem[0].checked) {
+//                     if (index === -1) scope.search.objective.category.push(scope.category.key);
+//                 }
+//                 else {
+//                     if (index !== -1) scope.search.objective.category.splice(index, 1);
+//                 }
+//                 scope.$apply(scope.search.objective.category.sort(function (a, b) {
+//                     return a - b;
+//                 }));
+//             });
+//         }
+//     }
+// });

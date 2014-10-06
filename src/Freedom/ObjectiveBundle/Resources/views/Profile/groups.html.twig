@@ -8,12 +8,15 @@
 
 {% block content %}
 
-<div ng-controller="GroupDashboardCtrl" ng-init="userLogged = {{ userLogged.getId }}">
+<div ng-controller="GroupProfileCtrl" ng-init="userLogged = {{ userLogged.getId }}">
 	<span ng-if="{{ userLogged.getId }} == pathUser">
 		<h3><a href="{{ path('freedom_group_create') }}">Create a group</a></h3>
 	</span>
-
-	<h3>My groups</h3>
+	<h3>The list</h3>
+	<div ng-repeat="group in groups">
+		<a href="#" ng-click="url('freedom_group_details', {id: group.id})">{[{group.name | capitalize}]}</a>
+	</div>
+	
 
 </div>
 

@@ -92,64 +92,10 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' 
 
 }]);
 
-ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$rootScope', '$scope', 'Userfollowobjective' , 'Objective', 'Advice', 'Step', '$filter', function ($rootScope, $scope, Userfollowobjective, Objective, Advice, Step, $filter) {
-
-    //Init
-    $scope.objectives = [];
-    Userfollowobjective.queries({limit: 10, user: parseInt(pathArray[1]) , filters : {}},{}, function(data){
-        console.log(data);
-        angular.forEach(data, function(value, index) {
-            //Add the userfollowobjective object of the current user to the objective object
-            var followuser = {};
-            followuser.id = value.id;
-            followuser.user = value.user;
-            value.objective.userfollowobjectives.push(followuser);
-            //Add objective to scope
-            $scope.objectives.push(value.objective);
-        });
-        // console.log($scope.objectives);
-    });
-
-    $scope.deleteObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        Objective.delete({id: objective.id},{});
-        $scope.objectives.splice(idx,1);
-        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
-    }
-
-    $scope.doneObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
-        objective.datedone = now;
-        Objective.update({id: objective.id}, objective);
-    }
-
-    $scope.deleteStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        Step.delete({id: $scope.objectives[idxObj].id, id_step: step.id},{});
-        $scope.objectives[idxObj].steps.splice(idx,1);
-
-    }
-
-    $scope.doneStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        step.done = !step.done;
-        $scope.objectives[idxObj].steps[idx] = Step.update({id: $scope.objectives[idxObj].id , id_step: step.id},step);
-    }
-
-    $scope.deleteAdvice = function(idx, idxObj){
-        var advice = $scope.objectives[idxObj].advices[idx];
-        Advice.delete({id: $scope.objectives[idxObj].id, id_advice: advice.id},{});
-        $scope.objectives[idxObj].advices.splice(idx,1);
-    }
-
-}]);
-
 ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($scope, Advice, Objective, Step, $filter) {
 
     //Init
-    $scope.objective = [];
+    $scope.objective = {};
 
     Objective.query({id: parseInt(pathArray[2])},{}, function(data){
         $scope.objective = data;
@@ -191,7 +137,51 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
 
 }]);
 
-ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$filter', 'modelService', function ($scope, Objective, User, $filter, modelService) {
+ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$rootScope', '$scope' , 'Objective', 'Advice', 'Step', 'User', '$filter', function ($rootScope, $scope, Objective, Advice, Step, User, $filter) {
+
+    //Init
+    $scope.objectives = [];
+    User.followedObjective({limit: 10, id: parseInt(pathArray[1]) , filters : {}},{}, function(data){
+        $scope.objectives = data;
+    });
+
+    $scope.deleteObjective = function(idx){
+        var objective = $scope.objectives[idx];
+        Objective.delete({id: objective.id},{});
+        $scope.objectives.splice(idx,1);
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
+    }
+
+    $scope.doneObjective = function(idx){
+        var objective = $scope.objectives[idx];
+        objective.done = !objective.done;
+        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
+        objective.datedone = now;
+        Objective.update({id: objective.id}, objective);
+    }
+
+    $scope.deleteStep = function(idx, idxObj){
+        var step = $scope.objectives[idxObj].steps[idx];
+        Step.delete({id: $scope.objectives[idxObj].id, id_step: step.id},{});
+        $scope.objectives[idxObj].steps.splice(idx,1);
+
+    }
+
+    $scope.doneStep = function(idx, idxObj){
+        var step = $scope.objectives[idxObj].steps[idx];
+        step.done = !step.done;
+        $scope.objectives[idxObj].steps[idx] = Step.update({id: $scope.objectives[idxObj].id , id_step: step.id},step);
+    }
+
+    $scope.deleteAdvice = function(idx, idxObj){
+        var advice = $scope.objectives[idxObj].advices[idx];
+        Advice.delete({id: $scope.objectives[idxObj].id, id_advice: advice.id},{});
+        $scope.objectives[idxObj].advices.splice(idx,1);
+    }
+
+}]);
+
+ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User', 'Group','$filter', 'modelService', function ($scope, Objective, User, Group, $filter, modelService) {
 
     //Get models from factories
     $scope.types = modelService.types();
@@ -243,21 +233,40 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User' ,'$
                     $scope.results = data;
                     $scope.loading = false;
                 });
+            } else if (newValue.type.key == 'groups'){
+                angular.forEach(newValue.group, function(value, key) {
+                    if(value.length != 0){
+                        filters[key] = value;
+                    }
+                });
+                Group.queries({limit: newValue.limit, offset: newValue.offset, filters : filters, name : newValue.name, order_by :{id: 'DESC'}},{}, function(data){
+                    $scope.results = data;
+                    $scope.loading = false;
+                });
             }
         }, 250);
     }, true);
 
 }]);
 
-ObjectiveApp.controller('GroupDashboardCtrl', [ '$scope', function ($scope) {
+ObjectiveApp.controller('GroupProfileCtrl', [ '$scope', 'User', function ($scope, User) {
+
+    //Init
+    $scope.groups = [];
     $scope.pathUser = parseInt(pathArray[1]);
+
+    User.belongGroup({limit: 10, id: parseInt(pathArray[1]) , filters : {}},{}, function(data){
+        $scope.groups = data;
+        console.log(data);
+    });
+
 }]);
 
 
 ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scope, Group) {
 
     //Init
-    $scope.group = [];
+    $scope.group = {};
 
     Group.query({id: parseInt(pathArray[2])},{}, function(data){
         $scope.group = data;

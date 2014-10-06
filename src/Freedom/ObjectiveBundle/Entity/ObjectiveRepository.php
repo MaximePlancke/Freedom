@@ -76,4 +76,19 @@ class ObjectiveRepository extends EntityRepository
 
 	}
 
+
+	public function apiFollowedSearch($user, $filters, $offset, $limit, $order_by)
+	{
+        
+	  	$qb = $this->_em->createQueryBuilder();
+		$qb->select('o')->from('FreedomObjectiveBundle:Objective', 'o')
+		->leftJoin('o.userfollowobjectives', 'ou')
+	    ->where('ou.user = :user')
+	    ->setParameter('user', $user);
+
+	    $result = $qb->getQuery()->getResult();
+	    return $result;
+
+	}
+
 }

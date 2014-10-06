@@ -45,6 +45,10 @@
                     	<div ng-if="search.type.key == 'users'">
                     		<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: result.id})">{[{result.username | capitalize}]}</a>
                     	</div>	
+                        <!-- Groups -->
+                        <div ng-if="search.type.key == 'groups'">
+                            <a href="#" ng-click="url('freedom_group_details', {id: result.id})">{[{result.name | capitalize}]}</a>
+                        </div>  
                     </div>
                 <div ng-show="loading"><img src="{{ asset('public/images/loading.gif') }}"></div>
                 </div>

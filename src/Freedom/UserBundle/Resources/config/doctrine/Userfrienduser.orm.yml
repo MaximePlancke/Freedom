@@ -1,0 +1,29 @@
+Freedom\UserBundle\Entity\Userfrienduser:
+    type:  entity
+    table: Userfrienduser
+    repositoryClass: Freedom\UserBundle\Entity\UserfrienduserRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        accepted:
+            type: boolean
+            options:
+                default: false
+        datecreation:
+            type: datetime
+    manyToOne:
+        user:
+            targetEntity: Freedom\UserBundle\Entity\User
+            inversedBy: userfriendusers
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+        user2: 
+            targetEntity: Freedom\UserBundle\Entity\User
+            # inversedBy: userfriendusers
+            joinColumn:
+                name: user2_id
+                referencedColumnName: id

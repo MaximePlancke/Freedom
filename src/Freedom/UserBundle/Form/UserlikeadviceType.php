@@ -15,8 +15,8 @@ class UserlikeadviceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user')
-            ->add('advice')
+            // ->add('user')
+            // ->add('advice')
         ;
     }
     

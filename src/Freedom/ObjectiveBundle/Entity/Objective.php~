@@ -77,7 +77,8 @@ class Objective extends ObjectiveManager
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Freedom\ObjectiveBundle\Entity\Groups", inversedBy="objectives")
+     * @ORM\ManyToOne(targetEntity="Freedom\GroupBundle\Entity\Groups", inversedBy="objectives")
+     * @ORM\JoinColumn(nullable=true)
      * @Expose
      */
     private $group;
@@ -141,7 +142,7 @@ class Objective extends ObjectiveManager
 
     public function __construct()
     {
-        $this->done = false;
+        // $this->done = false;
         $this->datecreation = new \Datetime;
         $this->dategoal = new \Datetime;
         $this->datedone = new \Datetime;
@@ -520,4 +521,27 @@ class Objective extends ObjectiveManager
         return $this->userfollowobjectives;
     }
 
+
+    /**
+     * Set group
+     *
+     * @param \Freedom\GroupBundle\Entity\Groups $group
+     * @return Objective
+     */
+    public function setGroup(\Freedom\GroupBundle\Entity\Groups $group = null)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return \Freedom\GroupBundle\Entity\Groups 
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
 }

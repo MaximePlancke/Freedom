@@ -249,6 +249,17 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User', 'G
 
 }]);
 
+ObjectiveApp.controller('ProfileCtrl', [ '$scope', 'User', function ($scope, User) {
+
+    //Init
+    $scope.user = {};
+
+    User.query({id: parseInt(pathArray[1])},{}, function(data){
+        $scope.user = data;
+        console.log(data);
+    });
+}]);
+
 ObjectiveApp.controller('GroupProfileCtrl', [ '$scope', 'User', function ($scope, User) {
 
     //Init
@@ -270,9 +281,10 @@ ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scop
 
     Group.query({id: parseInt(pathArray[2])},{}, function(data){
         $scope.group = data;
-        // console.log(data);
     });
 }]);
+
+
 
 
 

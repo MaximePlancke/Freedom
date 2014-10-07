@@ -39,7 +39,40 @@ class UserRepository extends EntityRepository
         ->setFirstResult($offset);
         $this->addFilters($qb, $filters);
 
-	    $result = $qb->getQuery()->getArrayResult();
+	    $result = $qb->getQuery()->getResult();
+	    return $result;
+
+	}
+
+	public function alreadyFriend($user, $user2)
+	{
+
+	  	$qb = $this->_em->createQueryBuilder();
+	  	$qb->select('u')
+	    ->from('FreedomUserBundle:Userfrienduser', 'u')
+	 	->where('u.user = :user OR u.user2 = :user')            
+        ->setParameter('user', $user)
+        ->andWhere('u.user = :user OR u.user2 = :user')
+        ->setParameter('user', $user2);
+
+	    $result = $qb->getQuery()->getResult();
+	    return $result;
+
+	}
+
+	public function apiSearchOne($entity)
+	{
+
+	  	$qb = $this->_em->createQueryBuilder();
+	  	$qb->select('u')
+	    ->from('FreedomUserBundle:User', 'u')
+	    ->leftJoin('u.userfriendusers', 'uu')
+	 	->where('u.id = :user')            
+        ->setParameter('user', $entity);
+   //      ->orWhere('uu.user2 = :user') 
+   //      ->setParameter('user', $entity);
+
+	    $result = $qb->getQuery()->getOneOrNullResult();
 	    return $result;
 
 	}

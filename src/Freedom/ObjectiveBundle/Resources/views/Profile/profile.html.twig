@@ -1,3 +1,5 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
 {% extends 'FreedomObjectiveBundle::layout_profile.html.twig' %}
 
 {% block title %}Freedom - {{ userProfile|capitalize }}{% endblock %}
@@ -5,5 +7,9 @@
 {% block content_header '' %}
 
 {% block content %}
+
+<div ng-controller="ProfileCtrl" ng-init="userLogged = {{ userLogged.getId }}">
+	<h3><allow-friend-user user-logged='{{ userLogged.getId }}' user='user'></allow-friend-user></span><span> {{ userProfile|capitalize }}</span></h3>
+</div>
 
 {% endblock %}

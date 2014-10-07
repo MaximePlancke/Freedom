@@ -241,26 +241,67 @@ ObjectiveApp.directive('submitAdvice', function(Advice) {
     };
 });
 
-// ObjectiveApp.directive("checkboxCategories", function () {
-//     return {
-//         restrict: "A",
-//         link: function (scope, elem, attrs) {
-//             if (scope.search.objective.category.indexOf(scope.category.key) !== -1) {
-//                 elem[0].checked = true;
-//             }
+ObjectiveApp.directive('allowFriendUser', function(User, $rootScope) {
+    return {
+        restrict: 'E',
+        scope: {
+            user : '=user',
+            userLogged : '=userLogged'
+        },
+        link: function(scope, element, attrs) { 
+            scope.$watch('user', function() {
+                scope.alreadyFriendUser = false; 
+                scope.icon = "glyphicon-plus"; 
+                angular.forEach(scope.user.userfriendusers, function(value, key) {
+                    if (value.id == scope.userLogged) {
+                        scope.userfriend = value;
+                        scope.alreadyFriendUser = true; 
+                        scope.icon = "glyphicon-minus";  
+                    };
+                });
+                console.log(scope.userfriend);
+            });
+            scope.friendUser = function(id){
+                var user = scope.user;
+                if(scope.alreadyFriendUser) {
+                    User.unfriend({id: id, id_friend: scope.userfriend.id},{});
+                    var index = scope.user.userfriendusers.indexOf(scope.userfriend);
+                    scope.user.userfriendusers.splice(index, 1);
+                    scope.icon = "glyphicon-plus";
+                } else {
+                    var friend = User.friend({id: id},{});
+                    scope.user.userfriendusers.push(friend);
+                    scope.userfriend = friend;
+                    scope.icon = "glyphicon-minus";  
+                } 
+                scope.alreadyFriendUser = !scope.alreadyFriendUser;
+            }
 
-//             elem.bind('click', function () {
-//                 var index = scope.search.objective.category.indexOf(scope.category.key);
-//                 if (elem[0].checked) {
-//                     if (index === -1) scope.search.objective.category.push(scope.category.key);
-//                 }
-//                 else {
-//                     if (index !== -1) scope.search.objective.category.splice(index, 1);
-//                 }
-//                 scope.$apply(scope.search.objective.category.sort(function (a, b) {
-//                     return a - b;
-//                 }));
-//             });
-//         }
-//     }
-// });
+        },
+        template: '<span ng-click="friendUser(user.id)" class="clickable glyphicon {{icon}}"></span>'
+    };
+});
+
+ObjectiveApp.directive("checkboxCategories", function () {
+    return {
+        restrict: "A",
+        link: function (scope, elem, attrs) {
+            if (scope.search.objective.category.indexOf(scope.category.key) !== -1) {
+                elem[0].checked = true;
+            }
+
+            elem.bind('click', function () {
+                var index = scope.search.objective.category.indexOf(scope.category.key);
+                if (elem[0].checked) {
+                    if (index === -1) scope.search.objective.category.push(scope.category.key);
+                }
+                else {
+                    if (index !== -1) scope.search.objective.category.splice(index, 1);
+                }
+                scope.$apply(scope.search.objective.category.sort(function (a, b) {
+                    return a - b;
+                }));
+            });
+        }
+    }
+});

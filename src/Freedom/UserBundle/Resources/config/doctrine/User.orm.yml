@@ -7,3 +7,8 @@ Freedom\UserBundle\Entity\User:
             type: integer
             generator:
                 strategy: AUTO
+    oneToMany:
+        userfriendusers:
+            targetEntity: Freedom\UserBundle\Entity\Userfrienduser
+            mappedBy: user
+            cascade: ["remove", "persist"]

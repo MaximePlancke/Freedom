@@ -14,11 +14,13 @@ ObjectiveApp.factory('Objective', ['$resource', function($resource){
 ObjectiveApp.factory('User', ['$resource', function($resource){
     return $resource('/api/users/:id', { id: '@id'}, {
         // delete: {method:'DELETE', params:{}},
-        // query: {method: 'GET', params:{}},
+        query: {method: 'GET', params:{}},
         queries: {method: 'GET', params:{}, isArray:true},
         // update: {method: 'PUT', params:{}},
         followedObjective: {method: 'GET', url: '/api/users/:id/userfollowobjectives', params:{}, isArray:true},
         belongGroup: {method: 'GET', url: '/api/users/:id/userbelonggroups', params:{}, isArray:true},
+        friend: {method: 'POST', url: '/api/users/:id/userfriendusers', params:{}},
+        unfriend: {method: 'DELETE', url: '/api/users/:id/userfriendusers/:id_friend', params:{}},
     });
 }]);
 

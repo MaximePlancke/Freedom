@@ -4,6 +4,7 @@ namespace Freedom\ApiBundle\Controller;
 
 use Freedom\UserBundle\Entity\User;
 use Freedom\UserBundle\Form\UserType;
+use Freedom\UserBundle\Entity\Userfrienduser;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -25,18 +26,26 @@ use Voryx\RESTGeneratorBundle\Controller\VoryxController;
  */
 class UserController extends VoryxController
 {
+
     /**
      * Get a User entity
      *
      * @View(serializerEnableMaxDepthChecks=true)
+     * @param $user
      *
      * @return Response
      *
      */
-    public function getAction(User $entity)
+    public function getAction(User $user)
     {
+        $entity = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('FreedomUserBundle:User')
+            ->apiSearchOne($user);
         return $entity;
     }
+
     /**
      * Get all User entities.
      *
@@ -259,6 +268,72 @@ class UserController extends VoryxController
             return FOSView::create('Not Found', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Create a Friend User entity.
+     *
+     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $user
+     *
+     * @return Response
+     *
+     */
+    public function postUserfriendusersAction(Request $request, User $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userfrienduser = new Userfrienduser();
+        $userfrienduser->setUser($this->getUser());
+        $userfrienduser->setUser2($user);
+
+        $entity = $em->getRepository('FreedomUserBundle:User')->alreadyFriend($this->getUser(),$user);
+
+        if ($entity == null) {
+
+        // if ($form->isValid()) {
+            $em->persist($userfrienduser);
+            $em->flush();
+
+            return $userfrienduser;
+        // }
+
+        }
+
+        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+    } 
+
+    /**
+     * Delete a Friend User entity.
+     *
+     * @View(statusCode=204)
+     *
+     * @param Request $request
+     * @param $entity
+     * @internal param $id
+     *
+     * @return Response
+     */
+    public function deleteUserfriendusersAction(Request $request, User $user, Userfrienduser $entity)
+    {
+        $user = $this->getUser();
+        if ($user == $entity->getUser() OR $user == $entity->getUser2()) {
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($entity);
+                $em->flush();
+
+                return null;
+            } catch (\Exception $e) {
+                return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            throw $this->createNotFoundException(
+                'No rights for this follow : '.$entity
+            );
         }
     }
 

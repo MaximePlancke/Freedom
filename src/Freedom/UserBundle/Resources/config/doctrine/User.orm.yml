@@ -8,7 +8,11 @@ Freedom\UserBundle\Entity\User:
             generator:
                 strategy: AUTO
     oneToMany:
-        userfriendusers:
+        userfriendusers1:
             targetEntity: Freedom\UserBundle\Entity\Userfrienduser
-            mappedBy: user
+            mappedBy: user1
+            cascade: ["remove", "persist"]
+        userfriendusers2:
+            targetEntity: Freedom\UserBundle\Entity\Userfrienduser
+            mappedBy: user2
             cascade: ["remove", "persist"]

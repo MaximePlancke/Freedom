@@ -44,16 +44,31 @@ class UserRepository extends EntityRepository
 
 	}
 
-	public function alreadyFriend($user, $user2)
+	public function alreadyFriend($user1, $user2)
 	{
 
 	  	$qb = $this->_em->createQueryBuilder();
 	  	$qb->select('u')
 	    ->from('FreedomUserBundle:Userfrienduser', 'u')
-	 	->where('u.user = :user OR u.user2 = :user')            
-        ->setParameter('user', $user)
-        ->andWhere('u.user = :user OR u.user2 = :user')
-        ->setParameter('user', $user2);
+	 	->where('u.user1 = :user1 AND u.user2 = :user2') 
+        ->orWhere('u.user2 = :user1 AND u.user1 = :user2')           
+        ->setParameter('user1', $user1)
+        ->setParameter('user2', $user2);
+
+	    $result = $qb->getQuery()->getResult();
+	    return $result;
+
+	}
+
+	public function isFriend($user)
+	{
+
+	  	$qb = $this->_em->createQueryBuilder();
+	  	$qb->select('u')
+	    ->from('FreedomUserBundle:Userfrienduser', 'u')
+	 	->where('u.user1 = :user') 
+        ->orWhere('u.user2 = :user')           
+        ->setParameter('user', $user);
 
 	    $result = $qb->getQuery()->getResult();
 	    return $result;
@@ -66,11 +81,16 @@ class UserRepository extends EntityRepository
 	  	$qb = $this->_em->createQueryBuilder();
 	  	$qb->select('u')
 	    ->from('FreedomUserBundle:User', 'u')
-	    ->leftJoin('u.userfriendusers', 'uu')
+	    ->leftJoin('u.userfriendusers1', 'uu1')
+	    ->addSelect('uu1')
+	    // ->leftJoin('uu1.user1', 'uuu11')
+	    // ->leftJoin('uu1.user2', 'uuu12')
+	    ->leftJoin('u.userfriendusers2', 'uu2')
+	    ->addSelect('uu2')
+	    ->leftJoin('uu2.user1', 'uuu21')
+	    ->leftJoin('uu2.user2', 'uuu22')
 	 	->where('u.id = :user')            
         ->setParameter('user', $entity);
-   //      ->orWhere('uu.user2 = :user') 
-   //      ->setParameter('user', $entity);
 
 	    $result = $qb->getQuery()->getOneOrNullResult();
 	    return $result;

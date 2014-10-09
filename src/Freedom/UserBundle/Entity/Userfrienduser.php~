@@ -159,4 +159,32 @@ class Userfrienduser
     {
         return $this->datecreation;
     }
+    /**
+     * @var \Freedom\UserBundle\Entity\User
+     */
+    private $user1;
+
+
+    /**
+     * Set user1
+     *
+     * @param \Freedom\UserBundle\Entity\User $user1
+     * @return Userfrienduser
+     */
+    public function setUser1(\Freedom\UserBundle\Entity\User $user1 = null)
+    {
+        $this->user1 = $user1;
+
+        return $this;
+    }
+
+    /**
+     * Get user1
+     *
+     * @return \Freedom\UserBundle\Entity\User 
+     */
+    public function getUser1()
+    {
+        return $this->user1;
+    }
 }

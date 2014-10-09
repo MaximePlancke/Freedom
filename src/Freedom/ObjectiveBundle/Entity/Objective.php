@@ -2,6 +2,7 @@
 
 namespace Freedom\ObjectiveBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
@@ -146,6 +147,9 @@ class Objective extends ObjectiveManager
         $this->datecreation = new \Datetime;
         $this->dategoal = new \Datetime;
         $this->datedone = new \Datetime;
+        $this->advices = new ArrayCollection;
+        $this->userlikeobjectives = new ArrayCollection;
+        $this->userfollowobjectives = new ArrayCollection;
     }
 
 

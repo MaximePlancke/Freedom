@@ -2,6 +2,7 @@
 
 namespace Freedom\GroupBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
@@ -91,6 +92,8 @@ class Groups
     {
         $this->rate = 5;
         $this->datecreation = new \Datetime;
+        $this->objectives = new ArrayCollection;
+        $this->userbelonggroups = new ArrayCollection;
     }
 
     /**

@@ -15,15 +15,15 @@ Freedom\UserBundle\Entity\Userfrienduser:
         datecreation:
             type: datetime
     manyToOne:
-        user:
+        user1:
             targetEntity: Freedom\UserBundle\Entity\User
-            inversedBy: userfriendusers
+            inversedBy: userfriendusers1
             joinColumn:
-                name: user_id
+                name: user1_id
                 referencedColumnName: id
         user2: 
             targetEntity: Freedom\UserBundle\Entity\User
-            # inversedBy: userfriendusers
+            inversedBy: userfriendusers2
             joinColumn:
                 name: user2_id
                 referencedColumnName: id

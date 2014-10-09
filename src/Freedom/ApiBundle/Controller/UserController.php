@@ -284,6 +284,10 @@ class UserController extends VoryxController
      */
     public function postUserfriendusersAction(Request $request, User $user)
     {
+        if ($this->getUser() == $user) {
+            return FOSView::create(array('errors' => 'You can\'t be friend with yourself'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $userfrienduser = new Userfrienduser();
         $userfrienduser->setUser($this->getUser());

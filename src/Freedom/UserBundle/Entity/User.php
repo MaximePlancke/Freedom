@@ -22,30 +22,24 @@ class User extends BaseUser
      */
     protected $id;
 
-    // /**
-    //  * Get id
-    //  *
-    //  * @return integer 
-    //  */
-    // public function getId()
-    // {
-    //     return $this->id;
-    // }
+   
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $userfriendusers;
+    private $userfriendusers1;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $userfriendusers2;
-    
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        parent::__construct();
-
+        $this->userfriendusers1 = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userfriendusers2 = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -59,76 +53,37 @@ class User extends BaseUser
     }
 
     /**
-     * Add userfriendusers
+     * Add userfriendusers1
      *
-     * @param \Freedom\UserBundle\Entity\Userfrienduser $userfriendusers
+     * @param \Freedom\UserBundle\Entity\Userfrienduser $userfriendusers1
      * @return User
      */
-    public function addUserfrienduser(\Freedom\UserBundle\Entity\Userfrienduser $userfriendusers)
+    public function addUserfriendusers1(\Freedom\UserBundle\Entity\Userfrienduser $userfriendusers1)
     {
-        $this->userfriendusers[] = $userfriendusers;
+        $this->userfriendusers1[] = $userfriendusers1;
 
         return $this;
     }
 
     /**
-     * Remove userfriendusers
+     * Remove userfriendusers1
      *
-     * @param \Freedom\UserBundle\Entity\Userfrienduser $userfriendusers
+     * @param \Freedom\UserBundle\Entity\Userfrienduser $userfriendusers1
      */
-    public function removeUserfrienduser(\Freedom\UserBundle\Entity\Userfrienduser $userfriendusers)
+    public function removeUserfriendusers1(\Freedom\UserBundle\Entity\Userfrienduser $userfriendusers1)
     {
-        $this->userfriendusers->removeElement($userfriendusers);
+        $this->userfriendusers1->removeElement($userfriendusers1);
     }
 
     /**
-     * Get userfriendusers
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getUserfriendusers()
-    {
-        return $this->userfriendusers;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $objectives;
-
-
-    /**
-     * Add objectives
-     *
-     * @param \Freedom\ObjectiveBundle\Entity\Objective $objectives
-     * @return User
-     */
-    public function addObjective(\Freedom\ObjectiveBundle\Entity\Objective $objectives)
-    {
-        $this->objectives[] = $objectives;
-
-        return $this;
-    }
-
-    /**
-     * Remove objectives
-     *
-     * @param \Freedom\ObjectiveBundle\Entity\Objective $objectives
-     */
-    public function removeObjective(\Freedom\ObjectiveBundle\Entity\Objective $objectives)
-    {
-        $this->objectives->removeElement($objectives);
-    }
-
-    /**
-     * Get objectives
+     * Get userfriendusers1
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getObjectives()
+    public function getUserfriendusers1()
     {
-        return $this->objectives;
+        return $this->userfriendusers1;
     }
-
 
     /**
      * Add userfriendusers2

@@ -26,17 +26,6 @@ class Userfrienduser
      */
     private $id;
 
-    /**
-     * @var \Freedom\UserBundle\Entity\User
-     * @Expose
-     */
-    private $user;
-
-    /**
-     * @var \Freedom\UserBundle\Entity\User
-     * @Expose
-     */
-    private $user2;
 
     /**
      * @var boolean
@@ -48,12 +37,16 @@ class Userfrienduser
      */
     private $datecreation;
 
+    /**
+     * @var \Freedom\UserBundle\Entity\User
+     */
+    private $user1;
 
-    public function __construct()
-    {
-        $this->datecreation = new \Datetime;
-        $this->accepted = false;
-    }
+    /**
+     * @var \Freedom\UserBundle\Entity\User
+     */
+    private $user2;
+
 
     /**
      * Get id
@@ -64,55 +57,6 @@ class Userfrienduser
     {
         return $this->id;
     }
-
-
-    /**
-     * Set user
-     *
-     * @param \Freedom\UserBundle\Entity\User $user
-     * @return Userfrienduser
-     */
-    public function setUser(\Freedom\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Freedom\UserBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-
-    /**
-     * Set user2
-     *
-     * @param \Freedom\UserBundle\Entity\User $user2
-     * @return Userfrienduser
-     */
-    public function setUser2(\Freedom\UserBundle\Entity\User $user2 = null)
-    {
-        $this->user2 = $user2;
-
-        return $this;
-    }
-
-    /**
-     * Get user2
-     *
-     * @return \Freedom\UserBundle\Entity\User 
-     */
-    public function getUser2()
-    {
-        return $this->user2;
-    }
-
 
     /**
      * Set accepted
@@ -159,11 +103,6 @@ class Userfrienduser
     {
         return $this->datecreation;
     }
-    /**
-     * @var \Freedom\UserBundle\Entity\User
-     */
-    private $user1;
-
 
     /**
      * Set user1
@@ -186,5 +125,28 @@ class Userfrienduser
     public function getUser1()
     {
         return $this->user1;
+    }
+
+    /**
+     * Set user2
+     *
+     * @param \Freedom\UserBundle\Entity\User $user2
+     * @return Userfrienduser
+     */
+    public function setUser2(\Freedom\UserBundle\Entity\User $user2 = null)
+    {
+        $this->user2 = $user2;
+
+        return $this;
+    }
+
+    /**
+     * Get user2
+     *
+     * @return \Freedom\UserBundle\Entity\User 
+     */
+    public function getUser2()
+    {
+        return $this->user2;
     }
 }

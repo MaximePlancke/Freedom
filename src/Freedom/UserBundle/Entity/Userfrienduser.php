@@ -26,11 +26,24 @@ class Userfrienduser
      */
     private $id;
 
+
+    /**
+     * @var boolean
+     * @Expose
+     */
+    private $accepted;
+
+    /**
+     * @var \DateTime
+     * @Expose
+     */
+    private $datecreation;
+
     /**
      * @var \Freedom\UserBundle\Entity\User
      * @Expose
      */
-    private $user;
+    private $user1;
 
     /**
      * @var \Freedom\UserBundle\Entity\User
@@ -38,22 +51,6 @@ class Userfrienduser
      */
     private $user2;
 
-    /**
-     * @var boolean
-     */
-    private $accepted;
-
-    /**
-     * @var \DateTime
-     */
-    private $datecreation;
-
-
-    public function __construct()
-    {
-        $this->datecreation = new \Datetime;
-        $this->accepted = false;
-    }
 
     /**
      * Get id
@@ -64,55 +61,6 @@ class Userfrienduser
     {
         return $this->id;
     }
-
-
-    /**
-     * Set user
-     *
-     * @param \Freedom\UserBundle\Entity\User $user
-     * @return Userfrienduser
-     */
-    public function setUser(\Freedom\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Freedom\UserBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-
-    /**
-     * Set user2
-     *
-     * @param \Freedom\UserBundle\Entity\User $user2
-     * @return Userfrienduser
-     */
-    public function setUser2(\Freedom\UserBundle\Entity\User $user2 = null)
-    {
-        $this->user2 = $user2;
-
-        return $this;
-    }
-
-    /**
-     * Get user2
-     *
-     * @return \Freedom\UserBundle\Entity\User 
-     */
-    public function getUser2()
-    {
-        return $this->user2;
-    }
-
 
     /**
      * Set accepted
@@ -159,11 +107,6 @@ class Userfrienduser
     {
         return $this->datecreation;
     }
-    /**
-     * @var \Freedom\UserBundle\Entity\User
-     */
-    private $user1;
-
 
     /**
      * Set user1
@@ -186,5 +129,28 @@ class Userfrienduser
     public function getUser1()
     {
         return $this->user1;
+    }
+
+    /**
+     * Set user2
+     *
+     * @param \Freedom\UserBundle\Entity\User $user2
+     * @return Userfrienduser
+     */
+    public function setUser2(\Freedom\UserBundle\Entity\User $user2 = null)
+    {
+        $this->user2 = $user2;
+
+        return $this;
+    }
+
+    /**
+     * Get user2
+     *
+     * @return \Freedom\UserBundle\Entity\User 
+     */
+    public function getUser2()
+    {
+        return $this->user2;
     }
 }

@@ -18,12 +18,6 @@ Freedom\UserBundle\Entity\Userfrienduser:
         user1:
             targetEntity: Freedom\UserBundle\Entity\User
             inversedBy: userfriendusers1
-            joinColumn:
-                name: user1_id
-                referencedColumnName: id
         user2: 
             targetEntity: Freedom\UserBundle\Entity\User
             inversedBy: userfriendusers2
-            joinColumn:
-                name: user2_id
-                referencedColumnName: id

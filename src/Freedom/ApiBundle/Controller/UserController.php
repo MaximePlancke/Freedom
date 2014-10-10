@@ -42,7 +42,8 @@ class UserController extends VoryxController
             ->getDoctrine()
             ->getManager()
             ->getRepository('FreedomUserBundle:User')
-            ->apiSearchOne($user);
+            // ->apiSearchOne($user);
+            ->isFriend($user);
         return $entity;
     }
 

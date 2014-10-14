@@ -16,3 +16,7 @@ Freedom\UserBundle\Entity\User:
             targetEntity: Freedom\UserBundle\Entity\Userfrienduser
             mappedBy: user2
             cascade: ["remove", "persist"]
+        usernotifications:
+            targetEntity: Freedom\UserBundle\Entity\Notification
+            mappedBy: user
+            cascade: ["remove", "persist"]

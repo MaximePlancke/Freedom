@@ -1,6 +1,6 @@
 Freedom\UserBundle\Entity\Userfrienduser:
     type:  entity
-    table: Userfrienduser
+    table: userfrienduser
     repositoryClass: Freedom\UserBundle\Entity\UserfrienduserRepository
     id:
         id:

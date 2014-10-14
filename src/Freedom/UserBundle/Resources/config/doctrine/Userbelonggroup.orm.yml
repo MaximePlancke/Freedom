@@ -1,6 +1,6 @@
 Freedom\UserBundle\Entity\Userbelonggroup:
     type:  entity
-    table: Userbelonggroup
+    table: userbelonggroup
     repositoryClass: Freedom\UserBundle\Entity\UserbelonggroupRepository
     id:
         id:

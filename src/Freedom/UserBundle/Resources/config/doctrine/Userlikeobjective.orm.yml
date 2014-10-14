@@ -1,6 +1,6 @@
 Freedom\UserBundle\Entity\Userlikeobjective:
     type:  entity
-    table: Userlikeobjective
+    table: userlikeobjective
     id:
         id:
             type: integer

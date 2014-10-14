@@ -1,6 +1,6 @@
 Freedom\UserBundle\Entity\Userlikestepobjective:
     type:  entity
-    table: Userlikestepobjective
+    table: userlikestepobjective
     id:
         id:
             type: integer

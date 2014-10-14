@@ -1,0 +1,55 @@
+<?php
+
+namespace Freedom\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Notification
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Freedom\UserBundle\Entity\NotificationRepository")
+ */
+class Notification
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $content;
+
+    /**
+     * @var integer
+     */
+    private $type;
+
+    /**
+     * @var string
+     */
+    private $url;
+
+    /**
+     * @var boolean
+     */
+    private $seen;
+
+    /**
+     * @var \DateTime
+     */
+    private $datecreation;
+
+    /**
+     * @var \Freedom\UserBundle\Entity\User
+     */
+    private $user;
+
+
+}

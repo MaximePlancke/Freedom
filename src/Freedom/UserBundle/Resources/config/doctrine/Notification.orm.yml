@@ -1,0 +1,28 @@
+Freedom\UserBundle\Entity\Notification:
+    type:  entity
+    table: notification
+    repositoryClass: Freedom\UserBundle\Entity\NotificationRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        content: 
+            type: string
+            length: 255
+        type:
+            type: integer
+        url: 
+            type: string
+            length: 50
+        seen:
+            type: boolean
+            options:
+                default: false
+        datecreation:
+            type: datetime
+    manyToOne:
+        user:
+            targetEntity: Freedom\UserBundle\Entity\User
+            inversedBy: usernotifications

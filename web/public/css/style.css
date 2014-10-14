@@ -42,6 +42,13 @@ textarea {
   cursor: pointer;
 }
 
+/* NOTIFICATIONS PART */
+
+
+.notif-not-seen{
+  background-color: grey;
+}
+
 
 
 

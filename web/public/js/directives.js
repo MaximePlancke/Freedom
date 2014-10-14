@@ -249,36 +249,53 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope) {
             userLogged : '=userLogged'
         },
         link: function(scope, element, attrs) { 
+            var waiting = false;
             scope.$watch('user', function() {
                 scope.alreadyFriendUser = false; 
-                scope.icon = "glyphicon-plus"; 
-                angular.forEach(scope.user.userfriendusers, function(value, key) {
-                    if (value.id == scope.userLogged) {
-                        scope.userfriend = value;
-                        scope.alreadyFriendUser = true; 
-                        scope.icon = "glyphicon-minus";  
+                scope.icon = "btn-primary"; 
+                scope.text = "Ajouter";   
+                angular.forEach(scope.user.friends, function(value, key) {
+                    if (value.user1.id == scope.userLogged) {
+                        if(value.accepted == 0){
+                            scope.alreadyFriendUser = true;
+                            waiting = true;
+                            scope.icon = "glyphicon-default"; 
+                            scope.text = "En attente de confirmation"; 
+                            // if(value.user){
+                            // }
+                        } else {
+                            scope.userfriend = value;
+                            scope.alreadyFriendUser = true; 
+                            scope.icon = "glyphicon-warning"; 
+                            scope.text = "Retirer de la liste"; 
+                        }  
                     };
                 });
-                console.log(scope.userfriend);
             });
             scope.friendUser = function(id){
                 var user = scope.user;
+                if(waiting == true){
+                    return;
+                }
                 if(scope.alreadyFriendUser) {
                     User.unfriend({id: id, id_friend: scope.userfriend.id},{});
-                    var index = scope.user.userfriendusers.indexOf(scope.userfriend);
-                    scope.user.userfriendusers.splice(index, 1);
-                    scope.icon = "glyphicon-plus";
+                    var index = scope.user.friends.indexOf(scope.userfriend);
+                    scope.user.friends.splice(index, 1);
+                    scope.icon = "btn-primary";
+                    scope.text = "Ajouter";  
                 } else {
                     var friend = User.friend({id: id},{});
-                    scope.user.userfriendusers.push(friend);
+                    scope.user.friends.push(friend);
                     scope.userfriend = friend;
-                    scope.icon = "glyphicon-minus";  
+                    scope.icon = "glyphicon-default"; 
+                    scope.text = "En attente de confirmation"; 
+                    waiting = true; 
                 } 
                 scope.alreadyFriendUser = !scope.alreadyFriendUser;
             }
 
         },
-        template: '<span ng-click="friendUser(user.id)" class="clickable glyphicon {{icon}}"></span>'
+        template: '<button ng-show="userLogged != user.id" ng-click="friendUser(user.id, user.friends.id)" type="button" class="btn {{icon}}">{{text}}</button>'
     };
 });
 

@@ -1,0 +1,26 @@
+{% set userLogged = app.security.getToken().getUser() %}
+
+{% extends 'FreedomObjectiveBundle::layout_dashboard.html.twig' %}
+
+{% block title %}Freedom - Dashboard{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+	<h3><i class="glyphicon glyphicon-globe"></i> Notifications</h3>  	
+
+	<ul>
+	    {% for notification in notifications %}
+	        <li>
+	        	{% if notification.seen == false %}<div class="notif-not-seen">{% else %}<div>{% endif %}
+	        		<a href="">{{ notification.content|e }}</a> - {{ notification.datecreation|date }}
+	        	</div>
+	        </li>
+	    {% endfor %}
+	</ul>
+ 
+
+        
+
+{% endblock %}

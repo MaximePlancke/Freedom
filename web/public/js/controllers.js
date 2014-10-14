@@ -256,7 +256,7 @@ ObjectiveApp.controller('ProfileCtrl', [ '$scope', 'User', function ($scope, Use
 
     User.query({id: parseInt(pathArray[1])},{}, function(data){
         $scope.user = data;
-        console.log(data);
+        // console.log(data);
     });
 }]);
 
@@ -268,7 +268,7 @@ ObjectiveApp.controller('GroupProfileCtrl', [ '$scope', 'User', function ($scope
 
     User.belongGroup({limit: 10, id: parseInt(pathArray[1]) , filters : {}},{}, function(data){
         $scope.groups = data;
-        console.log(data);
+        // console.log(data);
     });
 
 }]);

@@ -5,3 +5,4 @@ services:
 #    freedom_user.example:
 #        class: %freedom_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+

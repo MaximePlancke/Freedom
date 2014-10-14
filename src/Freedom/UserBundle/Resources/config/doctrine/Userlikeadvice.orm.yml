@@ -1,6 +1,6 @@
 Freedom\UserBundle\Entity\Userlikeadvice:
     type:  entity
-    table: Userlikeadvice
+    table: userlikeadvice
     id:
         id:
             type: integer

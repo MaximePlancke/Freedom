@@ -2,16 +2,20 @@
 
 namespace Freedom\UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * User
  *
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="Freedom\UserBundle\Entity\UserRepository")
+ * @ExclusionPolicy("all") 
  */
-class User extends BaseUser
+class User extends UserManager
 {
     /**
      * @var integer
@@ -19,6 +23,7 @@ class User extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     protected $id;
 
@@ -32,6 +37,11 @@ class User extends BaseUser
      * @var \Doctrine\Common\Collections\Collection
      */
     private $userfriendusers2;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $usernotifications;
 
     /**
      * Constructor
@@ -116,5 +126,38 @@ class User extends BaseUser
     public function getUserfriendusers2()
     {
         return $this->userfriendusers2;
+    }
+
+    /**
+     * Add usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     * @return User
+     */
+    public function addUsernotifications(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications[] = $usernotifications;
+
+        return $this;
+    }
+
+    /**
+     * Remove usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     */
+    public function removeUsernotifications(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications->removeElement($usernotifications);
+    }
+
+    /**
+     * Get usernotifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsernotifications()
+    {
+        return $this->usernotifications;
     }
 }

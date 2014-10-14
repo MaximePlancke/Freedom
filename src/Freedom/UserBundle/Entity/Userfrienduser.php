@@ -52,6 +52,11 @@ class Userfrienduser
     private $user2;
 
 
+    public function __construct(){
+        $this->accepted = 0;
+        $this->datecreation = new \Datetime;
+    }
+
     /**
      * Get id
      *

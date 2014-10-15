@@ -197,23 +197,28 @@ class AdviceController extends VoryxController
      */
     public function postUserlikeadvicesAction(Request $request, Objective $objective, Advice $advice)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userlikeadvice = new Userlikeadvice();
-        $userlikeadvice->setUser($this->getUser());
-        $userlikeadvice->setAdvice($advice);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $userlikeadvice = new Userlikeadvice();
+            $userlikeadvice->setUser($this->getUser());
+            $userlikeadvice->setAdvice($advice);
 
-        $entity = $em->getRepository('FreedomUserBundle:Userlikeadvice')->findOneBy(array('user' => $this->getUser(), 'advice' => $advice));
+            $entity = $em->getRepository('FreedomUserBundle:Userlikeadvice')->findOneBy(array('user' => $this->getUser(), 'advice' => $advice));
 
-        if ($entity == null) {
+            if ($entity == null) {
 
-            $em->persist($userlikeadvice);
-            $em->flush();
+                $em->persist($userlikeadvice);
+                $em->flush();
 
-            return $userlikeadvice;
+                return $userlikeadvice;
 
+            }
+
+            return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
     } 
 
     /**

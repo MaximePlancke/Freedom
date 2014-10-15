@@ -209,28 +209,32 @@ class ObjectiveController extends VoryxController
      */
     public function postUserlikeobjectivesAction(Request $request, Objective $objective)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userlikeobjective = new Userlikeobjective();
-        // $form = $this->createForm(new UserlikeobjectiveType(), $userlikeobjective, array("method" => $request->getMethod()));
-        // $this->removeExtraFields($request, $form);
-        // $form->handleRequest($request);
-        $userlikeobjective->setUser($this->getUser());
-        $userlikeobjective->setObjective($objective);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $userlikeobjective = new Userlikeobjective();
+            // $form = $this->createForm(new UserlikeobjectiveType(), $userlikeobjective, array("method" => $request->getMethod()));
+            // $this->removeExtraFields($request, $form);
+            // $form->handleRequest($request);
+            $userlikeobjective->setUser($this->getUser());
+            $userlikeobjective->setObjective($objective);
 
-        $entity = $em->getRepository('FreedomUserBundle:Userlikeobjective')->findOneBy(array('user' => $this->getUser(), 'objective' => $objective));
+            $entity = $em->getRepository('FreedomUserBundle:Userlikeobjective')->findOneBy(array('user' => $this->getUser(), 'objective' => $objective));
 
-        if ($entity == null) {
+            if ($entity == null) {
 
-        // if ($form->isValid()) {
-            $em->persist($userlikeobjective);
-            $em->flush();
+            // if ($form->isValid()) {
+                $em->persist($userlikeobjective);
+                $em->flush();
 
-            return $userlikeobjective;
-        // }
+                return $userlikeobjective;
+            // }
 
+            }
+
+            return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
     } 
 
     /**
@@ -278,25 +282,29 @@ class ObjectiveController extends VoryxController
      */
     public function postUserfollowobjectivesAction(Request $request, Objective $objective)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userfollowobjective = new Userfollowobjective();
-        $userfollowobjective->setUser($this->getUser());
-        $userfollowobjective->setObjective($objective);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $userfollowobjective = new Userfollowobjective();
+            $userfollowobjective->setUser($this->getUser());
+            $userfollowobjective->setObjective($objective);
 
-        $entity = $em->getRepository('FreedomUserBundle:Userfollowobjective')->findOneBy(array('user' => $this->getUser(), 'objective' => $objective));
+            $entity = $em->getRepository('FreedomUserBundle:Userfollowobjective')->findOneBy(array('user' => $this->getUser(), 'objective' => $objective));
 
-        if ($entity == null) {
+            if ($entity == null) {
 
-        // if ($form->isValid()) {
-            $em->persist($userfollowobjective);
-            $em->flush();
+            // if ($form->isValid()) {
+                $em->persist($userfollowobjective);
+                $em->flush();
 
-            return $userfollowobjective;
-        // }
+                return $userfollowobjective;
+            // }
 
+            }
+
+            return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
     } 
 
     /**

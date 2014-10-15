@@ -195,23 +195,27 @@ class StepobjectiveController extends VoryxController
      */
     public function postUserlikestepobjectivesAction(Request $request, Objective $objective, Stepobjective $stepobjective)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userlikestepobjective = new Userlikestepobjective();
-        $userlikestepobjective->setUser($this->getUser());
-        $userlikestepobjective->setStepobjective($stepobjective);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $userlikestepobjective = new Userlikestepobjective();
+            $userlikestepobjective->setUser($this->getUser());
+            $userlikestepobjective->setStepobjective($stepobjective);
 
-        $entity = $em->getRepository('FreedomUserBundle:Userlikestepobjective')->findOneBy(array('user' => $this->getUser(), 'stepobjective' => $stepobjective));
+            $entity = $em->getRepository('FreedomUserBundle:Userlikestepobjective')->findOneBy(array('user' => $this->getUser(), 'stepobjective' => $stepobjective));
 
-        if ($entity == null) {
+            if ($entity == null) {
 
-            $em->persist($userlikestepobjective);
-            $em->flush();
+                $em->persist($userlikestepobjective);
+                $em->flush();
 
-            return $userlikestepobjective;
+                return $userlikestepobjective;
 
+            }
+
+            return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
     } 
 
     /**

@@ -285,36 +285,41 @@ class UserController extends VoryxController
      */
     public function postUserfriendusersAction(Request $request, User $user)
     {
-        if ($this->getUser() == $user) {
-            return FOSView::create(array('errors' => 'You can\'t be friend with yourself'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        try {
+            if ($this->getUser() == $user) {
+                return FOSView::create(array('errors' => 'You can\'t be friend with yourself'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $userfrienduser = new Userfrienduser();
+            $userfrienduser->setUser1($this->getUser());
+            $userfrienduser->setUser2($user);
+
+            $entity = $em->getRepository('FreedomUserBundle:User')->alreadyFriend($this->getUser(),$user);
+
+            if ($entity == null) {
+
+            // if ($form->isValid()) {
+                $em->persist($userfrienduser);
+
+                $notification = new Notification();
+                $notification->setContent($this->getUser()->getUsername().' requested to be your friends');
+                $notification->setUser($user);
+                $notification->setUrl($this->getUser()->getId());
+                $notification->setType(1);
+                $em->persist($notification);
+                $em->flush();
+
+                return $userfrienduser;
+            // }
+
+            }
+
+            return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $em = $this->getDoctrine()->getManager();
-        $userfrienduser = new Userfrienduser();
-        $userfrienduser->setUser1($this->getUser());
-        $userfrienduser->setUser2($user);
-
-        $entity = $em->getRepository('FreedomUserBundle:User')->alreadyFriend($this->getUser(),$user);
-
-        if ($entity == null) {
-
-        // if ($form->isValid()) {
-            $em->persist($userfrienduser);
-
-            $notification = new Notification();
-            $notification->setContent($this->getUser()->getUsername().' requested to be your friends');
-            $notification->setUser($user);
-            $notification->setUrl($this->getUser()->getId());
-            $notification->setType(1);
-            $em->persist($notification);
-            $em->flush();
-
-            return $userfrienduser;
-        // }
-
-        }
-
-        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
     } 
 
     /**

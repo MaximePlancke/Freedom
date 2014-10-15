@@ -20,15 +20,17 @@ ObjectiveApp.directive('allowLikeObjective', function(Objective) {
             scope.likeObjective = function(id){
                 var objective = scope.objective;
                 if(scope.alreadyLikedObjective) {
-                    Objective.dislike({id: id, id_like: scope.userlike.id},{});
-                    var index = scope.objective.userlikeobjectives.indexOf(scope.userlike);
-                    scope.objective.userlikeobjectives.splice(index, 1);
-                    scope.icon = "glyphicon-heart-empty";
+                    Objective.dislike({id: id, id_like: scope.userlike.id},{}, function(){
+                        var index = scope.objective.userlikeobjectives.indexOf(scope.userlike);
+                        scope.objective.userlikeobjectives.splice(index, 1);
+                        scope.icon = "glyphicon-heart-empty";
+                    });
                 } else {
-                    var like = Objective.like({id: id},{});
-                    scope.objective.userlikeobjectives.push(like);
-                    scope.userlike = like;
-                    scope.icon = "glyphicon-heart";  
+                    Objective.like({id: id},{},function(like){
+                        scope.objective.userlikeobjectives.push(like);
+                        scope.userlike = like;
+                        scope.icon = "glyphicon-heart";  
+                    });
                 } 
                 scope.alreadyLikedObjective = !scope.alreadyLikedObjective;
             }
@@ -63,15 +65,17 @@ ObjectiveApp.directive('allowLikeAdvice', function(Advice) {
                 var idx = scope.idx;
                 var advice = scope.objective.advices[idx];
                 if(scope.alreadyLikedAdvice[idx]) {
-                    Advice.dislike({id: scope.objective.id, id_advice: advice.id, id_like: scope.userlike.id},{});
-                     var index = scope.objective.advices[idx].userlikeadvices.indexOf(scope.userlike);
-                    scope.objective.advices[idx].userlikeadvices.splice(index, 1);
-                    scope.icon = "glyphicon-heart-empty";
+                    Advice.dislike({id: scope.objective.id, id_advice: advice.id, id_like: scope.userlike.id},{},function(){
+                        var index = scope.objective.advices[idx].userlikeadvices.indexOf(scope.userlike);
+                        scope.objective.advices[idx].userlikeadvices.splice(index, 1);
+                        scope.icon = "glyphicon-heart-empty";
+                    });
                 } else {
-                    var like = Advice.like({id: scope.objective.id, id_advice: advice.id},{});
-                    scope.objective.advices[idx].userlikeadvices.push(like);
-                    scope.userlike = like;
-                    scope.icon = "glyphicon-heart";  
+                    Advice.like({id: scope.objective.id, id_advice: advice.id},{}, function(like){
+                        scope.objective.advices[idx].userlikeadvices.push(like);
+                        scope.userlike = like;
+                        scope.icon = "glyphicon-heart"; 
+                    }); 
                 } 
                 scope.alreadyLikedAdvice[idx] = !scope.alreadyLikedAdvice[idx];
             }
@@ -107,15 +111,17 @@ ObjectiveApp.directive('allowLikeStep', function(Step) {
                 var idx = scope.idx;
                 var step = scope.objective.steps[idx];
                 if(scope.alreadyLikedStep[idx]) {
-                    Step.dislike({id: scope.objective.id, id_step: step.id, id_like: scope.userlike.id},{});
-                     var index = scope.objective.steps[idx].userlikestepobjectives.indexOf(scope.userlike);
-                    scope.objective.steps[idx].userlikestepobjectives.splice(index, 1);
-                    scope.icon = "glyphicon-heart-empty";
+                    Step.dislike({id: scope.objective.id, id_step: step.id, id_like: scope.userlike.id},{},function(){
+                        var index = scope.objective.steps[idx].userlikestepobjectives.indexOf(scope.userlike);
+                        scope.objective.steps[idx].userlikestepobjectives.splice(index, 1);
+                        scope.icon = "glyphicon-heart-empty";
+                    });
                 } else {
-                    var like = Step.like({id: scope.objective.id, id_step: step.id},{});
-                    scope.objective.steps[idx].userlikestepobjectives.push(like);
-                    scope.userlike = like;
-                    scope.icon = "glyphicon-heart";  
+                    Step.like({id: scope.objective.id, id_step: step.id},{},function(like){
+                        scope.objective.steps[idx].userlikestepobjectives.push(like);
+                        scope.userlike = like;
+                        scope.icon = "glyphicon-heart";  
+                    });
                 } 
                 scope.alreadyLikedStep[idx] = !scope.alreadyLikedStep[idx];
             }
@@ -147,19 +153,21 @@ ObjectiveApp.directive('allowFollowObjective', function(Objective, $rootScope) {
             scope.followObjective = function(id){
                 var objective = scope.objective;
                 if(scope.alreadyFollowedObjective) {
-                    Objective.disfollow({id: id, id_follow: scope.userfollow.id},{});
-                    var index = scope.objective.userfollowobjectives.indexOf(scope.userfollow);
-                    scope.objective.userfollowobjectives.splice(index, 1);
-                    scope.icon = "glyphicon-star-empty";
-                    if(attrs.followpage){
-                        // IMPORTANT Remove this objective from the array
-                        $rootScope.flashMessage = {type: 'alert-success', message: 'You don\'t follow this objective anymore !'};
-                    }
+                    Objective.disfollow({id: id, id_follow: scope.userfollow.id},{},function(){
+                        var index = scope.objective.userfollowobjectives.indexOf(scope.userfollow);
+                        scope.objective.userfollowobjectives.splice(index, 1);
+                        scope.icon = "glyphicon-star-empty";
+                        if(attrs.followpage){
+                            // IMPORTANT Remove this objective from the array
+                            $rootScope.flashMessage = {type: 'alert-success', message: 'You don\'t follow this objective anymore !'};
+                        }
+                    });
                 } else {
-                    var follow = Objective.follow({id: id},{});
-                    scope.objective.userfollowobjectives.push(follow);
-                    scope.userfollow = follow;
-                    scope.icon = "glyphicon-star";  
+                    Objective.follow({id: id},{}, function(follow){
+                        scope.objective.userfollowobjectives.push(follow);
+                        scope.userfollow = follow;
+                        scope.icon = "glyphicon-star"; 
+                    }); 
                 } 
                 scope.alreadyFollowedObjective = !scope.alreadyFollowedObjective;
             }
@@ -183,9 +191,11 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
                 scope.icon = "glyphicon-star-empty"; 
                 angular.forEach(scope.group.userbelonggroups, function(value, key) {
                     if (value.user.id == scope.userLogged) {
-                        scope.userbelong = value;
-                        scope.alreadyBelongGroup = true; 
-                        scope.icon = "glyphicon-star";  
+                        if(value.accepted == 1){
+                            scope.userbelong = value;
+                            scope.alreadyBelongGroup = true; 
+                            scope.icon = "glyphicon-star"; 
+                        } 
                     };
                 });
             });
@@ -195,19 +205,28 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
                     if (scope.userbelong.role == 1) {
                         $rootScope.flashMessage = {type: 'alert-warning', message: 'You can\'t leave your own group!'};
                     }else{
-                        Group.unbelong({id: id, id_belong: scope.userbelong.id},{});
-                        var index = scope.group.userbelonggroups.indexOf(scope.userbelong);
-                        scope.group.userbelonggroups.splice(index, 1);
-                        scope.icon = "glyphicon-star-empty";
-                        $rootScope.flashMessage = {type: 'alert-success', message: 'You don\'t belong this group anymore !'};
+                        Group.unbelong({id: id, id_belong: scope.userbelong.id},{}, function(unbelong){
+                            var index = scope.group.userbelonggroups.indexOf(scope.userbelong);
+                            scope.group.userbelonggroups.splice(index, 1);
+                            scope.icon = "glyphicon-star-empty";
+                            $rootScope.flashMessage = {type: unbelong.alert, message: unbelong.message};
+                            scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
+                        });
                     }
                 } else {
-                    var belong = Group.belong({id: id},{});
-                    scope.group.userbelonggroups.push(belong);
-                    scope.userbelong = belong;
-                    scope.icon = "glyphicon-star";  
+                    Group.belong({id: id},{}, function(belong){
+                        if(belong.type == 'warning'){ 
+                            $rootScope.flashMessage = {type: belong.alert, message: belong.message};
+                        }else if(belong.type == 'private'){   
+                            $rootScope.flashMessage = {type: belong.alert, message: belong.message};
+                        }else{
+                            scope.group.userbelonggroups.push(belong.data);
+                            scope.userbelong = belong.data;
+                            scope.icon = "glyphicon-star"; 
+                            scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
+                        }
+                    });
                 } 
-                scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
             }
 
         },
@@ -278,18 +297,20 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope) {
                     return;
                 }
                 if(scope.alreadyFriendUser) {
-                    User.unfriend({id: id, id_friend: scope.userfriend.id},{});
-                    var index = scope.user.friends.indexOf(scope.userfriend);
-                    scope.user.friends.splice(index, 1);
-                    scope.icon = "btn-primary";
-                    scope.text = "Ajouter";  
+                    User.unfriend({id: id, id_friend: scope.userfriend.id},{}, function(){
+                        var index = scope.user.friends.indexOf(scope.userfriend);
+                        scope.user.friends.splice(index, 1);
+                        scope.icon = "btn-primary";
+                        scope.text = "Ajouter";  
+                    });
                 } else {
-                    var friend = User.friend({id: id},{});
-                    scope.user.friends.push(friend);
-                    scope.userfriend = friend;
-                    scope.icon = "glyphicon-default"; 
-                    scope.text = "En attente de confirmation"; 
-                    waiting = true; 
+                    var friend = User.friend({id: id},{}, function(){
+                        scope.user.friends.push(friend);
+                        scope.userfriend = friend;
+                        scope.icon = "glyphicon-default"; 
+                        scope.text = "En attente de confirmation"; 
+                        waiting = true; 
+                    });
                 } 
                 scope.alreadyFriendUser = !scope.alreadyFriendUser;
             }

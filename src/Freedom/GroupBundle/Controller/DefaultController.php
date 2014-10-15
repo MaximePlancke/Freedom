@@ -34,6 +34,7 @@ class DefaultController extends Controller
             	$userbelonggroup = new Userbelonggroup;
             	$userbelonggroup->setUser($this->getUser());
             	$userbelonggroup->setRole(1);
+                $userbelonggroup->setAccepted(true);
             	$userbelonggroup->setGroup($group);
                 $group->addUserbelonggroups($userbelonggroup);
                 $em = $this->getDoctrine()->getManager();

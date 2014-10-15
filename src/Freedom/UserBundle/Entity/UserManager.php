@@ -42,12 +42,11 @@ class UserManager extends BaseUser
      * @return Array
      * @VirtualProperty 
      */
-    public function getIsFriend() {
+    // public function getIsFriend($user) {
 
-        }
         
-        return $friends;
-    }
+    //     return 'user';
+    // }
 
 
 }

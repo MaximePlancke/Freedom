@@ -22,7 +22,7 @@ class GroupsCreateType extends AbstractType
                     false => 'Non',
                 ),
             ))
-            ->add('description',        'textarea')
+            ->add('description','textarea')
         ;
     }
     

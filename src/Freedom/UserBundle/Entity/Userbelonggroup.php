@@ -47,6 +47,16 @@ class Userbelonggroup
     private $group;
 
     /**
+     * @var boolean
+     * @Expose
+     */
+    private $accepted;
+
+    public function __construct(){
+        $this->accepted = false;
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -124,5 +134,29 @@ class Userbelonggroup
     public function getRole()
     {
         return $this->role;
+    }
+
+
+    /**
+     * Set accepted
+     *
+     * @param boolean $accepted
+     * @return Userbelonggroup
+     */
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    /**
+     * Get accepted
+     *
+     * @return boolean 
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
     }
 }

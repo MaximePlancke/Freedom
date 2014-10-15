@@ -188,32 +188,46 @@ class GroupController extends VoryxController
      */
     public function postUserbelonggroupsAction(Request $request, Groups $group)
     {
-        $em = $this->getDoctrine()->getManager();
-        $userbelonggroup = new Userbelonggroup();
-        $userbelonggroup->setUser($this->getUser());
-        $userbelonggroup->setGroup($group);
-        $userbelonggroup->setRole(2);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $userbelonggroup = new Userbelonggroup();
+            $userbelonggroup->setUser($this->getUser());
+            $userbelonggroup->setGroup($group);
+            $userbelonggroup->setRole(2);
+            if($group->getPrivate() == false){
+                $userbelonggroup->setAccepted(true);
+            }
 
-        $entity = $em->getRepository('FreedomUserBundle:Userbelonggroup')->findOneBy(array('user' => $this->getUser(), 'group' => $group));
+            $entity = $em->getRepository('FreedomUserBundle:Userbelonggroup')->findOneBy(array('user' => $this->getUser(), 'group' => $group));
 
-        if ($entity == null) {
+            if ($entity == null) {
 
-        // if ($form->isValid()) {
-            $em->persist($userbelonggroup);
-            $em->flush();
+            // if ($form->isValid()) {
+                $em->persist($userbelonggroup);
+                $em->flush();
 
-            return $userbelonggroup;
-        // }
+                if($group->getPrivate() == false){
+                    // return $userbelonggroup;
+                    return array('type' => 'success', 'alert' => 'alert-success', 'message' => 'You are now part of the group!', 'data' => $userbelonggroup);
+                }else{
+                    return array('type' => 'private', 'alert' => 'alert-success', 'message' => 'Your request has been sent to the owner of the group!');
+                }
+            // }
 
+            }
+
+            // return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
+            return array('type' => 'warning', 'alert' => 'alert-warning', 'message' => 'You already requested for this group');
+
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
     } 
 
     /**
      * Delete a Belong Group entity.
      *
-     * @View(statusCode=204)
+     * @View(statusCode=200)
      *
      * @param Request $request
      * @param $entity
@@ -230,7 +244,7 @@ class GroupController extends VoryxController
                 $em->remove($entity);
                 $em->flush();
 
-                return null;
+                return array('type' => 'success', 'alert' => 'alert-success', 'message' => 'You don\'t belong this group anymore !');
             } catch (\Exception $e) {
                 return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
             }

@@ -359,4 +359,20 @@ class UserController extends VoryxController
         }
     }
 
+    /**
+     * Get a isFriend entity
+     *
+     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @param Request $request
+     * @param $user
+     * @param $friend
+     *
+     * @return Response
+     *
+     */
+    public function getIsfriendAction(Request $request, User $user, User $friend)
+    {
+        return array('1' => 'amis');
+    }
+
 }

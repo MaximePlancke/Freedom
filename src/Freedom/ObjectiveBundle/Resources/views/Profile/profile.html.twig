@@ -18,6 +18,7 @@
 	    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: friend.user1.id})">{[{ friend.user1.username | capitalize }]}</a>
 	    </li>
 	</ul>
+	<p>{{ userProfile.getIsFriend(userLogged) }}</p>
 </div>
 
 

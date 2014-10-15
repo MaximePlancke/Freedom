@@ -258,6 +258,11 @@ ObjectiveApp.controller('ProfileCtrl', [ '$scope', 'User', function ($scope, Use
         $scope.user = data;
         // console.log(data);
     });
+    $scope.$watch('userLogged', function() {
+        User.isFriend({id: parseInt(pathArray[1]), id_friend: $scope.userLogged},{}, function(data){
+            console.log(data);
+        });
+    });
 }]);
 
 ObjectiveApp.controller('GroupProfileCtrl', [ '$scope', 'User', function ($scope, User) {

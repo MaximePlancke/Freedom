@@ -260,7 +260,7 @@ ObjectiveApp.directive('submitAdvice', function(Advice) {
     };
 });
 
-ObjectiveApp.directive('allowFriendUser', function(User, $rootScope) {
+ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
     return {
         restrict: 'E',
         scope: {

@@ -28,10 +28,12 @@
 		            <span class="glyphicon glyphicon-retweet"></span>
 		        </span>
 		    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username | capitalize}]}</a>
-		        <span ng-if="{{ userLogged.getId }} == objective.user.id">
-		            {# <span ng-click="deleteObjective(objective.id)" class="clickable glyphicon glyphicon-remove"></span> #}
-		            {# <span ng-click="doneObjective(objective.id)" class="clickable glyphicon glyphicon-refresh"></span> #}
+		        {# <span ng-if="{{ userLogged.getId }} == objective.user.id || {{ userLogged.getId }} == objective.group.user.id">
+		            <span ng-click="deleteObjective(objective.id)" class="clickable glyphicon glyphicon-remove"></span>
 		        </span>
+		        <span ng-if="{{ userLogged.getId }} == objective.user.id">
+		            <span ng-click="doneObjective(objective.id)" class="clickable glyphicon glyphicon-refresh"></span>
+		        </span> #}
 		    </li>
 		</ul>
 	<h3>Members (<span> {[{ group.userbelonggroups.length }]} </span>)</h3>

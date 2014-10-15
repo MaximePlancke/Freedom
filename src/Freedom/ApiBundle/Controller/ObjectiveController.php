@@ -178,7 +178,7 @@ class ObjectiveController extends VoryxController
     public function deleteAction(Request $request, Objective $entity)
     {
         $user = $this->getUser();
-        if ($user == $entity->getUser()) {
+        if ($user == $entity->getUser() OR (($entity->getGroup() != null)  AND $user == $entity->getGroup()->getUser())) {
 
             try {
                 $em = $this->getDoctrine()->getManager();

@@ -27,9 +27,6 @@ class UserManager extends BaseUser
                 $friends[$key][$property->getName()] = $property->getValue($friend);
                 $property->setAccessible(false);
             }
-            if ($friend->getUser1() == $friend->getUser2()) {
-                $friends[$key]['asked'] = 1;
-            }
             unset($friends[$key]['user2']);
         }
         
@@ -40,13 +37,23 @@ class UserManager extends BaseUser
      * Get isFriend
      * 
      * @return Array
-     * @VirtualProperty 
      */
-    // public function getIsFriend($user) {
-
-        
-    //     return 'user';
-    // }
+    public function getIsFriend($user) {
+        if($user != $this){
+            $friendsList = array_merge($this->getUserfriendusers1()->toArray(), $this->getUserfriendusers2()->toArray());
+            foreach ($friendsList as $key => $friend) {
+                if($friend->getUser1() == $user){
+                    return 'You asked';
+                }
+                if($friend->getUser2() == $user){
+                    return 'He asked';
+                }
+            }      
+            return 'No friend';
+        } else {
+            return 'It\'s you';
+        }
+    }
 
 
 }

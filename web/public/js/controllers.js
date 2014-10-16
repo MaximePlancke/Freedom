@@ -252,15 +252,17 @@ ObjectiveApp.controller('ExploreSearchCtrl', [ '$scope', 'Objective', 'User', 'G
 ObjectiveApp.controller('ProfileCtrl', [ '$scope', 'User', function ($scope, User) {
 
     //Init
+    var profileUserId = parseInt(pathArray[1]);
     $scope.user = {};
+    $scope.isFriend;
 
-    User.query({id: parseInt(pathArray[1])},{}, function(data){
+    User.query({id: profileUserId},{}, function(data){
         $scope.user = data;
         // console.log(data);
     });
     $scope.$watch('userLogged', function() {
-        User.isFriend({id: parseInt(pathArray[1]), id_friend: $scope.userLogged},{}, function(data){
-            console.log(data);
+        User.isFriend({id: profileUserId, id_friend: $scope.userLogged},{}, function(data){
+            $scope.isFriend = data.isFriend;
         });
     });
 }]);

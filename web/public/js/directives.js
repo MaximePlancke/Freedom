@@ -264,36 +264,63 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
     return {
         restrict: 'E',
         scope: {
-            user : '=user',
-            userLogged : '=userLogged'
+            isFriend : '=isFriend',
+            user: '=user',
+            // userLogged : '=userLogged'
         },
         link: function(scope, element, attrs) { 
-            var waiting = false;
-            scope.$watch('user', function() {
-                scope.alreadyFriendUser = false; 
-                scope.icon = "btn-primary"; 
-                scope.text = "Ajouter";   
-                angular.forEach(scope.user.friends, function(value, key) {
-                    if (value.user1.id == scope.userLogged) {
-                        if(value.accepted == 0){
+            // var waiting = false;
+            scope.$watch('isFriend', function() {
+                if(typeof scope.isFriend != 'undefined'){
+                    scope.alreadyFriendUser = false; 
+                    if(scope.isFriend.able == false){
+                        scope.icon = ""; 
+                        scope.text = ""; 
+                    }else{
+                        if(scope.isFriend.isFriend == false){               
+                            scope.icon = "btn-primary"; 
+                            scope.text = "Ajouter"; 
+                        }else{
                             scope.alreadyFriendUser = true;
-                            waiting = true;
-                            scope.icon = "glyphicon-default"; 
-                            scope.text = "En attente de confirmation"; 
-                            // if(value.user){
-                            // }
-                        } else {
-                            scope.userfriend = value;
-                            scope.alreadyFriendUser = true; 
-                            scope.icon = "glyphicon-warning"; 
-                            scope.text = "Retirer de la liste"; 
-                        }  
-                    };
-                });
+                            if(scope.isFriend.accepted == true){
+                                scope.icon = "glyphicon-warning"; 
+                                scope.text = "Retirer de la liste";
+                            }else{
+                                if(scope.isFriend.asked == true){
+                                    scope.icon = "glyphicon-default"; 
+                                    scope.text = "En attente de confirmation"; 
+                                }else{
+                                    scope.icon = "glyphicon-default"; 
+                                    scope.text = "Valider/Refuser"; 
+                                }
+                            }
+                        }
+                    } 
+                }
+                // scope.alreadyFriendUser = false; 
+                // scope.icon = "btn-primary"; 
+                // scope.text = "Ajouter";   
+                // angular.forEach(scope.user.friends, function(value, key) {
+                //     if (value.user1.id == scope.userLogged) {
+                //         if(value.accepted == 0){
+                //             scope.alreadyFriendUser = true;
+                //             waiting = true;
+                //             scope.icon = "glyphicon-default"; 
+                //             scope.text = "En attente de confirmation"; 
+                //             // if(value.user){
+                //             // }
+                //         } else {
+                //             scope.userfriend = value;
+                //             scope.alreadyFriendUser = true; 
+                //             scope.icon = "glyphicon-warning"; 
+                //             scope.text = "Retirer de la liste"; 
+                //         }  
+                //     };
+                // });
             });
             scope.friendUser = function(id){
                 var user = scope.user;
-                if(waiting == true){
+                if(scope.isFriend.asked == true){
                     return;
                 }
                 if(scope.alreadyFriendUser) {
@@ -306,17 +333,18 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
                 } else {
                     var friend = User.friend({id: id},{}, function(){
                         scope.user.friends.push(friend);
+                        console.log(scope.user);
                         scope.userfriend = friend;
                         scope.icon = "glyphicon-default"; 
                         scope.text = "En attente de confirmation"; 
-                        waiting = true; 
+                        scope.isFriend.asked = true; 
                     });
                 } 
-                scope.alreadyFriendUser = !scope.alreadyFriendUser;
+                scope.isFriend.isFriend = !scope.isFriend.isFriend;
             }
 
         },
-        template: '<button ng-show="userLogged != user.id" ng-click="friendUser(user.id, user.friends.id)" type="button" class="btn {{icon}}">{{text}}</button>'
+        template: '<button ng-show="isFriend.able != false" ng-click="friendUser(user.id)" type="button" class="btn {{icon}}">{{text}}</button>'
     };
 });
 

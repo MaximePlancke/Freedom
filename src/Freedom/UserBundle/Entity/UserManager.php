@@ -39,20 +39,29 @@ class UserManager extends BaseUser
      * @return Array
      */
     public function getIsFriend($user) {
+        $isFriend = false;
+        $accepted = false;
+        $asked = false;
+        $able = true;
         if($user != $this){
+            $able = true;
             $friendsList = array_merge($this->getUserfriendusers1()->toArray(), $this->getUserfriendusers2()->toArray());
             foreach ($friendsList as $key => $friend) {
                 if($friend->getUser1() == $user){
-                    return 'You asked';
+                    $asked = true; //Current user asked
+                    $isFriend = true;
+                    $accepted = $friend->getAccepted();
                 }
                 if($friend->getUser2() == $user){
-                    return 'He asked';
+                    $asked = false; //profile user asked
+                    $isFriend = true; 
+                    $accepted = $friend->getAccepted();
                 }
-            }      
-            return 'No friend';
+            }    
         } else {
-            return 'It\'s you';
+            $able = false;
         }
+        return array('isFriend' => $isFriend, 'accepted' => $accepted, 'asked' => $asked, 'able' => $able);  
     }
 
 

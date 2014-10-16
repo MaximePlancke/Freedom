@@ -328,6 +328,7 @@ class UserController extends VoryxController
      * @View(statusCode=204)
      *
      * @param Request $request
+     * @param $user
      * @param $entity
      * @internal param $id
      *
@@ -362,7 +363,7 @@ class UserController extends VoryxController
     /**
      * Get a isFriend entity
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @View(statusCode=200, serializerEnableMaxDepthChecks=true)
      * @param Request $request
      * @param $user
      * @param $friend
@@ -372,7 +373,12 @@ class UserController extends VoryxController
      */
     public function getIsfriendAction(Request $request, User $user, User $friend)
     {
-        return array('1' => 'amis');
+        try {
+            $isFriend = $user->getIsFriend($friend);
+            return array('isFriend' => $isFriend);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

@@ -318,19 +318,20 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
                 //     };
                 // });
             });
-            scope.friendUser = function(id){
+            scope.friendUser = function(){
+                console.log(scope.isFriend);
                 var user = scope.user;
-                if(scope.isFriend.asked == true){
-                    return;
-                }
-                if(scope.alreadyFriendUser) {
-                    User.unfriend({id: id, id_friend: scope.userfriend.id},{}, function(){
+                if(scope.isFriend.isFriend == true) {
+                    User.unfriend({id: scope.isFriend.userId, id_friend: scope.isFriend.friendId},{}, function(){
                         var index = scope.user.friends.indexOf(scope.userfriend);
                         scope.user.friends.splice(index, 1);
                         scope.icon = "btn-primary";
                         scope.text = "Ajouter";  
                     });
                 } else {
+                    if(scope.isFriend.asked == true){
+                        return;
+                    }
                     var friend = User.friend({id: id},{}, function(){
                         scope.user.friends.push(friend);
                         console.log(scope.user);
@@ -344,7 +345,7 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
             }
 
         },
-        template: '<button ng-show="isFriend.able != false" ng-click="friendUser(user.id)" type="button" class="btn {{icon}}">{{text}}</button>'
+        template: '<button ng-show="isFriend.able != false" ng-click="friendUser()" type="button" class="btn {{icon}}">{{text}}</button>'
     };
 });
 

@@ -269,83 +269,80 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
             // userLogged : '=userLogged'
         },
         link: function(scope, element, attrs) { 
-            // var waiting = false;
             scope.$watch('isFriend', function() {
                 if(typeof scope.isFriend != 'undefined'){
-                    scope.alreadyFriendUser = false; 
-                    if(scope.isFriend.able == false){
-                        scope.icon = ""; 
-                        scope.text = ""; 
+                    // scope.alreadyFriendUser = false; 
+                    scope.answer = false;
+                    if(scope.isFriend.isFriend == false){               
+                        scope.icon = "btn-primary"; 
+                        scope.text = "Ajouter"; 
                     }else{
-                        if(scope.isFriend.isFriend == false){               
-                            scope.icon = "btn-primary"; 
-                            scope.text = "Ajouter"; 
+                        // scope.alreadyFriendUser = true;
+                        if(scope.isFriend.accepted == true){
+                            scope.icon = "btn-default"; 
+                            scope.text = "Retirer de la liste";
                         }else{
-                            scope.alreadyFriendUser = true;
-                            if(scope.isFriend.accepted == true){
-                                scope.icon = "glyphicon-warning"; 
-                                scope.text = "Retirer de la liste";
+                            if(scope.isFriend.asked == true){
+                                scope.icon = "btn-default"; 
+                                scope.text = "En attente de confirmation"; 
                             }else{
-                                if(scope.isFriend.asked == true){
-                                    scope.icon = "glyphicon-default"; 
-                                    scope.text = "En attente de confirmation"; 
-                                }else{
-                                    scope.icon = "glyphicon-default"; 
-                                    scope.text = "Valider/Refuser"; 
-                                }
+                                scope.answer = true;
                             }
                         }
-                    } 
-                }
-                // scope.alreadyFriendUser = false; 
-                // scope.icon = "btn-primary"; 
-                // scope.text = "Ajouter";   
-                // angular.forEach(scope.user.friends, function(value, key) {
-                //     if (value.user1.id == scope.userLogged) {
-                //         if(value.accepted == 0){
-                //             scope.alreadyFriendUser = true;
-                //             waiting = true;
-                //             scope.icon = "glyphicon-default"; 
-                //             scope.text = "En attente de confirmation"; 
-                //             // if(value.user){
-                //             // }
-                //         } else {
-                //             scope.userfriend = value;
-                //             scope.alreadyFriendUser = true; 
-                //             scope.icon = "glyphicon-warning"; 
-                //             scope.text = "Retirer de la liste"; 
-                //         }  
-                //     };
-                // });
-            });
-            scope.friendUser = function(){
-                console.log(scope.isFriend);
-                var user = scope.user;
-                if(scope.isFriend.isFriend == true) {
-                    User.unfriend({id: scope.isFriend.userId, id_friend: scope.isFriend.friendId},{}, function(){
-                        var index = scope.user.friends.indexOf(scope.userfriend);
-                        scope.user.friends.splice(index, 1);
-                        scope.icon = "btn-primary";
-                        scope.text = "Ajouter";  
-                    });
-                } else {
-                    if(scope.isFriend.asked == true){
-                        return;
                     }
-                    var friend = User.friend({id: id},{}, function(){
-                        scope.user.friends.push(friend);
-                        console.log(scope.user);
-                        scope.userfriend = friend;
-                        scope.icon = "glyphicon-default"; 
-                        scope.text = "En attente de confirmation"; 
+                }
+            }, true);
+            scope.friendUser = function(action){
+                var user = scope.user;
+                if(scope.isFriend.isFriend == false){  
+                    // scope.alreadyFriendUser = false;             
+                    User.friend({id: scope.isFriend.userId},{}, function(){
                         scope.isFriend.asked = true; 
+                        scope.isFriend.isFriend = true;
                     });
-                } 
-                scope.isFriend.isFriend = !scope.isFriend.isFriend;
+                }else{
+                    // scope.alreadyFriendUser = true;
+                    if(scope.isFriend.accepted == true){
+                        User.unfriend({id: scope.isFriend.userId, id_friend: scope.isFriend.data.id},{}, function(){
+                            // var index = scope.user.friends.indexOf(scope.isFriend);
+                            // scope.user.friends.splice(index, 1);
+                            scope.isFriend.isFriend = false;
+                            scope.isFriend.asked = false;
+                            scope.isFriend.accepted = false;
+                        });
+                    }else{
+                        if(scope.isFriend.asked == true){
+                            return;
+                        }else{
+                            var friendUpdate = scope.isFriend.data;
+                            friendUpdate.accepted = action;
+                            if(action == true){
+                                User.friendUpdate({id: scope.isFriend.userId, id_friend: scope.isFriend.data.id}, friendUpdate, function(friend){ 
+                                    scope.isFriend.accepted = true; 
+                                    //Maybe do that later differently to get the exact same object. I could use friends window like a widget
+                                    // scope.user.friends.push(friend);
+                                });
+                            } else {
+                                User.unfriend({id: scope.isFriend.userId, id_friend: scope.isFriend.data.id}, {}, function(){ 
+                                    scope.isFriend.isFriend = false;
+                                    scope.isFriend.asked = false;
+                                });
+                            }
+                            scope.answer = false;
+                        }
+                    }
+                }
             }
-
         },
-        template: '<button ng-show="isFriend.able != false" ng-click="friendUser()" type="button" class="btn {{icon}}">{{text}}</button>'
+        template: 
+                '<span ng-cloack ng-if="isFriend.able != false">'+
+                    '<span ng-cloak ng-if="answer == false">'+
+                        '<button ng-click="friendUser()" type="button" class="btn {{icon}}">{{text}}</button>'+
+                    '</span>'+
+                    '<span ng-cloak ng-if="answer == true">'+
+                        '<button ng-click="friendUser(true)" type="button" class="btn btn-primary">Accepter</button><button ng-click="friendUser(false)" type="button" class="btn btn-default">Refuser</button>'+
+                    '</span>'+
+                '</span>'
     };
 });
 

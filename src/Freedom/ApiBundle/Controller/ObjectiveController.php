@@ -313,6 +313,7 @@ class ObjectiveController extends VoryxController
      * @View(statusCode=204)
      *
      * @param Request $request
+     * @param $objective
      * @param $entity
      * @internal param $id
      *

@@ -4,6 +4,7 @@ namespace Freedom\ApiBundle\Controller;
 
 use Freedom\UserBundle\Entity\User;
 use Freedom\UserBundle\Form\UserType;
+use Freedom\UserBundle\Form\UserfrienduserType;
 use Freedom\UserBundle\Entity\Userfrienduser;
 use Freedom\UserBundle\Entity\Notification;
 
@@ -338,7 +339,11 @@ class UserController extends VoryxController
     {
         $user = $this->getUser();
         if ($user == $entity->getUser1() OR $user == $entity->getUser2()) {
-            if($entity->getAccepted() != 0 AND $user == $entity->getUser1()){
+            if($entity->getAccepted() == 0 AND $user == $entity->getUser1()){
+                throw $this->createNotFoundException(
+                    'Friendship not accepted yet'
+                );
+            } else {
                 try {
                     $em = $this->getDoctrine()->getManager();
                     $em->remove($entity);
@@ -348,15 +353,42 @@ class UserController extends VoryxController
                 } catch (\Exception $e) {
                     return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
                 }
-            } else {
-                throw $this->createNotFoundException(
-                    'Friendship not accepted yet'
-                );
             }
         } else {
             throw $this->createNotFoundException(
                 'No rights for this follow : '.$entity
             );
+        }
+    }
+
+    /**
+     * Update a friend entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $entity
+     * @param $friend   
+     *
+     * @return Response
+     */
+    public function putUserfriendusersAction(Request $request, User $entity,  Userfrienduser $friend)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $request->setMethod('PATCH'); //Treat all PUTs as PATCH
+            $form = $this->createForm(new UserfrienduserType(), $friend, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $friend;
+            }
+
+            return FOSView::create(array('errors' => $em), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

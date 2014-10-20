@@ -21,6 +21,7 @@ ObjectiveApp.factory('User', ['$resource', function($resource){
         belongGroup: {method: 'GET', url: '/api/users/:id/userbelonggroups', params:{}, isArray:true},
         friend: {method: 'POST', url: '/api/users/:id/userfriendusers', params:{}},
         unfriend: {method: 'DELETE', url: '/api/users/:id/userfriendusers/:id_friend', params:{}},
+        friendUpdate: {method: 'PUT', url: '/api/users/:id/userfriendusers/:id_friend', params:{}},
         isFriend: {method: 'GET', url: '/api/users/:id/isfriends/:id_friend', params:{}}
     });
 }]);

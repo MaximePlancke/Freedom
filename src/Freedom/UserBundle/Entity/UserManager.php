@@ -45,6 +45,7 @@ class UserManager extends BaseUser
         $accepted = false;
         $asked = false;
         $able = true;
+        $data = null;
         if($userFriend != $this){
             $able = true;
             $friendsList = array_merge($this->getUserfriendusers1()->toArray(), $this->getUserfriendusers2()->toArray());
@@ -53,17 +54,19 @@ class UserManager extends BaseUser
                     $asked = true; //Current user asked
                     $isFriend = true;
                     $accepted = $friend->getAccepted();
+                    $data = $friend;
                 }
                 if($friend->getUser2() == $userFriend){
                     $asked = false; //profile user asked
                     $isFriend = true; 
                     $accepted = $friend->getAccepted();
+                    $data = $friend;
                 }
             }    
         } else {
             $able = false;
         }
-        return array('isFriend' => $isFriend, 'accepted' => $accepted, 'asked' => $asked, 'able' => $able, 'userId' => $this->getId(), 'friendId' => $userFriend->getId());  
+        return array('data' => $data ,'isFriend' => $isFriend, 'accepted' => $accepted, 'asked' => $asked, 'able' => $able, 'userId' => $this->getId());  
     }
 
 

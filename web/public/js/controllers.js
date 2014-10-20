@@ -293,7 +293,6 @@ ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scop
     $scope.$watch('userLogged', function() {
         Group.userBelong({id: groupId, id_user: $scope.userLogged},{}, function(data){
             $scope.userBelong = data.userBelong;
-            console.log(data.userBelong);
         });
     });
 

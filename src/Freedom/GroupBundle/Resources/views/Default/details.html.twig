@@ -10,7 +10,7 @@
 
 <div ng-controller="GroupDetailsCtrl" ng-init="userLogged = {{ userLogged.getId }}">
 	<h3>
-		<allow-belong-group user-logged='{{ userLogged.getId }}' group='group' already-belong-group='alreadyBelongGroup'></allow-belong-group>
+		<allow-belong-group user-logged='{{ userLogged.getId }}' user-belong='userBelong' already-belong-group='alreadyBelongGroup'></allow-belong-group>
 		{[{group.name | capitalize}]} - {[{group.rate}]} / 10
 	</h3>
 	<h6>

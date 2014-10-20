@@ -207,79 +207,104 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
     return {
         restrict: 'E',
         scope: {
-            group : '=group',
+            userBelong : '=userBelong',
             userLogged : '=userLogged',
             alreadyBelongGroup : '=alreadyBelongGroup'
         },
         link: function(scope, element, attrs) { 
-            scope.$watch('group', function() {
-                if(typeof scope.group != 'undefined'){
-                    scope.alreadyBelongGroup = false; 
-                    scope.icon = "glyphicon-star-empty"; 
-                    angular.forEach(scope.group.userbelonggroups, function(value, key) {
-                        if (value.user.id == scope.userLogged) {
-                            if(value.accepted == 1){
-                                scope.userbelong = value;
-                                scope.alreadyBelongGroup = true; 
-                                scope.icon = "glyphicon-star"; 
-                            } 
-                        };
-                    });
-                }
-            });
-            // scope.$watch('isFriend', function() {
-            //     if(typeof scope.isFriend != 'undefined'){
-            //         scope.answer = false;
-            //         if(scope.isFriend.isFriend == false){               
-            //             scope.icon = "btn-primary"; 
-            //             scope.text = "Ajouter"; 
-            //         }else{
-            //             if(scope.isFriend.accepted == true){
-            //                 scope.icon = "btn-default"; 
-            //                 scope.text = "Retirer de la liste";
-            //             }else{
-            //                 if(scope.isFriend.asked == true){
-            //                     scope.icon = "btn-default"; 
-            //                     scope.text = "En attente de confirmation"; 
-            //                 }else{
-            //                     scope.answer = true;
-            //                 }
-            //             }
-            //         }
+            // scope.$watch('group', function() {
+            //     if(typeof scope.group != 'undefined'){
+            //         scope.alreadyBelongGroup = false; 
+            //         scope.icon = "glyphicon-star-empty"; 
+            //         angular.forEach(scope.group.userbelonggroups, function(value, key) {
+            //             if (value.user.id == scope.userLogged) {
+            //                 if(value.accepted == 1){
+            //                     scope.userbelong = value;
+            //                     scope.alreadyBelongGroup = true; 
+            //                     scope.icon = "glyphicon-star"; 
+            //                 } 
+            //             };
+            //         });
             //     }
-            // }, true);
-            scope.belongGroup = function(id){
-                var group = scope.group;
-                if(scope.alreadyBelongGroup) {
-                    if (scope.userbelong.role == 1) {
-                        $rootScope.flashMessage = {type: 'alert-warning', message: 'You can\'t leave your own group!'};
+            // });
+            scope.$watch('userBelong', function() {
+                if(typeof scope.userBelong != 'undefined'){
+                    scope.answer = false;
+                    if(scope.userBelong.belong == false){               
+                        scope.icon = "btn-primary"; 
+                        scope.text = "Rejoindre"; 
                     }else{
-                        Group.unbelong({id: id, id_belong: scope.userbelong.id},{}, function(unbelong){
-                            var index = scope.group.userbelonggroups.indexOf(scope.userbelong);
-                            scope.group.userbelonggroups.splice(index, 1);
-                            scope.icon = "glyphicon-star-empty";
-                            $rootScope.flashMessage = {type: unbelong.alert, message: unbelong.message};
-                            scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
-                        });
-                    }
-                } else {
-                    Group.belong({id: id},{}, function(belong){
-                        if(belong.type == 'warning'){ 
-                            $rootScope.flashMessage = {type: belong.alert, message: belong.message};
-                        }else if(belong.type == 'private'){   
-                            $rootScope.flashMessage = {type: belong.alert, message: belong.message};
+                        if(scope.userBelong.accepted == true){
+                            scope.icon = "btn-default"; 
+                            scope.text = "Se déinscrire";
                         }else{
-                            scope.group.userbelonggroups.push(belong.data);
-                            scope.userbelong = belong.data;
-                            scope.icon = "glyphicon-star"; 
-                            scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
+                            scope.icon = "btn-default"; 
+                            scope.text = "En attente de confirmation"; 
                         }
-                    });
-                } 
+                    }
+                }
+            }, true);
+            scope.belongGroup = function(){
+                var user = scope.user;
+                if (scope.userbelong.role == 1) {
+                    $rootScope.flashMessage = {type: 'alert-warning', message: 'You can\'t leave your own group!'};
+                }else{
+                    if(scope.userBelong.belong == false){             
+                        Group.belong({id: scope.userBelong.groupId},{}, function(){
+                            scope.userBelong.belong = true;
+                            if(scope.userBelong.private == false){
+                                scope.userBelong.accepted = true;
+                            }
+                            $rootScope.flashMessage = {type: belong.alert, message: belong.message};
+                        });
+                    }else{
+                        if(scope.userBelong.accepted == true){
+                            console.log(scope.userBelong);
+                            Group.unbelong({id: scope.userBelong.groupId, id_belong: scope.userBelong.data.id},{}, function(){
+                                // var index = scope.group.friends.indexOf(scope.userBelong);
+                                // scope.group.friends.splice(index, 1);
+                                $rootScope.flashMessage = {type: unbelong.alert, message: unbelong.message};
+                                scope.userBelong.belong = false;
+                                scope.userBelong.accepted = false;
+                            });
+                        }else{
+                            return;
+                        }
+                    }
+                }
             }
+            // scope.belongGroup = function(id){
+            //     var group = scope.group;
+            //     if(scope.alreadyBelongGroup) {
+            //         if (scope.userbelong.role == 1) {
+            //             $rootScope.flashMessage = {type: 'alert-warning', message: 'You can\'t leave your own group!'};
+            //         }else{
+            //             Group.unbelong({id: id, id_belong: scope.userbelong.id},{}, function(unbelong){
+            //                 var index = scope.group.userbelonggroups.indexOf(scope.userbelong);
+            //                 scope.group.userbelonggroups.splice(index, 1);
+            //                 scope.icon = "glyphicon-star-empty";
+            //                 $rootScope.flashMessage = {type: unbelong.alert, message: unbelong.message};
+            //                 scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
+            //             });
+            //         }
+            //     } else {
+            //         Group.belong({id: id},{}, function(belong){
+            //             if(belong.type == 'warning'){ 
+            //                 $rootScope.flashMessage = {type: belong.alert, message: belong.message};
+            //             }else if(belong.type == 'private'){   
+            //                 $rootScope.flashMessage = {type: belong.alert, message: belong.message};
+            //             }else{
+            //                 scope.group.userbelonggroups.push(belong.data);
+            //                 scope.userbelong = belong.data;
+            //                 scope.icon = "glyphicon-star"; 
+            //                 scope.alreadyBelongGroup = !scope.alreadyBelongGroup;
+            //             }
+            //         });
+            //     } 
+            // }
 
         },
-        template: '<span ng-click="belongGroup(group.id)" class="clickable glyphicon {{icon}}"></span>'
+        template: '<button ng-cloack ng-click="belongGroup()" type="button" class="btn {{icon}}">{{text}}</button>'
     };
 });
 
@@ -314,7 +339,7 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
                 }
             }, true);
             scope.friendUser = function(action){
-                var user = scope.user;
+                // var user = scope.user;
                 if(scope.isFriend.isFriend == false){             
                     User.friend({id: scope.isFriend.userId},{}, function(){
                         scope.isFriend.asked = true; 

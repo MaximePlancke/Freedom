@@ -69,5 +69,4 @@ class UserManager extends BaseUser
         return array('data' => $data ,'isFriend' => $isFriend, 'accepted' => $accepted, 'asked' => $asked, 'able' => $able, 'userId' => $this->getId());  
     }
 
-
 }

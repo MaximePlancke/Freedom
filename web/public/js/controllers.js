@@ -284,11 +284,19 @@ ObjectiveApp.controller('GroupProfileCtrl', [ '$scope', 'User', function ($scope
 ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scope, Group) {
 
     //Init
+    var groupId = parseInt(pathArray[2]);
     $scope.group = {};
 
-    Group.query({id: parseInt(pathArray[2])},{}, function(data){
+    Group.query({id: groupId},{}, function(data){
         $scope.group = data;
     });
+    $scope.$watch('userLogged', function() {
+        Group.userBelong({id: groupId, id_user: $scope.userLogged},{}, function(data){
+            $scope.userBelong = data.userBelong;
+            console.log(data.userBelong);
+        });
+    });
+
 }]);
 
 

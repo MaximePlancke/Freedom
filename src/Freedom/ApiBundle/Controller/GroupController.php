@@ -4,6 +4,7 @@ namespace Freedom\ApiBundle\Controller;
 
 use Freedom\GroupBundle\Entity\Groups;
 use Freedom\GroupBundle\Form\GroupsType;
+use Freedom\UserBundle\Entity\User;
 use Freedom\UserBundle\Entity\Userbelonggroup;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -252,6 +253,27 @@ class GroupController extends VoryxController
             throw $this->createNotFoundException(
                 'No able to modify : '.$entity
             );
+        }
+    }
+
+    /**
+     * Get a User belong entity
+     *
+     * @View(statusCode=200, serializerEnableMaxDepthChecks=true)
+     * @param Request $request
+     * @param $group
+     * @param $user
+     *
+     * @return Response
+     *
+     */
+    public function getUserbelongsAction(Request $request, Groups $group, User $user)
+    {
+        try {
+            $userBelong = $group->getUserBelong($user);
+            return array('userBelong' => $userBelong);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

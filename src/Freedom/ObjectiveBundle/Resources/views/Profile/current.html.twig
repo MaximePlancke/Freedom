@@ -16,7 +16,7 @@
 	        </span><span ng-if="objective.done != true">
 	            <span class="glyphicon glyphicon-retweet"></span>
 	        </span>
-	    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username }]}</a><span ng-show="objective.group"> - Belong to the group <a href="#" ng-click="url('freedom_group_details', {id: objective.group.id})">{[{objective.group.name | capitalize}]}</a></span>
+	    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username | capitalize }]}</a><span ng-show="objective.group"> - Belong to the group <a href="#" ng-click="url('freedom_group_details', {id: objective.group.id})">{[{objective.group.name | capitalize}]}</a></span>
 	        <span ng-if="{{ userLogged.getId }} == objective.user.id">
 	            <span ng-click="deleteObjective($index)" class="clickable glyphicon glyphicon-remove"></span>
 	            <span ng-click="doneObjective($index)" class="clickable glyphicon glyphicon-refresh"></span>

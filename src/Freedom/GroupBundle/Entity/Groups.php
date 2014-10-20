@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
  *
  * @ExclusionPolicy("all") 
  */
-class Groups
+class Groups extends GroupsManager
 {
     /**
      * @var integer

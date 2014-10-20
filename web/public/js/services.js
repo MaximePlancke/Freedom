@@ -60,7 +60,8 @@ ObjectiveApp.factory('Group', ['$resource', function($resource){
         query: {method: 'GET', params:{}},
         queries: {method: 'GET', params:{}, isArray:true},
         belong: {method: 'POST', url: '/api/groups/:id/userbelonggroups', params:{}},
-        unbelong: {method: 'DELETE', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}}
+        unbelong: {method: 'DELETE', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}},
+        userBelong: {method: 'GET', url: '/api/groups/:id/userbelongs/:id_user', params:{}}
     });
 }]);
 

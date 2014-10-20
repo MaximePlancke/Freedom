@@ -1,3 +1,29 @@
+ObjectiveApp.directive('submitAdvice', function(Advice) {
+    return {
+        restrict: 'A',
+        scope: {
+            objective : '=objective',
+        },
+        link: function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    // console.log(attrs);
+                    var advice = new Advice;
+                    advice.name = element.val();
+                    Advice.create({id: scope.objective.id}, advice, function(data){
+                        Advice.query({id: scope.objective.id, id_advice: data.id},{}, function(data){ 
+                            scope.objective.advices.push(data);
+                        });
+                    });
+                    element.val('');
+                    event.preventDefault();
+                    // console.log(scope.objective);
+                }
+            });
+        }
+    };
+});
+
 ObjectiveApp.directive('allowLikeObjective', function(Objective) {
     return {
         restrict: 'E',
@@ -187,18 +213,41 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
         },
         link: function(scope, element, attrs) { 
             scope.$watch('group', function() {
-                scope.alreadyBelongGroup = false; 
-                scope.icon = "glyphicon-star-empty"; 
-                angular.forEach(scope.group.userbelonggroups, function(value, key) {
-                    if (value.user.id == scope.userLogged) {
-                        if(value.accepted == 1){
-                            scope.userbelong = value;
-                            scope.alreadyBelongGroup = true; 
-                            scope.icon = "glyphicon-star"; 
-                        } 
-                    };
-                });
+                if(typeof scope.group != 'undefined'){
+                    scope.alreadyBelongGroup = false; 
+                    scope.icon = "glyphicon-star-empty"; 
+                    angular.forEach(scope.group.userbelonggroups, function(value, key) {
+                        if (value.user.id == scope.userLogged) {
+                            if(value.accepted == 1){
+                                scope.userbelong = value;
+                                scope.alreadyBelongGroup = true; 
+                                scope.icon = "glyphicon-star"; 
+                            } 
+                        };
+                    });
+                }
             });
+            // scope.$watch('isFriend', function() {
+            //     if(typeof scope.isFriend != 'undefined'){
+            //         scope.answer = false;
+            //         if(scope.isFriend.isFriend == false){               
+            //             scope.icon = "btn-primary"; 
+            //             scope.text = "Ajouter"; 
+            //         }else{
+            //             if(scope.isFriend.accepted == true){
+            //                 scope.icon = "btn-default"; 
+            //                 scope.text = "Retirer de la liste";
+            //             }else{
+            //                 if(scope.isFriend.asked == true){
+            //                     scope.icon = "btn-default"; 
+            //                     scope.text = "En attente de confirmation"; 
+            //                 }else{
+            //                     scope.answer = true;
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }, true);
             scope.belongGroup = function(id){
                 var group = scope.group;
                 if(scope.alreadyBelongGroup) {
@@ -234,32 +283,6 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
     };
 });
 
-ObjectiveApp.directive('submitAdvice', function(Advice) {
-    return {
-    	restrict: 'A',
-        scope: {
-            objective : '=objective',
-        },
-    	link: function(scope, element, attrs) {
-    		element.bind("keydown keypress", function(event) {
-                if(event.which === 13) {
-                    // console.log(attrs);
-                    var advice = new Advice;
-                    advice.name = element.val();
-                    Advice.create({id: scope.objective.id}, advice, function(data){
-                        Advice.query({id: scope.objective.id, id_advice: data.id},{}, function(data){ 
-                            scope.objective.advices.push(data);
-                        });
-                    });
-                    element.val('');
-                    event.preventDefault();
-                    // console.log(scope.objective);
-                }
-            });
-    	}
-    };
-});
-
 ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
     return {
         restrict: 'E',
@@ -271,13 +294,11 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
         link: function(scope, element, attrs) { 
             scope.$watch('isFriend', function() {
                 if(typeof scope.isFriend != 'undefined'){
-                    // scope.alreadyFriendUser = false; 
                     scope.answer = false;
                     if(scope.isFriend.isFriend == false){               
                         scope.icon = "btn-primary"; 
                         scope.text = "Ajouter"; 
                     }else{
-                        // scope.alreadyFriendUser = true;
                         if(scope.isFriend.accepted == true){
                             scope.icon = "btn-default"; 
                             scope.text = "Retirer de la liste";
@@ -294,14 +315,12 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
             }, true);
             scope.friendUser = function(action){
                 var user = scope.user;
-                if(scope.isFriend.isFriend == false){  
-                    // scope.alreadyFriendUser = false;             
+                if(scope.isFriend.isFriend == false){             
                     User.friend({id: scope.isFriend.userId},{}, function(){
                         scope.isFriend.asked = true; 
                         scope.isFriend.isFriend = true;
                     });
                 }else{
-                    // scope.alreadyFriendUser = true;
                     if(scope.isFriend.accepted == true){
                         User.unfriend({id: scope.isFriend.userId, id_friend: scope.isFriend.data.id},{}, function(){
                             // var index = scope.user.friends.indexOf(scope.isFriend);
@@ -336,10 +355,10 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
         },
         template: 
                 '<span ng-cloack ng-if="isFriend.able != false">'+
-                    '<span ng-cloak ng-if="answer == false">'+
+                    '<span ng-if="answer == false">'+
                         '<button ng-click="friendUser()" type="button" class="btn {{icon}}">{{text}}</button>'+
                     '</span>'+
-                    '<span ng-cloak ng-if="answer == true">'+
+                    '<span ng-if="answer == true">'+
                         '<button ng-click="friendUser(true)" type="button" class="btn btn-primary">Accepter</button><button ng-click="friendUser(false)" type="button" class="btn btn-default">Refuser</button>'+
                     '</span>'+
                 '</span>'

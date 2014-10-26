@@ -7,6 +7,18 @@ Freedom\UserBundle\Entity\User:
             type: integer
             generator:
                 strategy: AUTO
+    fields:
+        firstname:
+            type: string
+            length: 20
+            nullable: false
+        lastname:
+            type: string
+            length: 20
+            nullable: false
+        picture:
+            type: string
+            length: 255
     oneToMany:
         userfriendusers1:
             targetEntity: Freedom\UserBundle\Entity\Userfrienduser

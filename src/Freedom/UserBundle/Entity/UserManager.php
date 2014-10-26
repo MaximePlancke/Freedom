@@ -9,6 +9,16 @@ class UserManager extends BaseUser
 {
 
     /**
+     * Get full name
+     * 
+     * @return String
+     * @VirtualProperty 
+     */
+    public function getFullname() {
+        return ucfirst($this->getFirstname()).' '.ucfirst($this->getLastname());
+    }
+
+    /**
      * Get friends
      * 
      * @return Array

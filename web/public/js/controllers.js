@@ -5,7 +5,7 @@ ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$rootScope', '$scope', 'Advic
 
     Objective.queries({limit: 10, filters : {user: parseInt(pathArray[1]), done: 0}, order_by :{datecreation: 'DESC'}},{}, function(data){
         $scope.objectives = data;
-
+        console.log(data);
     });
 
     $scope.deleteObjective = function(idx){
@@ -277,6 +277,14 @@ ObjectiveApp.controller('GroupProfileCtrl', [ '$scope', 'User', function ($scope
         $scope.groups = data;
         // console.log(data);
     });
+
+}]);
+
+ObjectiveApp.controller('FriendProfileCtrl', [ '$scope', 'User', function ($scope, User) {
+
+    //Init
+    var profileUserId = parseInt(pathArray[1]);
+    $scope.friends = [];
 
 }]);
 

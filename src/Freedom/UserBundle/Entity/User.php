@@ -28,6 +28,20 @@ class User extends UserManager
      */
     protected $id;
 
+    /**
+     * @var string
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     */
+    private $lastname;
+
+    /**
+     * @var string
+     */
+    private $picture;
    
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -226,5 +240,74 @@ class User extends UserManager
     public function getOwngroups()
     {
         return $this->owngroups;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     * @return User
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string 
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     * @return User
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string 
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set picture
+     *
+     * @param string $picture
+     * @return User
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return string 
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
 }

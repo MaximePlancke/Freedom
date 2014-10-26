@@ -27,7 +27,7 @@
 		        </span><span ng-if="objective.done != true">
 		            <span class="glyphicon glyphicon-retweet"></span>
 		        </span>
-		    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username | capitalize}]}</a>
+		    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.fullname }]}</a>
 		        {# <span ng-if="{{ userLogged.getId }} == objective.user.id || {{ userLogged.getId }} == objective.group.user.id">
 		            <span ng-click="deleteObjective(objective.id)" class="clickable glyphicon glyphicon-remove"></span>
 		        </span>
@@ -39,7 +39,7 @@
 	<h3>Members (<span> {[{ group.accepted_user_belongs.length }]} </span>)</h3>
 		<ul ng-repeat="member in group.accepted_user_belongs  | orderBy :'-id'">
 			<li>
-		    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.username | capitalize }]}</a><span ng-show="member.role == 1"> - ( Owner )</span>
+		    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.fullname }]}</a><span ng-show="member.role == 1"> - ( Owner )</span>
 		    </li>
 		</ul>
 </div>

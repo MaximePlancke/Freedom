@@ -16,7 +16,7 @@
 	        </span><span ng-if="objective.done != true">
 	            <span class="glyphicon glyphicon-retweet"></span>
 	        </span>
-	    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.username | capitalize }]}</a><span ng-show="objective.group"> - Belong to the group <a href="#" ng-click="url('freedom_group_details', {id: objective.group.id})">{[{objective.group.name | capitalize}]}</a></span>
+	    	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.fullname }]}</a><span ng-show="objective.group"> - Belong to the group <a href="#" ng-click="url('freedom_group_details', {id: objective.group.id})">{[{objective.group.name | capitalize}]}</a></span>
 	        <span ng-if="{{ userLogged.getId }} == objective.user.id">
 	            <span ng-click="deleteObjective($index)" class="clickable glyphicon glyphicon-remove"></span>
 	            <span ng-click="doneObjective($index)" class="clickable glyphicon glyphicon-refresh"></span>
@@ -56,7 +56,7 @@
 			<li>
 				{[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} 
 				<allow-like-advice user-logged='{{ userLogged.getId }}' objective='objective' idx='$index'></allow-like-advice> - By 
-				<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: advice.user.id})">{[{ advice.user.username | capitalize }]}</a> 
+				<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: advice.user.id})">{[{ advice.user.fullname }]}</a> 
 				<span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span>
 			</li>
 	    </ul>
@@ -67,7 +67,7 @@
 			<h4>No followed objective. <a href="{{ path('freedom_explore_search') }}">Follow a new one?</a></h4>
 		</div>
 		<div ng-if="{{ userLogged.getId }} != {{ idProfile }}">
-			<h4>{{userProfile|capitalize}} doesn't follow any objective</h4>
+			<h4>{{userProfile.fullname}} doesn't follow any objective</h4>
 		</div>
 	</div>
 </div>

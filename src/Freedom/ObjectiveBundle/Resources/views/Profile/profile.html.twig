@@ -9,13 +9,13 @@
 {% block content %}
 
 <div ng-controller="ProfileCtrl" ng-init="userLogged = {{ userLogged.getId }}">
-	<h3><allow-friend-user user='user' is-friend='isFriend'></allow-friend-user></span><span> {{ userProfile|capitalize }}</span></h3>
+	<h3><allow-friend-user user='user' is-friend='isFriend'></allow-friend-user></span><span> {{ userProfile.fullname|capitalize }}</span></h3>
 
 <div>
 	<h4>Friends (<span> {[{ user.friends.length }]} </span>)</h4>
 	<ul ng-repeat="friend in user.friends  | orderBy :'-id'">
 		<li>
-	    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: friend.user1.id})">{[{ friend.user1.username | capitalize }]}</a>
+	    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: friend.user1.id})">{[{ friend.user1.fullname }]}</a>
 	    </li>
 	</ul>
 </div>

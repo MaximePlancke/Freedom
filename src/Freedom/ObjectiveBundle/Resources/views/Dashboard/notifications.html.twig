@@ -15,7 +15,7 @@
 			<a href="#" ng-click="url('freedom_group_details', {id: group.id})">{[{group.name | capitalize}]}</a>
 			<ul ng-repeat="member in group.userbelonggroups  | orderBy :'-id'">
 				<li ng-if="member.user">
-			    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.username | capitalize }]}</a> <manage-member-group group="group" member='member'></manage-member-group>
+			    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.fullname }]}</a> <manage-member-group group="group" member='member'></manage-member-group>
 			    </li>
 			</ul>
 		</div>

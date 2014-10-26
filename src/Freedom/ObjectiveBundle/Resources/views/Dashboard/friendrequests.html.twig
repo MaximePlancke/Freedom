@@ -15,7 +15,7 @@
 		    {% for friendRequest in friendRequests %}
 		        <li>
 		        	{% if friendRequest.seen == false %}<div class="notif-not-seen">{% else %}<div>{% endif %}
-		        		<a href="{{ path('freedom_objective_profile_profile', {idProfile: friendRequest.user1.id}) }}">{{ friendRequest.user1.username|capitalize }}</a> wants to be your friend - {{ friendRequest.datecreation|date }}
+		        		<a href="{{ path('freedom_objective_profile_profile', {idProfile: friendRequest.user1.id}) }}">{{ friendRequest.user1.fullname }}</a> wants to be your friend - {{ friendRequest.datecreation|date }}
 		        	</div>
 		        </li>
 		    {% endfor %}

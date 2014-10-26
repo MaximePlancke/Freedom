@@ -101,4 +101,18 @@ class ProfileController extends Controller
             );
     }
 
+    /**
+    * @Route("/friends", name="freedom_objective_profile_friends")
+    * @Template()
+    */
+    public function friendsAction($idProfile)
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:User');
+        $userProfile = $repository->find($idProfile);
+        
+        return array(
+                'userProfile' => $userProfile,
+            );
+    }
+
 }

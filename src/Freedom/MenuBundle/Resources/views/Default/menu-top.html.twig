@@ -7,7 +7,7 @@
 			</button>
 			<a class="navbar-brand" href="{{ path('freedom_explore_search') }}">Search</a>
 			<a class="navbar-brand" href="{{ path('freedom_explore_news') }}">News</a>
-			<a class="navbar-brand" href="{{ path('freedom_objective_profile_profile', {idProfile: user.id}) }}">{{user|capitalize}}</a>
+			<a class="navbar-brand" href="{{ path('freedom_objective_profile_profile', {idProfile: user.id}) }}">{{user.firstname|capitalize}}</a>
 			<a class="navbar-brand" href="{{ path('freedom_objective_dashboard_dashboard') }}">Dashboard</a>
 			<a class="navbar-brand" href="{{ path('freedom_objective_dashboard_notifications') }}"><span class="glyphicon glyphicon-globe"></span></a>
 			<a class="navbar-brand" href=""><span class="glyphicon glyphicon-envelope"></span></a>
@@ -20,8 +20,8 @@
 					<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
 					<i class="glyphicon glyphicon-user"></i> Account <span class="caret"></span></a>
 					<ul id="g-account-menu" class="dropdown-menu" role="menu">
-						<li><a href="#">My Profile</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+						<li><a href="{{ path('fos_user_profile_edit') }}">My Profile</a></li>
+						<li><a href="{{ path('fos_user_security_logout') }}"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
 					</ul>
 				</li>
 			</ul>

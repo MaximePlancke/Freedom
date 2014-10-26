@@ -65,7 +65,7 @@
 			    {% else %}
 				    <ul>
 						{% for advice in lastCurrentObjective.getAdvices %}
-						<li>{{ advice.name }} - {{ advice.userlikeadvices | length }} <span class="glyphicon glyphicon-heart-empty"></span> - By {{ advice.user|capitalize }}</li>
+						<li>{{ advice.name }} - {{ advice.userlikeadvices | length }} <span class="glyphicon glyphicon-heart-empty"></span> - By {{ advice.user.fullname }}</li>
 				    	{% endfor %}
 				    </ul>
 			    {% endif %}
@@ -107,7 +107,7 @@
 			    {% else %}
 				    <ul>
 						{% for advice in lastDoneObjective.getAdvices %}
-						<li>{{ advice.name }} - {{ advice.userlikeadvices | length }} <span class="glyphicon glyphicon-heart-empty"></span> - By {{ advice.user|capitalize }}</li>
+						<li>{{ advice.name }} - {{ advice.userlikeadvices | length }} <span class="glyphicon glyphicon-heart-empty"></span> - By {{ advice.user.fullname }}</li>
 				    	{% endfor %}
 				    </ul>
 			    {% endif %}

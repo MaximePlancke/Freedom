@@ -19,14 +19,14 @@
     <div class="block">
         <div class="row">
             <div class="col-sm-2">
-                <h3>{{ userProfile|capitalize }}</h3>
+                <h3>{{ userProfile.fullname }}</h3>
                 <ul class="nav nav-stacked">
                     <li><a href="{{ path('freedom_objective_profile_profile', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-dashboard"></i> Profile</a></li>
                     <li><a href="{{ path('freedom_objective_profile_current', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-retweet"></i> Current Objective</a></li>
                     <li><a href="{{ path('freedom_objective_profile_done', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-check"></i> Done Objective</a></li>                    
                     <li><a href="javascript:;"><i class="glyphicon glyphicon-comment"></i> Your Tips</a></li>
                     <li><a href="{{ path('freedom_objective_profile_followed', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-thumbs-up"></i> Followed</a></li>
-                    <li><a href="javascript:;"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
+                    <li><a href="{{ path('freedom_objective_profile_friends', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
                     <li><a href="{{ path('freedom_objective_profile_groups', {idProfile: idProfile}) }}"><i class="glyphicon glyphicon-list-alt"></i> Groups</a></li>
                 </ul>
                 <hr>

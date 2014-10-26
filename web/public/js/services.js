@@ -17,6 +17,7 @@ ObjectiveApp.factory('User', ['$resource', function($resource){
         query: {method: 'GET', params:{}},
         queries: {method: 'GET', params:{}, isArray:true},
         // update: {method: 'PUT', params:{}},
+        me: {method: 'GET', url: '/api/user/me', params:{}},
         followedObjective: {method: 'GET', url: '/api/users/:id/userfollowobjectives', params:{}, isArray:true},
         belongGroup: {method: 'GET', url: '/api/users/:id/userbelonggroups', params:{}, isArray:true},
         friend: {method: 'POST', url: '/api/users/:id/userfriendusers', params:{}},
@@ -61,7 +62,8 @@ ObjectiveApp.factory('Group', ['$resource', function($resource){
         queries: {method: 'GET', params:{}, isArray:true},
         belong: {method: 'POST', url: '/api/groups/:id/userbelonggroups', params:{}},
         unbelong: {method: 'DELETE', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}},
-        userBelong: {method: 'GET', url: '/api/groups/:id/userbelongs/:id_user', params:{}}
+        userBelong: {method: 'GET', url: '/api/groups/:id/userbelonggroups/:id_user', params:{}},
+        belongUpdate: {method: 'PUT', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}},
     });
 }]);
 

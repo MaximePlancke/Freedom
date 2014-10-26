@@ -230,7 +230,7 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
                 }
             }, true);
             scope.belongGroup = function(){
-                if (scope.group.user.id == scope.userBelong.data.user.id) {
+                if (scope.userBelong.data && (scope.group.user.id == scope.userBelong.data.user.id)) {
                     $rootScope.flashMessage = {type: 'alert-warning', message: 'You can\'t leave your own group!'};
                 }else{
                     if(scope.userBelong.belong == false){             
@@ -238,7 +238,7 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
                             scope.userBelong.belong = true;
                             if(scope.userBelong.private == false){
                                 scope.userBelong.accepted = true;
-                                scope.group.userbelonggroups.push(belong.data);
+                                scope.group.accepted_user_belongs.push(belong.data);
                                 scope.userBelong.data = belong.data;
                             }
                             $rootScope.flashMessage = {type: belong.alert, message: belong.message};
@@ -246,8 +246,8 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
                     }else{
                         if(scope.userBelong.accepted == true){
                             Group.unbelong({id: scope.userBelong.groupId, id_belong: scope.userBelong.data.id},{}, function(unbelong){
-                                var index = scope.group.userbelonggroups.indexOf(scope.userBelong);
-                                scope.group.userbelonggroups.splice(index, 1);
+                                var index = scope.group.accepted_user_belongs.indexOf(scope.userBelong);
+                                scope.group.accepted_user_belongs.splice(index, 1);
                                 scope.userBelong.belong = false;
                                 scope.userBelong.accepted = false;
                                 $rootScope.flashMessage = {type: unbelong.alert, message: unbelong.message};
@@ -257,7 +257,6 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
                         }
                     }
                 }
-                console.log(scope.group);
             }
         },
         template: '<button ng-cloack ng-click="belongGroup()" type="button" class="btn {{icon}}">{{text}}</button>'
@@ -342,6 +341,37 @@ ObjectiveApp.directive('allowFriendUser', function(User, $rootScope, $http) {
                     '<span ng-if="answer == true">'+
                         '<button ng-click="friendUser(true)" type="button" class="btn btn-primary">Accepter</button><button ng-click="friendUser(false)" type="button" class="btn btn-default">Refuser</button>'+
                     '</span>'+
+                '</span>'
+    };
+});
+
+ObjectiveApp.directive('manageMemberGroup', function(Group, $rootScope) {
+    return {
+        restrict: 'E',
+        scope: {
+            member : '=member',
+            group : '=group'
+        },
+        link: function(scope, element, attrs) { 
+            scope.manageMember = function(action){
+                if(action == true){
+                    var memberUpdate = scope.member;   
+                    memberUpdate.accepted = action;       
+                    Group.belongUpdate({id: scope.group.id, id_belong: scope.member.id}, memberUpdate , function(){});
+                }else{
+                    Group.unbelong({id: scope.group.id, id_belong: scope.member.id},{}, function(unbelong){
+                        var index = scope.group.userbelonggroups.indexOf(unbelong);
+                        scope.group.userbelonggroups.splice(index, 1);
+                    });
+                }
+            }
+        },
+        template: 
+                '<span ng-if="member.accepted == true">'+
+                    '<button ng-click="manageMember()" type="button" class="btn btn-default">Retirer du groupe</button>'+
+                '</span>'+
+                '<span ng-if="member.accepted == false">'+
+                    '<button ng-click="manageMember(true)" type="button" class="btn btn-primary">Accepter</button><button ng-click="manageMember(false)" type="button" class="btn btn-default">Refuser</button>'+
                 '</span>'
     };
 });

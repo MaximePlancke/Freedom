@@ -51,8 +51,14 @@ class Userbelonggroup
      * @Expose
      */
     private $accepted;
+    
+    /**
+     * @var boolean
+     */
+    private $seen;
 
     public function __construct(){
+        $this->seen = false;
         $this->accepted = false;
     }
 
@@ -158,5 +164,28 @@ class Userbelonggroup
     public function getAccepted()
     {
         return $this->accepted;
+    }
+
+    /**
+     * Set seen
+     *
+     * @param boolean $seen
+     * @return Userbelonggroup
+     */
+    public function setSeen($seen)
+    {
+        $this->seen = $seen;
+
+        return $this;
+    }
+
+    /**
+     * Get seen
+     *
+     * @return boolean 
+     */
+    public function getSeen()
+    {
+        return $this->seen;
     }
 }

@@ -36,8 +36,8 @@
 		        </span> #}
 		    </li>
 		</ul>
-	<h3>Members (<span> {[{ group.userbelonggroups.length }]} </span>)</h3>
-		<ul ng-repeat="member in group.userbelonggroups  | orderBy :'-id'">
+	<h3>Members (<span> {[{ group.accepted_user_belongs.length }]} </span>)</h3>
+		<ul ng-repeat="member in group.accepted_user_belongs  | orderBy :'-id'">
 			<li>
 		    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.username | capitalize }]}</a><span ng-show="member.role == 1"> - ( Owner )</span>
 		    </li>

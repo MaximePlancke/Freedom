@@ -85,13 +85,22 @@ class DashboardController extends Controller
     */
     public function notificationsAction()
     {
-        $user = $this->getUser();
-        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:Notification');
+        return array();
+    }
 
-        $notifications = $repository->findBy(array('user' => $user),array('datecreation' => 'desc'));
+    /**
+    * @Route("/requests", name="freedom_objective_dashboard_friendrequests")
+    * @Template()
+    */
+    public function friendrequestsAction()
+    {
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('FreedomUserBundle:Userfrienduser');
+
+        $friendRequests = $repository->findBy(array('user2' => $user, 'accepted' => 0),array('datecreation' => 'desc'));
 
         return array(
-            'notifications' => $notifications,
+            'friendRequests' => $friendRequests,
         );
     }
 

@@ -6,7 +6,6 @@ use Freedom\UserBundle\Entity\User;
 use Freedom\UserBundle\Form\UserType;
 use Freedom\UserBundle\Form\UserfrienduserType;
 use Freedom\UserBundle\Entity\Userfrienduser;
-use Freedom\UserBundle\Entity\Notification;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -32,7 +31,7 @@ class UserController extends VoryxController
     /**
      * Get a User entity
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @View(serializerEnableMaxDepthChecks=true, serializerGroups={"Default"})
      * @param $user
      *
      * @return Response
@@ -40,6 +39,25 @@ class UserController extends VoryxController
      */
     public function getAction(User $user)
     {
+        $entity = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('FreedomUserBundle:User')
+            ->apiSearchOne($user);
+        return $entity;
+    }
+
+    /**
+     * Get a Me User entity
+     *
+     * @View(serializerEnableMaxDepthChecks=true, serializerGroups={"Default","Me"})
+     *
+     * @return Response
+     *
+     */
+    public function getMeAction()
+    {
+        $user = $this->getUser();
         $entity = $this
             ->getDoctrine()
             ->getManager()
@@ -302,13 +320,6 @@ class UserController extends VoryxController
 
             // if ($form->isValid()) {
                 $em->persist($userfrienduser);
-
-                $notification = new Notification();
-                $notification->setContent($this->getUser()->getUsername().' requested to be your friends');
-                $notification->setUser($user);
-                $notification->setUrl($this->getUser()->getId());
-                $notification->setType(1);
-                $em->persist($notification);
                 $em->flush();
 
                 return $userfrienduser;

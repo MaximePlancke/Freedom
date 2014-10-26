@@ -39,12 +39,20 @@ class User extends UserManager
     private $userfriendusers2;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $usernotifications;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->userfriendusers1 = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userfriendusers2 = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->usernotifications = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -122,4 +130,61 @@ class User extends UserManager
     {
         return $this->userfriendusers2;
     }
+
+    /**
+     * Add usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     * @return User
+     */
+    public function addUsernotifications(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications[] = $usernotifications;
+
+        return $this;
+    }
+
+    /**
+     * Remove usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     */
+    public function removeUsernotifications(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications->removeElement($usernotifications);
+    }
+
+    /**
+     * Get usernotifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsernotifications()
+    {
+        return $this->usernotifications;
+    }
+
+    /**
+     * Add usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     * @return User
+     */
+    public function addUsernotification(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications[] = $usernotifications;
+
+        return $this;
+    }
+
+    /**
+     * Remove usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     */
+    public function removeUsernotification(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications->removeElement($usernotifications);
+    }
+
 }

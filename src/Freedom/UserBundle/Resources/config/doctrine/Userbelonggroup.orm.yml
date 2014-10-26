@@ -15,6 +15,10 @@ Freedom\UserBundle\Entity\Userbelonggroup:
             type: boolean
             options:
                 default: false
+        seen:
+            type: boolean
+            options:
+                default: false
     manyToOne:
         user:
             targetEntity: Freedom\UserBundle\Entity\User

@@ -24,4 +24,20 @@ class GroupsManager
         }    
         return array('data' => $data ,'belong' => $belong, 'accepted' => $accepted, 'private' => $this->getPrivate() , 'groupId' => $this->getId());  
     }
+
+    /**
+     * Get AcceptedUserbelongs
+     * 
+     * @return Array
+     * @VirtualProperty 
+     */
+    public function getAcceptedUserBelongs() {
+        $acceptedUserBelongs = [];
+        foreach ($this->getUserbelonggroups() as $userbelong) {
+            if($userbelong->getAccepted() == true){
+                $acceptedUserBelongs[] = $userbelong;
+            }
+        }    
+        return $acceptedUserBelongs;
+    }
 }

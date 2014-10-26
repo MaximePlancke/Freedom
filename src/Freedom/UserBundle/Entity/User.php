@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
@@ -44,12 +45,21 @@ class User extends UserManager
     private $usernotifications;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @Expose
+     * @Groups({"Me"})
+     */
+    private $owngroups;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->userfriendusers1 = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userfriendusers2 = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->usernotifications = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->owngroups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -159,5 +169,62 @@ class User extends UserManager
     public function getUsernotifications()
     {
         return $this->usernotifications;
+    }
+
+    /**
+     * Add usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     * @return User
+     */
+    public function addUsernotification(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications[] = $usernotifications;
+
+        return $this;
+    }
+
+    /**
+     * Remove usernotifications
+     *
+     * @param \Freedom\UserBundle\Entity\Notification $usernotifications
+     */
+    public function removeUsernotification(\Freedom\UserBundle\Entity\Notification $usernotifications)
+    {
+        $this->usernotifications->removeElement($usernotifications);
+    }
+
+
+    /**
+     * Add owngroups
+     *
+     * @param \Freedom\GroupBundle\Entity\Groups $owngroups
+     * @return User
+     */
+    public function addOwngroup(\Freedom\GroupBundle\Entity\Groups $owngroups)
+    {
+        $this->owngroups[] = $owngroups;
+
+        return $this;
+    }
+
+    /**
+     * Remove owngroups
+     *
+     * @param \Freedom\GroupBundle\Entity\Groups $owngroups
+     */
+    public function removeOwngroup(\Freedom\GroupBundle\Entity\Groups $owngroups)
+    {
+        $this->owngroups->removeElement($owngroups);
+    }
+
+    /**
+     * Get owngroups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwngroups()
+    {
+        return $this->owngroups;
     }
 }

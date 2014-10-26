@@ -34,6 +34,12 @@ class Userfrienduser
     private $accepted;
 
     /**
+     * @var boolean
+     * @Expose
+     */
+    private $seen;
+
+    /**
      * @var \DateTime
      * @Expose
      */
@@ -53,7 +59,8 @@ class Userfrienduser
 
 
     public function __construct(){
-        $this->accepted = 0;
+        $this->accepted = false;
+        $this->seen = false;
         $this->datecreation = new \Datetime;
     }
 
@@ -157,5 +164,29 @@ class Userfrienduser
     public function getUser2()
     {
         return $this->user2;
+    }
+
+
+    /**
+     * Set seen
+     *
+     * @param boolean $seen
+     * @return Userfrienduser
+     */
+    public function setSeen($seen)
+    {
+        $this->seen = $seen;
+
+        return $this;
+    }
+
+    /**
+     * Get seen
+     *
+     * @return boolean 
+     */
+    public function getSeen()
+    {
+        return $this->seen;
     }
 }

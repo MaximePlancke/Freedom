@@ -20,3 +20,7 @@ Freedom\UserBundle\Entity\User:
             targetEntity: Freedom\UserBundle\Entity\Notification
             mappedBy: user
             cascade: ["remove", "persist"]
+        owngroups:
+            targetEntity: Freedom\GroupBundle\Entity\Groups
+            mappedBy: user
+            cascade: ["remove", "persist"]

@@ -53,7 +53,7 @@ class Notification
     
 
     public function __construct(){
-        $this->seen = 0;
+        $this->seen = false;
         $this->datecreation = new \Datetime;
     }
 

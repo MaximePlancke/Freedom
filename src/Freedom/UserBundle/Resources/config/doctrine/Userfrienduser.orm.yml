@@ -12,6 +12,10 @@ Freedom\UserBundle\Entity\Userfrienduser:
             type: boolean
             options:
                 default: false
+        seen:
+            type: boolean
+            options:
+                default: false
         datecreation:
             type: datetime
     manyToOne:

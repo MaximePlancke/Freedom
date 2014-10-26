@@ -29,24 +29,33 @@ class Userfrienduser
 
     /**
      * @var boolean
+     * @Expose
      */
     private $accepted;
 
     /**
      * @var \DateTime
+     * @Expose
      */
     private $datecreation;
 
     /**
      * @var \Freedom\UserBundle\Entity\User
+     * @Expose
      */
     private $user1;
 
     /**
      * @var \Freedom\UserBundle\Entity\User
+     * @Expose
      */
     private $user2;
 
+
+    public function __construct(){
+        $this->accepted = 0;
+        $this->datecreation = new \Datetime;
+    }
 
     /**
      * Get id

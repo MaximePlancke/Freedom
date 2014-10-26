@@ -8,19 +8,18 @@
 
 {% block content %}
 
-	<h3><i class="glyphicon glyphicon-globe"></i> Notifications</h3>  	
+	<h3><i class="glyphicon glyphicon-globe"></i> Group Notifications</h3>  	
 
-	<ul>
-	    {% for notification in notifications %}
-	        <li>
-	        	{% if notification.seen == false %}<div class="notif-not-seen">{% else %}<div>{% endif %}
-	        		<a href="">{{ notification.content|e }}</a> - {{ notification.datecreation|date }}
-	        	</div>
-	        </li>
-	    {% endfor %}
-	</ul>
- 
-
-        
+	<div ng-controller="GroupDashboardCtrl" ng-init="userLogged = {{ userLogged.getId }}">
+		<div ng-repeat="group in user.owngroups">
+			<a href="#" ng-click="url('freedom_group_details', {id: group.id})">{[{group.name | capitalize}]}</a>
+			<ul ng-repeat="member in group.userbelonggroups  | orderBy :'-id'">
+				<li ng-if="member.user">
+			    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.username | capitalize }]}</a> <manage-member-group group="group" member='member'></manage-member-group>
+			    </li>
+			</ul>
+		</div>
+		
+	</div>
 
 {% endblock %}

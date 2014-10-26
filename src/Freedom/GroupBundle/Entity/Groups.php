@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups as GroupsJMS;
 use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
@@ -37,6 +38,7 @@ class Groups extends GroupsManager
     /**
     * @ORM\OneToMany(targetEntity="Freedom\UserBundle\Entity\Userbelonggroup", mappedBy="group", cascade={"remove", "persist"})
     * @Expose
+    * @GroupsJMS({"Me"})
     */
     private $userbelonggroups;
 
@@ -57,7 +59,7 @@ class Groups extends GroupsManager
     private $private;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Freedom\UserBundle\Entity\User")
+    * @ORM\ManyToOne(targetEntity="Freedom\UserBundle\Entity\User", inversedBy="owngroups")
     * @ORM\JoinColumn(nullable=false)
     * @Expose
     */

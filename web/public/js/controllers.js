@@ -292,8 +292,25 @@ ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scop
     });
     $scope.$watch('userLogged', function() {
         Group.userBelong({id: groupId, id_user: $scope.userLogged},{}, function(data){
+            console.log(data);
             $scope.userBelong = data.userBelong;
         });
+    });
+
+}]);
+
+ObjectiveApp.controller('GroupDashboardCtrl', [ '$scope', 'User', function ($scope, User) {
+
+    //Init
+    $scope.groups = [];
+
+    $scope.$watch('userLogged', function() {
+        if(typeof $scope.userLogged != 'undefined'){
+            User.me({filters : {user: $scope.userLogged}, order_by :{id: 'DESC'}},{}, function(data){
+                $scope.user = data;
+                console.log(data);
+            });
+        }
     });
 
 }]);

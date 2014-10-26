@@ -5,6 +5,7 @@ namespace Freedom\ApiBundle\Controller;
 use Freedom\GroupBundle\Entity\Groups;
 use Freedom\GroupBundle\Form\GroupsType;
 use Freedom\UserBundle\Entity\User;
+use Freedom\UserBundle\Form\UserbelonggroupType;
 use Freedom\UserBundle\Entity\Userbelonggroup;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -42,7 +43,7 @@ class GroupController extends VoryxController
     /**
      * Get all Groups entities.
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @View(serializerEnableMaxDepthChecks=true, serializerGroups={"Default"})
      *
      * @param ParamFetcherInterface $paramFetcher
      *
@@ -82,6 +83,7 @@ class GroupController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     /**
      * Create a Groups entity.
      *
@@ -239,7 +241,7 @@ class GroupController extends VoryxController
     public function deleteUserbelonggroupsAction(Request $request, Groups $group, Userbelonggroup $entity)
     {
         $user = $this->getUser();
-        if ($user == $entity->getUser() AND $entity->getRole() != 1) {
+        if (($user == $entity->getUser() AND $entity->getRole() != 1) OR ($user == $group->getUser())) {
             try {
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($entity);
@@ -247,12 +249,44 @@ class GroupController extends VoryxController
 
                 return array('type' => 'success', 'alert' => 'alert-success', 'message' => 'You don\'t belong this group anymore !');
             } catch (\Exception $e) {
-                return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+                // return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
+                return array('type' => 'error');
             }
         } else {
             throw $this->createNotFoundException(
                 'No able to modify : '.$entity
             );
+        }
+    }
+
+    /**
+     * Update a member entity.
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param Request $request
+     * @param $entity
+     * @param $member   
+     *
+     * @return Response
+     */
+    public function putUserbelonggroupsAction(Request $request, Groups $group,  Userbelonggroup $member)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $request->setMethod('PATCH'); //Treat all PUTs as PATCH
+            $form = $this->createForm(new UserbelonggroupType(), $member, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $member;
+            }
+
+            return FOSView::create(array('errors' => $em), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -267,7 +301,7 @@ class GroupController extends VoryxController
      * @return Response
      *
      */
-    public function getUserbelongsAction(Request $request, Groups $group, User $user)
+    public function getUserbelonggroupsAction(Request $request, Groups $group, User $user)
     {
         try {
             $userBelong = $group->getUserBelong($user);
@@ -276,4 +310,5 @@ class GroupController extends VoryxController
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
 }

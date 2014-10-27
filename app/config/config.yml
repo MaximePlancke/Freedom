@@ -93,3 +93,9 @@ jms_serializer:
             FOSUserBundle:
                 namespace_prefix: "FOS\\UserBundle"
                 path: "@FreedomUserBundle/Resources/config/serializer/fos"
+
+avalanche_imagine:
+    filters:
+        my_thumb:
+            type:    thumbnail
+            options: { size: [120, 120] }

@@ -23,7 +23,8 @@
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "dev-master",
         "voryx/restgeneratorbundle": "dev-master",
-        "friendsofsymfony/jsrouting-bundle": "@stable"
+        "friendsofsymfony/jsrouting-bundle": "@stable",
+        "avalanche123/imagine-bundle": "v2.1"
     },
     "scripts": {
         "post-install-cmd": [

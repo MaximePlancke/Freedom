@@ -1,7 +1,3 @@
-freedom_group:
-    resource: "@FreedomGroupBundle/Resources/config/routing.yml"
-    prefix:   /
-
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
@@ -10,9 +6,17 @@ rest :
     resource : "routing_rest.yml"
     prefix : /api
 
+_imagine:
+    resource: .
+    type:     imagine
+
 # freedom_api:
 #     resource: "@FreedomApiBundle/Resources/config/routing.yml"
 #     prefix:   /api/
+
+freedom_group:
+    resource: "@FreedomGroupBundle/Resources/config/routing.yml"
+    prefix:   /
 
 freedom_explore:
     resource: "@FreedomExploreBundle/Resources/config/routing.yml"

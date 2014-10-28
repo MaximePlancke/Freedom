@@ -8,6 +8,9 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * User
@@ -15,6 +18,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="Freedom\UserBundle\Entity\UserRepository")
  * @ExclusionPolicy("all") 
+ * @Vich\Uploadable
  */
 class User extends UserManager
 {
@@ -37,11 +41,6 @@ class User extends UserManager
      * @var string
      */
     private $lastname;
-
-    /**
-     * @var string
-     */
-    private $picture;
    
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -66,10 +65,31 @@ class User extends UserManager
     private $owngroups;
 
     /**
+     * @Vich\UploadableField(mapping="profile_picture", fileNameProperty="pictureName")
+     *
+     * @var File $imageFile
+     */
+    protected $pictureFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, name="picture_name")
+     *
+     * @var string $pictureName
+     */
+    protected $pictureName;
+
+    /**
+     * @var \DateTime
+     */
+    private $pictureUpdatedAt;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct();
+        $this->picture = '/public/images/website/profileDefaultImage.jpeg';
         $this->userfriendusers1 = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userfriendusers2 = new \Doctrine\Common\Collections\ArrayCollection();
         $this->usernotifications = new \Doctrine\Common\Collections\ArrayCollection();
@@ -288,26 +308,77 @@ class User extends UserManager
         return $this->lastname;
     }
 
+
+
     /**
-     * Set picture
+     * Set pictureFile
      *
-     * @param string $picture
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $pictureFile
+     */
+    public function setPictureFile(File $pictureFile)
+    {
+        $this->pictureFile = $pictureFile;
+
+        if ($pictureFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->pictureUpdatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * Get pictureFile
+     *
+     * @return \File 
+     */
+    public function getPictureFile()
+    {
+        return $this->pictureFile;
+    }
+
+    /**
+     * Set pictureName
+     *
+     * @param string $pictureName
      * @return User
      */
-    public function setPicture($picture)
+    public function setPictureName($pictureName)
     {
-        $this->picture = $picture;
+        $this->pictureName = $pictureName;
 
         return $this;
     }
 
     /**
-     * Get picture
+     * Get pictureName
      *
      * @return string 
      */
-    public function getPicture()
+    public function getPictureName()
     {
-        return $this->picture;
+        return $this->pictureName;
+    }
+
+    /**
+     * Set pictureUpdatedAt
+     *
+     * @param \DateTime $pictureUpdatedAt
+     * @return User
+     */
+    public function setPictureUpdatedAt($pictureUpdatedAt)
+    {
+        $this->pictureUpdatedAt = $pictureUpdatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get pictureUpdatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getPictureUpdatedAt()
+    {
+        return $this->pictureUpdatedAt;
     }
 }

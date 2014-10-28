@@ -6,3 +6,12 @@ services:
 #        class: %freedom_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
 
+    freedom_user.registration.form.type:
+        class: Freedom\UserBundle\Form\User\RegistrationFormType
+        tags:
+            - { name: form.type, alias: freedom_user_registration }
+    freedom_user.profile.form.type:
+        class: Freedom\UserBundle\Form\User\ProfileFormType
+        tags:
+            - { name: form.type, alias: freedom_user_profile }
+

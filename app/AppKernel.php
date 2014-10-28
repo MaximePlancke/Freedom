@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new Freedom\GroupBundle\FreedomGroupBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

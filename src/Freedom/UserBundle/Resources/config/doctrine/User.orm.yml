@@ -16,9 +16,12 @@ Freedom\UserBundle\Entity\User:
             type: string
             length: 20
             nullable: false
-        picture:
+        pictureName:
             type: string
             length: 255
+            nullable: false
+        pictureUpdatedAt:
+            type: date
     oneToMany:
         userfriendusers1:
             targetEntity: Freedom\UserBundle\Entity\Userfrienduser

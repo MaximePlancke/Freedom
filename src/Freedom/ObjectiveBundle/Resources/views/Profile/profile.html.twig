@@ -10,7 +10,7 @@
 
 <div ng-controller="ProfileCtrl" ng-init="userLogged = {{ userLogged.getId }}">
 	<h3>
-		<img src="{{ '/public/images/profile1.jpeg' | apply_filter('my_thumb') }}" />
+		<img src="{{ ('/public/images/profile/'~userProfile.pictureName) | apply_filter('my_thumb') }}" />
 		<span> {{ userProfile.fullname|capitalize }}</span>
 		<allow-friend-user user='user' is-friend='isFriend'></allow-friend-user>
 	</h3>

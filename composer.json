@@ -25,7 +25,8 @@
         "voryx/restgeneratorbundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
         "avalanche123/imagine-bundle": "v2.1",
-        "vich/uploader-bundle": "~0.11.0"
+        "vich/uploader-bundle": "~0.11.0",
+        "exercise/htmlpurifier-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

@@ -12,12 +12,13 @@ class ProfileFormType extends AbstractType
         $builder
         ->add('firstname')
         ->add('lastname')
-        ->add('pictureFile', 'vich_file', array(
-            'required'      => false,
-            'mapping'       => 'profile_picture', // mandatory
-            'allow_delete'  => false, // not mandatory, default is true
-            'download_link' => false, // not mandatory, default is true
-        ));
+        // ->add('pictureFile', 'vich_file', array(
+        //     'required'      => false,
+        //     'mapping'       => 'profile_picture', // mandatory
+        //     'allow_delete'  => false, // not mandatory, default is true
+        //     'download_link' => false, // not mandatory, default is true
+        // ));
+        ->add('pictureFile', 'file');
     }
     public function getParent()
     {

@@ -107,7 +107,7 @@ avalanche_imagine:
     filters:
         my_thumb:
             type:    thumbnail
-            options: { size: [150, 150], mode: outbound }
+            options: { size: [150, 150], mode: outbound, quality: 100, format: png }
 
 vich_uploader:
     db_driver: orm 
@@ -115,6 +115,7 @@ vich_uploader:
         profile_picture:
             uri_prefix:         /images/profile
             upload_destination: %kernel.root_dir%/../web/public/images/profile
+            namer:              vich_uploader.namer_uniqid
 
             inject_on_load:     false
             delete_on_update:   true

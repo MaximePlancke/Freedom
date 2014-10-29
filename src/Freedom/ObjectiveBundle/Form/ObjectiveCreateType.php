@@ -17,7 +17,7 @@ class ObjectiveCreateType extends AbstractType
             true => 'Expérience',
         ),
     ))
-    ->add('name',        'textarea')
+    ->add('name', 'text')
     ->add('category', 'choice', array(
         'choices'   => array(
             'personnel'   => 'Personnel',
@@ -32,7 +32,12 @@ class ObjectiveCreateType extends AbstractType
             false => 'Non',
         ),
     ))
-    ->add('dategoal', 'date')
+    ->add('dategoal', 'date', array(
+        'widget' => 'single_text',
+        'input' => 'datetime',
+        'format' => 'dd/MM/yyyy',
+        'attr' => array('class' => 'date'),
+        ))
     ->add('useradvice', 'textarea', array('required' => false))
     ->add('steps', 'collection', array('type' => new StepobjectiveCreateType(),
         'allow_add'    => true,

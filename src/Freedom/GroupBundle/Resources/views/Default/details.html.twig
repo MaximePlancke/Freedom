@@ -16,7 +16,7 @@
 	<h6>
 		{[{group.description | capitalize}]}
 	</h6>
-    <ul ng-show="alreadyBelongGroup" class="nav nav-stacked">
+    <ul ng-show="userBelong.accepted" class="nav nav-stacked">
         <li><a href="{{ path('freedom_group_create_objective', {id: id}) }}"><i class="glyphicon glyphicon-plus"></i> Create new objective for the group</a></li>
     </ul>
 	<h3>Objectives (<span> {[{ group.objectives.length }]} </span>)</h3>

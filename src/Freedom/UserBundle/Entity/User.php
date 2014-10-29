@@ -19,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="Freedom\UserBundle\Entity\UserRepository")
  * @ExclusionPolicy("all") 
  * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends UserManager
 {
@@ -67,6 +68,11 @@ class User extends UserManager
     /**
      * @Vich\UploadableField(mapping="profile_picture", fileNameProperty="pictureName")
      *
+     * @Assert\File(
+     * maxSize="7M",
+     * mimeTypes={"image/png", "image/jpeg", "image/pjpeg"},
+     * mimeTypesMessage = "Please upload a valid Image"
+     * )
      * @var File $imageFile
      */
     protected $pictureFile;
@@ -75,6 +81,7 @@ class User extends UserManager
      * @ORM\Column(type="string", length=255, name="picture_name")
      *
      * @var string $pictureName
+     * @Expose
      */
     protected $pictureName;
 

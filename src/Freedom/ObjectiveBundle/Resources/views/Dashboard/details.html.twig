@@ -49,7 +49,9 @@
     </ul>
     <div ng-show="objective.useradvice">
         <h3>Creator's advice</h3> 
-        <span>{[{objective.useradvice}]}</span>  
+        {# <span>{[{objective.useradvice}]}</span>   #}
+        {# Example of HTML from text editor  #}
+        <span ng-bind-html="objective.useradvice | html"></span>
     </div>
     <h3>Advices</h3>
 	<div ng-hide="objective.advices.length">No advices yet. Be the first!</div>

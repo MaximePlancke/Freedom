@@ -209,7 +209,6 @@ ObjectiveApp.directive('allowBelongGroup', function(Group, $rootScope) {
         scope: {
             userBelong : '=userBelong',
             group : '=group',
-            alreadyBelongGroup : '=alreadyBelongGroup'
         },
         link: function(scope, element, attrs) { 
             scope.$watch('userBelong', function() {

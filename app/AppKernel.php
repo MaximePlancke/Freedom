@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

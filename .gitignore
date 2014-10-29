@@ -5,4 +5,4 @@
 /vendor/
 /app/config/parameters.yml
 /web/media/cache/
-/public/images/profile/
+/web/public/images/profile/

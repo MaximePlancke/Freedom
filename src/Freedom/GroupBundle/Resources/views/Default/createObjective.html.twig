@@ -65,6 +65,14 @@ $(document).ready(function() {
       firstDay:1
   }).attr("readonly","readonly");
 
+  //Text editor
+  $("textarea").jqte({
+    color: false,
+    fsize: false,
+    format: false,
+    placeholder: "Write here"
+    });
+
   // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
   var $container = $('div#freedom_objectivebundle_objectivetype_steps');
 

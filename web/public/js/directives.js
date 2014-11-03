@@ -1,26 +1,33 @@
 ObjectiveApp.directive('submitAdvice', function(Advice) {
     return {
-        restrict: 'A',
+        restrict: 'E',
         scope: {
             objective : '=objective',
         },
         link: function(scope, element, attrs) {
-            element.bind("keydown keypress", function(event) {
-                if(event.which === 13) {
-                    // console.log(attrs);
-                    var advice = new Advice;
-                    advice.name = element.val();
-                    Advice.create({id: scope.objective.id}, advice, function(data){
-                        Advice.query({id: scope.objective.id, id_advice: data.id},{}, function(data){ 
-                            scope.objective.advices.push(data);
-                        });
-                    });
-                    element.val('');
-                    event.preventDefault();
-                    // console.log(scope.objective);
-                }
+            element.children('textarea').jqte({
+                color: false,
+                fsize: false,
+                format: false,
+                source: false,
+                placeholder: "Write your advice",
             });
-        }
+            element.children('button').click(function(event) {
+                // if(event.which === 13) {
+                var advice = new Advice;
+                var str = element.find(".jqte_editor").html();
+                advice.name = str.replace("href=", "target=_blank href=");
+                Advice.create({id: scope.objective.id}, advice, function(data){
+                    Advice.query({id: scope.objective.id, id_advice: data.id},{}, function(data){ 
+                        scope.objective.advices.push(data);
+                    });
+                });
+                element.find(".jqte_editor").html('');
+                event.preventDefault();
+                // }
+            });
+        },
+        template: '<textarea></textarea><button>Submit</button>'
     };
 });
 

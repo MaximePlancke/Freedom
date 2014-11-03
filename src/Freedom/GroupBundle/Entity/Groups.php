@@ -8,6 +8,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups as GroupsJMS;
 use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Groups
@@ -47,6 +48,14 @@ class Groups extends GroupsManager
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @Expose
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string", message="the value {{ value }} is not a valid {{ type }}.")
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "255",
+     *      minMessage = "The name has to reach at least {{ limit }} characters",
+     *      maxMessage = "no more than {{ limit }} characters"
+     * )
      */
     private $name;
 
@@ -55,6 +64,7 @@ class Groups extends GroupsManager
      *
      * @ORM\Column(name="private", type="boolean")
      * @Expose
+     * @Assert\Type(type="bool", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $private;
 
@@ -86,6 +96,8 @@ class Groups extends GroupsManager
      *
      * @ORM\Column(name="description", type="text")
      * @Expose
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $description;
 

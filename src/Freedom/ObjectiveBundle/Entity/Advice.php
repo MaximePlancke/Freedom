@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Advice
@@ -46,6 +47,7 @@ class Advice
      *
      * @ORM\Column(name="name", type="text")
      * @Expose
+     * @Assert\Type(type="string", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $name;
 

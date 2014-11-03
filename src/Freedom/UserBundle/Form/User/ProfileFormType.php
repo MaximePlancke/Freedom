@@ -12,6 +12,7 @@ class ProfileFormType extends AbstractType
         $builder
         ->add('firstname')
         ->add('lastname')
+        ->remove('username')
         // ->add('pictureFile', 'vich_file', array(
         //     'required'      => false,
         //     'mapping'       => 'profile_picture', // mandatory

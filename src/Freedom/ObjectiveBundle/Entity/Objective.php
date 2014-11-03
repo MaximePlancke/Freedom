@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Objective
@@ -40,6 +41,14 @@ class Objective extends ObjectiveManager
      *
      * @ORM\Column(name="name", type="text")
      * @Expose
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string", message="the value {{ value }} is not a valid {{ type }}.")
+     * @Assert\Length(
+     *      min = "2",
+     *      max = "255",
+     *      minMessage = "The name has to reach at least {{ limit }} characters",
+     *      maxMessage = "no more than {{ limit }} characters"
+     * )
      */
     private $name;
 
@@ -48,6 +57,7 @@ class Objective extends ObjectiveManager
      *
      * @ORM\Column(name="category", type="string", length=255)
      * @Expose
+     * @Assert\Choice(callback = "getAvailableCategories")
      */
     private $category;
 
@@ -56,6 +66,7 @@ class Objective extends ObjectiveManager
      *
      * @ORM\Column(name="nbsteps", type="integer")
      * @Expose
+     * @Assert\Type(type="integer", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $nbsteps;
 
@@ -64,6 +75,7 @@ class Objective extends ObjectiveManager
      *
      * @ORM\Column(name="done", type="boolean")
      * @Expose
+     * @Assert\Type(type="boolean", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $done;
 
@@ -72,6 +84,7 @@ class Objective extends ObjectiveManager
      *
      * @ORM\Column(name="private", type="boolean")
      * @Expose
+     * @Assert\Type(type="boolean", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $private;
 
@@ -150,6 +163,11 @@ class Objective extends ObjectiveManager
         $this->advices = new ArrayCollection;
         $this->userlikeobjectives = new ArrayCollection;
         $this->userfollowobjectives = new ArrayCollection;
+    }
+
+    public static function getAvailableCategories()
+    {
+        return array('personnel', 'sportif', 'professionnel', 'fun');
     }
 
 
@@ -548,4 +566,5 @@ class Objective extends ObjectiveManager
     {
         return $this->group;
     }
+
 }

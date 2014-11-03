@@ -6,12 +6,6 @@ ObjectiveApp.filter('capitalize', function() {
     }
 });
 
-ObjectiveApp.filter('html', function($sce) {
-	    return function(val) {
-	        return $sce.trustAsHtml(val);
-	    };
-	});
-
 // ObjectiveApp.filter('numberofdays', function() {
 //     return function(input, scope) {
 //         if (input.done == true) {

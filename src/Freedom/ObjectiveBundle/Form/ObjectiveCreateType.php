@@ -11,11 +11,9 @@ class ObjectiveCreateType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-    ->add('done', 'choice', array(
-        'choices'   => array(
-            false   => 'Objectif',
-            true => 'Expérience',
-        ),
+        ->add('done', 'checkbox', array(
+        'label'     => 'Have you completed this objective already? ',
+        'required'  => false,
     ))
     ->add('name', 'text')
     ->add('category', 'choice', array(
@@ -26,11 +24,9 @@ class ObjectiveCreateType extends AbstractType
             'fun' => 'Fun',
         ),
     ))
-    ->add('private', 'choice', array(
-        'choices'   => array(
-            true   => 'Oui',
-            false => 'Non',
-        ),
+    ->add('private', 'checkbox', array(
+        'label'     => 'Is it a private objective? ',
+        'required'  => false,
     ))
     ->add('dategoal', 'date', array(
         'widget' => 'single_text',

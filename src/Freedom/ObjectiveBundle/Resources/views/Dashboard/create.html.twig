@@ -15,7 +15,7 @@
 	{{ form_errors(form) }}
 
   <div>
-    {{ form_label(form.done, "Quel type?") }}
+    {{ form_label(form.done) }}
     {{ form_errors(form.done) }}
     {{ form_widget(form.done) }}
  </div>
@@ -71,6 +71,7 @@ $(document).ready(function() {
     color: false,
     fsize: false,
     format: false,
+    source: false,
     placeholder: "Write here"
     });
 

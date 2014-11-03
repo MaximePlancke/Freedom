@@ -188,7 +188,7 @@
 	width:7px;
 	height:6px;
 	margin:0 auto;
-	background:url(jquery-te.png) -7px -23px no-repeat;
+	background:url(../images/website/jquery-te.png) -7px -23px no-repeat;
 }
 .jqte_linktypes {
 	display:none;
@@ -426,7 +426,7 @@
 	width:7px;
 	height:6px;
 	margin:0 auto;
-	background:url(jquery-te.png) 0 -23px no-repeat;
+	background:url(../images/website/jquery-te.png) 0 -23px no-repeat;
 }
 .jqte_titleText {
 	padding:5px 7px;

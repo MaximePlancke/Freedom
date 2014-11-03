@@ -16,11 +16,9 @@ class GroupsCreateType extends AbstractType
     {
         $builder
             ->add('name',        'textarea')
-            ->add('private', 'choice', array(
-                'choices'   => array(
-                    true   => 'Oui',
-                    false => 'Non',
-                ),
+            ->add('private', 'checkbox', array(
+                'label'     => 'Is it a private group? ',
+                'required'  => false,
             ))
             ->add('description','textarea')
         ;

@@ -15,3 +15,8 @@ services:
         tags:
             - { name: form.type, alias: freedom_user_profile }
 
+    freedom_user.registration.listener:
+        class: Freedom\UserBundle\EventListener\UserRegistrationListener
+        tags:
+            - { name: kernel.event_subscriber }
+

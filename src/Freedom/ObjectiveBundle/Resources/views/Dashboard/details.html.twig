@@ -32,7 +32,7 @@
     </span>
 	<span>{[{objective.category | capitalize}]} <span class="glyphicon glyphicon-tag"></span></span>
 	<span>{[{ objective.number_of_days }]} <span class="glyphicon glyphicon-time"></span></span>
-	<h3>Steps</h3>
+	<h3>Steps  - ( {[{ objective.steps.length }]} ) </h3>
 	<ul ng-repeat="step in objective.steps">
     	<li>
     		<span ng-if="step.done == true">
@@ -51,19 +51,19 @@
         <h3>Creator's advice</h3> 
         {# <span>{[{objective.useradvice}]}</span>   #}
         {# Example of HTML from text editor  #}
-        <span ng-bind-html="objective.useradvice | html"></span>
+        <span ng-bind-html="objective.useradvice"></span>
     </div>
-    <h3>Advices</h3>
+    <h3>Advices  - ( {[{ objective.advices.length }]} ) </h3>
 	<div ng-hide="objective.advices.length">No advices yet. Be the first!</div>
     <ul ng-repeat="advice in objective.advices">
 		<li>
-            {[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} 
+            <span ng-bind-html="advice.name"></span> - {[{ advice.userlikeadvices.length }]} 
             <allow-like-advice user-logged='{{ userLogged.getId }}' objective='objective' idx='$index'></allow-like-advice> - By 
             <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: advice.user.id})">{[{ advice.user.fullname }]}</a> 
             <span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index)" class="clickable glyphicon glyphicon-remove"></span>
         </li>
     </ul>
-    <textarea submit-advice objective="objective" id="text-advice" placeholder="Write your advice"></textarea>
+    <submit-advice objective="objective"></submit-advice>
 </div>
 
 

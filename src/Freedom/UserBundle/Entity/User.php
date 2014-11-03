@@ -35,11 +35,25 @@ class User extends UserManager
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Please enter your firstname.")
+     * @Assert\Length(
+     *     min=2,
+     *     max="25",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $firstname;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Please enter your name.")
+     * @Assert\Length(
+     *     min=2,
+     *     max="25",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $lastname;
    
@@ -96,7 +110,8 @@ class User extends UserManager
     public function __construct()
     {
         parent::__construct();
-        $this->picture = '/public/images/website/profileDefaultImage.jpeg';
+        $this->pictureName = 'profileDefaultImage.jpeg';
+        $this->pictureUpdatedAt = new \DateTime;
         $this->userfriendusers1 = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userfriendusers2 = new \Doctrine\Common\Collections\ArrayCollection();
         $this->usernotifications = new \Doctrine\Common\Collections\ArrayCollection();

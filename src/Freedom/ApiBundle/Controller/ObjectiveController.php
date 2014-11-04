@@ -8,7 +8,7 @@ use Freedom\ObjectiveBundle\Entity\Advice;
 use Freedom\ObjectiveBundle\Form\AdviceType;
 use Freedom\UserBundle\Entity\Userlikeobjective;
 use Freedom\UserBundle\Entity\Userfollowobjective;
-// use Freedom\UserBundle\Form\UserlikeobjectiveType;
+use Freedom\UserBundle\Form\UserfollowobjectiveType;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -140,7 +140,7 @@ class ObjectiveController extends VoryxController
 
                     return $entity;
                 }
-                return FOSView::create(array('errors' => $form), Codes::HTTP_INTERNAL_SERVER_ERROR);
+                return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
             } catch (\Exception $e) {
                 return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
             }
@@ -285,6 +285,10 @@ class ObjectiveController extends VoryxController
         try {
             $em = $this->getDoctrine()->getManager();
             $userfollowobjective = new Userfollowobjective();
+
+            $form = $this->createForm(new UserfollowobjectiveType(), $userfollowobjective, array("method" => $request->getMethod()));
+            $this->removeExtraFields($request, $form);
+            $form->handleRequest($request);
             $userfollowobjective->setUser($this->getUser());
             $userfollowobjective->setObjective($objective);
 
@@ -292,16 +296,17 @@ class ObjectiveController extends VoryxController
 
             if ($entity == null) {
 
-            // if ($form->isValid()) {
-                $em->persist($userfollowobjective);
-                $em->flush();
+                // if ($form->isValid()) {
+                    $em->persist($userfollowobjective);
+                    $em->flush();
 
-                return $userfollowobjective;
-            // }
-
+                    return $userfollowobjective;
+                // }else{
+                //     return FOSView::create(array('errors' => $form), Codes::HTTP_INTERNAL_SERVER_ERROR);
+                // }
+            }else{
+                return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
             }
-
-            return FOSView::create(array('errors' => 'Already exist'), Codes::HTTP_INTERNAL_SERVER_ERROR);
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }

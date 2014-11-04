@@ -126,7 +126,9 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
     $scope.doneStep = function(idx){
         var step = $scope.objective.steps[idx];
         step.done = !step.done;
-        $scope.objective.steps[idx] = Step.update({id: $scope.objective.id , id_step: step.id},step);
+        Step.update({id: $scope.objective.id , id_step: step.id}, step , function(data){
+            $scope.objective.steps[idx] = data;
+        });
     }
 
     $scope.deleteAdvice = function(idx){
@@ -300,14 +302,14 @@ ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scop
     });
     $scope.$watch('userLogged', function() {
         Group.userBelong({id: groupId, id_user: $scope.userLogged},{}, function(data){
-            console.log(data);
+            // console.log(data);
             $scope.userBelong = data.userBelong;
         });
     });
 
 }]);
 
-ObjectiveApp.controller('GroupDashboardCtrl', [ '$scope', 'User', function ($scope, User) {
+ObjectiveApp.controller('GroupDashboardCtrl', [ '$scope', 'User', 'Group', '$rootScope', function ($scope, User, Group, $rootScope) {
 
     //Init
     $scope.groups = [];
@@ -316,10 +318,17 @@ ObjectiveApp.controller('GroupDashboardCtrl', [ '$scope', 'User', function ($sco
         if(typeof $scope.userLogged != 'undefined'){
             User.me({filters : {user: $scope.userLogged}, order_by :{id: 'DESC'}},{}, function(data){
                 $scope.user = data;
-                console.log(data);
+                // console.log(data);
             });
         }
     });
+
+    $scope.deleteGroup = function(idx){
+        var group = $scope.user.owngroups[idx];
+        Group.delete({id: group.id},{});
+        $scope.user.owngroups.splice(idx,1);
+        $rootScope.flashMessage = {type: 'alert-success', message: 'Group removed !'};
+    }
 
 }]);
 

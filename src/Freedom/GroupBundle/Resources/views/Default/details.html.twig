@@ -11,7 +11,9 @@
 <div ng-controller="GroupDetailsCtrl" ng-init="userLogged = {{ userLogged.getId }}">
 	<h3>
 		<allow-belong-group group='group' user-belong='userBelong' already-belong-group='alreadyBelongGroup'></allow-belong-group>
-		{[{group.name | capitalize}]} - {[{group.rate}]} / 10
+		{[{group.name | capitalize}]} - {[{group.rate}]} / 10 - 
+		<span ng-show="group.private" class="glyphicon glyphicon-eye-close"></span>
+		<span ng-hide="group.private" class="glyphicon glyphicon-eye-open"></span>
 	</h3>
 	<h6>
 		{[{group.description | capitalize}]}

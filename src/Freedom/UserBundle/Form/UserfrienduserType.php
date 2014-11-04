@@ -16,6 +16,7 @@ class UserfrienduserType extends AbstractType
     {
         $builder
             ->add('accepted')
+            ->add('seen')
         ;
     }
     

@@ -3,6 +3,7 @@
 namespace Freedom\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Notification
@@ -38,6 +39,7 @@ class Notification
 
     /**
      * @var boolean
+     * @Assert\Type(type="boolean", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $seen;
 

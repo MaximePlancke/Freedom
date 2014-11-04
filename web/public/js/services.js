@@ -64,6 +64,7 @@ ObjectiveApp.factory('Group', ['$resource', function($resource){
         unbelong: {method: 'DELETE', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}},
         userBelong: {method: 'GET', url: '/api/groups/:id/userbelonggroups/:id_user', params:{}},
         belongUpdate: {method: 'PUT', url: '/api/groups/:id/userbelonggroups/:id_belong', params:{}},
+        delete: {method:'DELETE',params:{}},
     });
 }]);
 

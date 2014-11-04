@@ -1,4 +1,4 @@
-ObjectiveApp.directive('submitAdvice', function(Advice) {
+ObjectiveApp.directive('submitAdvice', function(Advice, $rootScope) {
     return {
         restrict: 'E',
         scope: {
@@ -21,6 +21,9 @@ ObjectiveApp.directive('submitAdvice', function(Advice) {
                     Advice.query({id: scope.objective.id, id_advice: data.id},{}, function(data){ 
                         scope.objective.advices.push(data);
                     });
+                }, function(errors){
+                    var message = errors.data.errors[Object.keys(errors.data.errors)[0]][0];
+                    $rootScope.flashMessage = {type: 'alert-danger', message: message};
                 });
                 element.find(".jqte_editor").html('');
                 event.preventDefault();

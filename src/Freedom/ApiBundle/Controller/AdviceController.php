@@ -100,8 +100,9 @@ class AdviceController extends VoryxController
             $em->flush();
             return $advice;
         }
-
-        return FOSView::create(array('errors' => $form->getErrors()), Codes::HTTP_INTERNAL_SERVER_ERROR);
+        $utilities = $this->get('freedom.helper.utilitiesApi');
+        $errors = $utilities->getFormErrors($form);
+        return FOSView::create(array('errors' => $errors), Codes::HTTP_INTERNAL_SERVER_ERROR);
     }
     /**
      * Update a Advice entity.

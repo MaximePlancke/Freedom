@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Userbelonggroup
@@ -31,6 +32,13 @@ class Userbelonggroup
      *
      * @ORM\Column(name="role", type="integer")
      * @Expose
+     * @Assert\Type(type="integer", message="the value {{ value }} is not a valid {{ type }}.")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 2,
+     *      minMessage = "This role doesn't exist",
+     *      maxMessage = "This role doesn't exist"
+     * )
      */
     private $role;
 
@@ -49,11 +57,13 @@ class Userbelonggroup
     /**
      * @var boolean
      * @Expose
+     * @Assert\Type(type="boolean", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $accepted;
     
     /**
      * @var boolean
+     * @Assert\Type(type="boolean", message="the value {{ value }} is not a valid {{ type }}.")
      */
     private $seen;
 

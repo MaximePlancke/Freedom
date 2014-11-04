@@ -18,9 +18,9 @@ class GroupsType extends AbstractType
             ->add('name')
             ->add('private')
             ->add('rate')
-            ->add('datecreation')
+            // ->add('datecreation')
             ->add('description')
-            ->add('user')
+            // ->add('user')
         ;
     }
     

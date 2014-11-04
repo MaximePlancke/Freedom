@@ -16,6 +16,7 @@ class UserbelonggroupType extends AbstractType
     {
         $builder
             ->add('accepted')
+            ->add('seen')
         ;
     }
     

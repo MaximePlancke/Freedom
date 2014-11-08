@@ -8,10 +8,8 @@
 
 {% block content %}
 
-<div ng-controller="ObjectiveDetailsCtrl" ng-init="userId = {{ userLogged.getId }}">
-    {% include 'FreedomObjectiveBundle:ObjectiveStructure:objective_structure.html.twig' %}
-</div>
-
-
+	<div ng-controller="ObjectiveDetailsCtrl" ng-init="userId = {{ userLogged.getId }}">
+	    {% include 'FreedomObjectiveBundle:ObjectiveStructure:objective_structure_details.html.twig' %}
+	</div>
 
 {% endblock %}

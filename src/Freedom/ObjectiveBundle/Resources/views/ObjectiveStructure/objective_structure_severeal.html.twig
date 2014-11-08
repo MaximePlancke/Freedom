@@ -1,14 +1,9 @@
 <h4>
-    <span ng-if="objective.done == true">
-        <span class="glyphicon glyphicon-check"></span>
-    </span><span ng-if="objective.done != true">
-        <span class="glyphicon glyphicon-retweet"></span>
-    </span>
+    <span ng-show="objective.done" class="glyphicon glyphicon-check"></span>
+    <span ng-hide="objective.done" class="glyphicon glyphicon-retweet"></span>
 	<a href="#" ng-click="url('freedom_objective_dashboard_details', {id: objective.id})">{[{objective.name | capitalize}]}</a> - by <a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: objective.user.id})">{[{ objective.user.fullname }]}</a><span ng-show="objective.group"> - Belong to the group <a href="#" ng-click="url('freedom_group_details', {id: objective.group.id})">{[{objective.group.name | capitalize}]}</a></span>
     <span ng-if="{{ userLogged.getId }} == objective.user.id">
-        {# <span ng-click="deleteObjective($index)" class="clickable glyphicon glyphicon-remove"></span> #}
       	<span delete-objective objectives="objectives" idx="$index" class="clickable glyphicon glyphicon-remove"></span>
-        {# <span ng-click="doneObjective($index)" class="clickable glyphicon glyphicon-refresh"></span> #}
         <span done-objective objectives="objectives" idx="$index" page="page" class="clickable glyphicon glyphicon-refresh"></span>
     </span>
 </h4>
@@ -21,36 +16,30 @@
 </span>
 <span><span class="glyphicon glyphicon-tag"></span> {[{objective.category | capitalize}]} </span>
 <span><span class="glyphicon glyphicon-time"></span> {[{ objective.number_of_days }]} </span>
-<h3>Steps</h3>
+<h3>Steps  - ( {[{ objective.steps.length }]} ) </h3>
 <ul ng-repeat="step in objective.steps">
 	<li>
-		<span ng-if="step.done == true">
-			<span class="glyphicon glyphicon-check"></span>
-		</span><span ng-if="step.done != true">
-			<span class="glyphicon glyphicon-retweet"></span>
-		</span>
+        <span ng-show="step.done" class="glyphicon glyphicon-check"></span>
+        <span ng-hide="step.done" class="glyphicon glyphicon-retweet"></span>
 		{[{ step.name | capitalize }]} - {[{ step.userlikestepobjectives.length }]} <allow-like-step user-logged='{{ userLogged.getId }}' objective='objective' idx='$index'></allow-like-step>
         <span ng-if="{{ userLogged.getId }} == objective.user.id">
-            {# <span ng-click="deleteStep($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span> #}
             <span delete-step objectives="objectives" idx="$index" idx-obj="$parent.$parent.$index" class="clickable glyphicon glyphicon-remove"></span>
-            {# <span ng-click="doneStep($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-refresh"></span> #}
             <span done-step objectives="objectives" idx="$index" idx-obj="$parent.$parent.$index" class="clickable glyphicon glyphicon-refresh"></span>
         </span>
 	</li>
 </ul>
 <div ng-show="objective.useradvice">
     <h3>Creator's advice</h3> 
-    <span>{[{objective.useradvice}]}</span>  
+    <span ng-bind-html="objective.useradvice"></span>
 </div>
-<h3>Advices</h3>
+<h3>Advices  - ( {[{ objective.advices.length }]} ) </h3>
 <div ng-hide="objective.advices.length">No advices yet. Be the first!</div>
 <ul ng-repeat="advice in objective.advices">
 	<li>
-		{[{ advice.name | capitalize }]} - {[{ advice.userlikeadvices.length }]} 
+		<span ng-bind-html="advice.name"></span> - {[{ advice.userlikeadvices.length }]} 
 		<allow-like-advice user-logged='{{ userLogged.getId }}' objective='objective' idx='$index'></allow-like-advice> - By 
 		<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: advice.user.id})">{[{ advice.user.fullname }]}</a> 
 		<span delete-advice objectives="objectives" idx="$index" idx-obj="$parent.$parent.$index" ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" class="clickable glyphicon glyphicon-remove"></span>
-		{# <span ng-if="{{ userLogged.getId }} == advice.user.id || {{ userLogged.getId }} == objective.user.id" ng-click="deleteAdvice($index, $parent.$parent.$index)" class="clickable glyphicon glyphicon-remove"></span> #}
 	</li>
 </ul>
-<textarea submit-advice objective="objective" id="text-advice" placeholder="Write your advice"></textarea>
+<submit-advice objective="objective"></submit-advice>

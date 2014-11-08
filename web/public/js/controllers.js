@@ -19,7 +19,7 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$scope', 'Objective', function (
 
 }]);
 
-ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$scope' , 'Objective', function ($scope, Objective) {
+ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$scope' , 'User', function ($scope, User) {
 
     //Init
     $scope.objectives = [];

@@ -5,6 +5,8 @@ namespace Freedom\ObjectiveBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Freedom\ObjectiveBundle\Entity\Objective;
 use Freedom\ObjectiveBundle\Form\ObjectiveCreateType;
+use Freedom\ObjectiveBundle\Form\ObjectiveEditType;
+
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -59,13 +61,51 @@ class DashboardController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($objective);
                 $em->flush();
+                $id = $objective->getId();
 
-                return $this->redirect($this->generateUrl('freedom_objective_dashboard_dashboard', array()));
+                return $this->redirect($this->generateUrl('freedom_objective_dashboard_details', array('id' => $id)));
             }
         }
 
         return array(
             'form' => $form->createView(),
+        );
+    }
+
+    /**
+    * @Route("/edit/{id}", name="freedom_objective_dashboard_edit", options={"expose"=true})
+    * @Template()
+    */
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $objective = $em->getRepository('FreedomObjectiveBundle:Objective')->find($id);
+
+        if (null === $objective) {
+            throw new NotFoundHttpException("the objective with the id ".$id." doesn't exist.");
+        }
+
+        $form = $this->createForm(new ObjectiveEditType, $objective);
+
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                foreach ($objective->getSteps() as $key => $value) {
+                    $value->setObjective($objective);
+                    $objective->addStep($value);
+                }
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('freedom_objective_dashboard_details', array('id' => $id)));
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'id' => $id
         );
     }
 

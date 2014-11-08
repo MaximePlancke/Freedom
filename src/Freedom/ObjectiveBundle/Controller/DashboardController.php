@@ -23,16 +23,16 @@ class DashboardController extends Controller
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getManager()->getRepository('FreedomObjectiveBundle:Objective');
 
-        $lastCurrentObjective = $repository->findBy(array('user' => $user, 'done' => 0),array('datecreation' => 'desc'));
-        $lastDoneObjective = $repository->findBy(array('user' => $user, 'done' => 1),array('datedone' => 'desc'));
-        $countTotalObjective = count($lastDoneObjective)+count($lastCurrentObjective);
-        $pourcentComplete = ($countTotalObjective > 0) ? (int)(count($lastDoneObjective)/$countTotalObjective*100) : 0;
-        $lastCurrentObjective = $lastCurrentObjective ? $lastCurrentObjective[0] : null;
-        $lastDoneObjective = $lastDoneObjective ? $lastDoneObjective[0] : null;
+        $lastCurrentObjectives = $repository->findBy(array('user' => $user, 'done' => 0),array('datecreation' => 'desc'));
+        $lastDoneObjectives = $repository->findBy(array('user' => $user, 'done' => 1),array('datedone' => 'desc'));
+        $countTotalObjective = count($lastDoneObjectives)+count($lastCurrentObjectives);
+        $pourcentComplete = ($countTotalObjective > 0) ? (int)(count($lastDoneObjectives)/$countTotalObjective*100) : 0;
+        $lastCurrentObjectives = array_slice($lastCurrentObjectives, 0, 5, true);
+        $lastDoneObjectives = array_slice($lastDoneObjectives, 0, 5, true);
 
         return array(
-            'lastCurrentObjective' => $lastCurrentObjective,
-            'lastDoneObjective' => $lastDoneObjective,
+            'lastCurrentObjectives' => $lastCurrentObjectives,
+            'lastDoneObjectives' => $lastDoneObjectives,
             'pourcentComplete' => $pourcentComplete,
         );
     }

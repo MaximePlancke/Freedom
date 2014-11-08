@@ -14,6 +14,7 @@
 		<div ng-repeat="group in user.owngroups">
 			<a href="#" ng-click="url('freedom_group_details', {id: group.id})">{[{group.name | capitalize}]}</a>
 	        <span ng-click="deleteGroup($index)" class="clickable glyphicon glyphicon-remove"></span>
+	        <span ng-click="url('freedom_group_edit', {id: group.id})" class="clickable glyphicon glyphicon-pencil"></span>
 			<ul ng-repeat="member in group.userbelonggroups  | orderBy :'-id'">
 				<li ng-if="member.user">
 			    	<a href="#" ng-click="url('freedom_objective_profile_profile', {idProfile: member.user.id})">{[{ member.user.fullname }]}</a> <manage-member-group group="group" member='member'></manage-member-group>

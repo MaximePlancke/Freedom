@@ -40,13 +40,42 @@ class DefaultController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($group);
                 $em->flush();
+                $id = $group->getId();
 
-                return $this->redirect($this->generateUrl('freedom_objective_dashboard_dashboard', array()));
+                return $this->redirect($this->generateUrl('freedom_group_details', array('id' => $id)));
             }
         }
 
         return array(
             'form' => $form->createView(),
+        );
+    }
+
+    /**
+    * @Route("/edit/{id}", name="freedom_group_edit", options={"expose"=true})
+    * @Template()
+    */
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $group = $em->getRepository('FreedomGroupBundle:Groups')->find($id);
+        $form = $this->createForm(new GroupsCreateType, $group);
+
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('freedom_group_details', array('id' => $id)));
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'id' => $id
         );
     }
 

@@ -68,7 +68,6 @@ ObjectiveApp.factory('Group', ['$resource', function($resource){
     });
 }]);
 
-
 ObjectiveApp.factory('modelService', [ function(){
     return {
         // ******** General Model ******** //
@@ -139,6 +138,7 @@ ObjectiveApp.factory('modelService', [ function(){
     };
 
 }]);
+
 
 
 

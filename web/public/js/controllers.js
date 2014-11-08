@@ -1,52 +1,15 @@
-ObjectiveApp.controller('ObjectiveCurrentCtrl', [ '$rootScope', '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($rootScope, $scope, Advice, Objective, Step, $filter) {
+ObjectiveApp.controller('ObjectiveCurrentCtrl', ['$scope' , 'Objective', function ($scope, Objective) {
 
     //Init
     $scope.objectives = [];
 
     Objective.queries({limit: 10, filters : {user: parseInt(pathArray[1]), done: 0}, order_by :{datecreation: 'DESC'}},{}, function(data){
         $scope.objectives = data;
-        console.log(data);
     });
-
-    $scope.deleteObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        Objective.delete({id: objective.id},{});
-        $scope.objectives.splice(idx,1);
-        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
-    }
-
-    $scope.doneObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
-        objective.datedone = now;
-        Objective.update({id: objective.id}, objective);
-        $scope.objectives.splice(idx,1);
-        $rootScope.flashMessage = {type: 'alert-success', message: 'Your post has been moved !'};
-    }
-
-    $scope.deleteStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        Step.delete({id: $scope.objectives[idxObj].id, id_step: step.id},{});
-        $scope.objectives[idxObj].steps.splice(idx,1);
-
-    }
-
-    $scope.doneStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        step.done = !step.done;
-        $scope.objectives[idxObj].steps[idx] = Step.update({id: $scope.objectives[idxObj].id , id_step: step.id},step);
-    }
-
-    $scope.deleteAdvice = function(idx, idxObj){
-        var advice = $scope.objectives[idxObj].advices[idx];
-        Advice.delete({id: $scope.objectives[idxObj].id, id_advice: advice.id},{});
-        $scope.objectives[idxObj].advices.splice(idx,1);
-    }
 
 }]);
 
-ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' , 'Objective', 'Step', '$filter', function ($rootScope, $scope, Advice, Objective, Step, $filter) {
+ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$scope', 'Objective', function ($scope, Objective) {
 
     //Init
     $scope.objectives = [];
@@ -54,41 +17,15 @@ ObjectiveApp.controller('ObjectiveDoneCtrl', [ '$rootScope', '$scope', 'Advice' 
         $scope.objectives = data;
     });
 
-    $scope.deleteObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        Objective.delete({id: objective.id},{});
-        $scope.objectives.splice(idx,1);
-        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
-    }
+}]);
 
-    $scope.doneObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
-        objective.datedone = now;
-        Objective.update({id: objective.id}, objective);
-        $scope.objectives.splice(idx,1);
-        $rootScope.flashMessage = {type: 'alert-success', message: 'Your post has been moved !'};
-    }
+ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$scope' , 'Objective', function ($scope, Objective) {
 
-    $scope.deleteStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        Step.delete({id: $scope.objectives[idxObj].id, id_step: step.id},{});
-        $scope.objectives[idxObj].steps.splice(idx,1);
-
-    }
-
-    $scope.doneStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        step.done = !step.done;
-        $scope.objectives[idxObj].steps[idx] = Step.update({id: $scope.objectives[idxObj].id , id_step: step.id},step);
-    }
-
-    $scope.deleteAdvice = function(idx, idxObj){
-        var advice = $scope.objectives[idxObj].advices[idx];
-        Advice.delete({id: $scope.objectives[idxObj].id, id_advice: advice.id},{});
-        $scope.objectives[idxObj].advices.splice(idx,1);
-    }
+    //Init
+    $scope.objectives = [];
+    User.followedObjective({limit: 10, id: parseInt(pathArray[1]) , filters : {}},{}, function(data){
+        $scope.objectives = data;
+    });
 
 }]);
 
@@ -135,50 +72,6 @@ ObjectiveApp.controller('ObjectiveDetailsCtrl', [ '$scope', 'Advice' , 'Objectiv
         var advice = $scope.objective.advices[idx];
         Advice.delete({id: $scope.objective.id, id_advice: advice.id},{});
         $scope.objective.advices.splice(idx,1);
-    }
-
-}]);
-
-ObjectiveApp.controller('ObjectiveFollowedCtrl', [ '$rootScope', '$scope' , 'Objective', 'Advice', 'Step', 'User', '$filter', function ($rootScope, $scope, Objective, Advice, Step, User, $filter) {
-
-    //Init
-    $scope.objectives = [];
-    User.followedObjective({limit: 10, id: parseInt(pathArray[1]) , filters : {}},{}, function(data){
-        $scope.objectives = data;
-    });
-
-    $scope.deleteObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        Objective.delete({id: objective.id},{});
-        $scope.objectives.splice(idx,1);
-        $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
-    }
-
-    $scope.doneObjective = function(idx){
-        var objective = $scope.objectives[idx];
-        objective.done = !objective.done;
-        var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
-        objective.datedone = now;
-        Objective.update({id: objective.id}, objective);
-    }
-
-    $scope.deleteStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        Step.delete({id: $scope.objectives[idxObj].id, id_step: step.id},{});
-        $scope.objectives[idxObj].steps.splice(idx,1);
-
-    }
-
-    $scope.doneStep = function(idx, idxObj){
-        var step = $scope.objectives[idxObj].steps[idx];
-        step.done = !step.done;
-        $scope.objectives[idxObj].steps[idx] = Step.update({id: $scope.objectives[idxObj].id , id_step: step.id},step);
-    }
-
-    $scope.deleteAdvice = function(idx, idxObj){
-        var advice = $scope.objectives[idxObj].advices[idx];
-        Advice.delete({id: $scope.objectives[idxObj].id, id_advice: advice.id},{});
-        $scope.objectives[idxObj].advices.splice(idx,1);
     }
 
 }]);

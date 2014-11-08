@@ -1,3 +1,113 @@
+// ******** Start Modify Objective for pages with severeal objectives ******** //
+
+ObjectiveApp.directive('deleteObjective', function(Objective, $rootScope) {
+    return {
+        restrict: 'A',
+        scope: {
+            idx : '=idx',
+            objectives : '=objectives',
+        },
+        link: function(scope, element, attrs) { 
+            element.bind('click', function() {
+                var objective = scope.objectives[scope.idx];
+                Objective.delete({id: objective.id},{});
+                scope.objectives.splice(scope.idx,1);
+                $rootScope.flashMessage = {type: 'alert-success', message: 'Objective removed !'};
+            });
+        }
+    };
+});
+
+
+ObjectiveApp.directive('doneObjective', function(Objective, $rootScope, $filter) {
+    return {
+        restrict: 'A',
+        scope: {
+            idx : '=idx',
+            objectives : '=objectives',
+            page : '=page'
+        },
+        link: function(scope, element, attrs) { 
+            element.bind('click', function() {
+                var objective = scope.objectives[scope.idx];
+                objective.done = !objective.done;
+                var now = $filter('date')(new Date(), 'yyyy/MM/dd HH:mm:ss');
+                objective.datedone = now;
+                Objective.update({id: objective.id}, objective);
+                console.log(scope.page);
+                if(scope.page === 'currentObjective' || scope.page === 'doneObjective'){
+                    scope.objectives.splice(scope.idx,1);
+                    $rootScope.flashMessage = {type: 'alert-success', message: 'Your post has been moved !'};
+                }
+            });
+        }
+    };
+});
+
+// ******** End Modify Objective for pages with severeal objectives ******** //
+
+// ******** Start Modify Step for pages with severeal objectives ******** //
+
+ObjectiveApp.directive('deleteStep', function(Step) {
+    return {
+        restrict: 'A',
+        scope: {
+            idx : '=idx',
+            idxObj : '=idxObj',
+            objectives : '=objectives'
+        },
+        link: function(scope, element, attrs) { 
+            element.bind('click', function() {
+                var step = scope.objectives[scope.idxObj].steps[scope.idx];
+                Step.delete({id: scope.objectives[scope.idxObj].id, id_step: step.id},{});
+                scope.objectives[scope.idxObj].steps.splice(scope.idx,1);
+            });
+        }
+    };
+});
+
+ObjectiveApp.directive('doneStep', function(Step) {
+    return {
+        restrict: 'A',
+        scope: {
+            idx : '=idx',
+            idxObj : '=idxObj',
+            objectives : '=objectives'
+        },
+        link: function(scope, element, attrs) { 
+            element.bind('click', function() {
+                var step = scope.objectives[scope.idxObj].steps[scope.idx];
+                step.done = !step.done;
+                scope.objectives[scope.idxObj].steps[scope.idx] = Step.update({id: scope.objectives[scope.idxObj].id , id_step: step.id},step);
+            });
+        }
+    };
+});
+
+// ******** End Modify Step for pages with severeal objectives ******** //
+
+// ******** Start Modify Advice for pages with severeal objectives ******** //
+
+ObjectiveApp.directive('deleteAdvice', function(Advice) {
+    return {
+        restrict: 'A',
+        scope: {
+            idx : '=idx',
+            idxObj : '=idxObj',
+            objectives : '=objectives'
+        },
+        link: function(scope, element, attrs) { 
+            element.bind('click', function() {
+                var advice = scope.objectives[scope.idxObj].advices[scope.idx];
+                Advice.delete({id: scope.objectives[scope.idxObj].id, id_advice: advice.id},{});
+                scope.objectives[scope.idxObj].advices.splice(scope.idx,1);
+            });
+        }
+    };
+});
+
+// ******** End Modify Advice for pages with severeal objectives ******** //
+
 ObjectiveApp.directive('submitAdvice', function(Advice, $rootScope) {
     return {
         restrict: 'E',
@@ -172,7 +282,8 @@ ObjectiveApp.directive('allowFollowObjective', function(Objective, $rootScope) {
         restrict: 'E',
         scope: {
             objective : '=objective',
-            userLogged : '=userLogged'
+            userLogged : '=userLogged',
+            page : '=page'
         },
         link: function(scope, element, attrs) { 
             scope.$watch('objective', function() {
@@ -193,7 +304,7 @@ ObjectiveApp.directive('allowFollowObjective', function(Objective, $rootScope) {
                         var index = scope.objective.userfollowobjectives.indexOf(scope.userfollow);
                         scope.objective.userfollowobjectives.splice(index, 1);
                         scope.icon = "glyphicon-star-empty";
-                        if(attrs.followpage){
+                        if(scope.page === 'followedObjective'){
                             // IMPORTANT Remove this objective from the array
                             $rootScope.flashMessage = {type: 'alert-success', message: 'You don\'t follow this objective anymore !'};
                         }

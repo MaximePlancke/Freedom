@@ -40,9 +40,8 @@ class DefaultController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($group);
                 $em->flush();
-                $id = $group->getId();
 
-                return $this->redirect($this->generateUrl('freedom_group_details', array('id' => $id)));
+                return $this->redirect($this->generateUrl('freedom_group_details', array('id' => $group->getId())));
             }
         }
 

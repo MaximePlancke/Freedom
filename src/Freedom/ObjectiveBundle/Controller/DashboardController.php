@@ -3,10 +3,16 @@
 namespace Freedom\ObjectiveBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Freedom\ObjectiveBundle\Entity\Objective;
 use Freedom\ObjectiveBundle\Form\ObjectiveCreateType;
 use Freedom\ObjectiveBundle\Form\ObjectiveEditType;
 
+// ACL
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -61,9 +67,20 @@ class DashboardController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($objective);
                 $em->flush();
-                $id = $objective->getId();
 
-                return $this->redirect($this->generateUrl('freedom_objective_dashboard_details', array('id' => $id)));
+                //ACL
+                $aclProvider = $this->get('security.acl.provider');
+                $objectIdentity = ObjectIdentity::fromDomainObject($objective);
+                $acl = $aclProvider->createAcl($objectIdentity);
+
+                $securityContext = $this->get('security.context');
+                $user = $securityContext->getToken()->getUser();
+                $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+                $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+                $aclProvider->updateAcl($acl);
+
+                return $this->redirect($this->generateUrl('freedom_objective_dashboard_details', array('id' => $objective->getId())));
             }
         }
 
@@ -83,6 +100,13 @@ class DashboardController extends Controller
 
         if (null === $objective) {
             throw new NotFoundHttpException("the objective with the id ".$id." doesn't exist.");
+        }
+
+        //Check if user can edit it 
+        $securityContext = $this->get('security.context');
+        if (false === $securityContext->isGranted('EDIT', $objective))
+        {
+            throw new AccessDeniedException();
         }
 
         $form = $this->createForm(new ObjectiveEditType, $objective);

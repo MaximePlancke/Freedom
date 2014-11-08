@@ -24,7 +24,7 @@
 	<li>
         <span ng-show="step.done" class="glyphicon glyphicon-check"></span>
         <span ng-hide="step.done" class="glyphicon glyphicon-retweet"></span>
-		{[{ step.name | capitalize }]} - {[{ step.userlikestepobjectives.length }]} <allow-like-step user-logged='{{ userLogged.getId }}' objective='objective' idx='$index'></allow-like-step>
+		<span ng-bind-html="step.name"></span> - {[{ step.userlikestepobjectives.length }]} <allow-like-step user-logged='{{ userLogged.getId }}' objective='objective' idx='$index'></allow-like-step>
         <span ng-if="{{ userLogged.getId }} == objective.user.id">
             <span ng-click="deleteStep($index)" class="clickable glyphicon glyphicon-remove"></span>
             <span ng-click="doneStep($index)" class="clickable glyphicon glyphicon-refresh"></span>

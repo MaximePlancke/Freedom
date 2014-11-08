@@ -41,3 +41,5 @@ security:
         - { path: ^/ob/, role: ROLE_USER }
         - { path: ^/, role: ROLE_USER }
         - { path: ^/api/, role: ROLE_USER}
+    acl:
+        connection: default

@@ -5,6 +5,7 @@
     <span ng-if="{{ userLogged.getId }} == objective.user.id">
       	<span delete-objective objectives="objectives" idx="$index" class="clickable glyphicon glyphicon-remove"></span>
         <span done-objective objectives="objectives" idx="$index" page="page" class="clickable glyphicon glyphicon-refresh"></span>
+        <span ng-click="url('freedom_objective_dashboard_edit', {id: objective.id})" class="clickable glyphicon glyphicon-pencil"></span>
     </span>
 </h4>
 <hr>

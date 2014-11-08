@@ -8,6 +8,7 @@
     <span ng-if="{{ userLogged.getId }} == objective.user.id">
         <span ng-click="doneObjective(objective.id)" class="clickable glyphicon glyphicon-refresh"></span>
     </span>
+    <span ng-click="url('freedom_objective_dashboard_edit', {id: objective.id})" class="clickable glyphicon glyphicon-pencil"></span>
 </h4>
 <hr>
 <span>{[{objective.userlikeobjectives.length}]}

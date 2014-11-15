@@ -157,7 +157,7 @@ ObjectiveApp.controller('ProfileCtrl', [ '$scope', 'User', function ($scope, Use
     });
     $scope.$watch('userLogged', function() {
         User.isFriend({id: profileUserId, id_friend: $scope.userLogged},{}, function(data){
-            $scope.isFriend = data.isFriend;
+            $scope.isFriend = data;
         });
     });
 }]);
@@ -196,7 +196,7 @@ ObjectiveApp.controller('GroupDetailsCtrl', [ '$scope', 'Group', function ($scop
     $scope.$watch('userLogged', function() {
         Group.userBelong({id: groupId, id_user: $scope.userLogged},{}, function(data){
             // console.log(data);
-            $scope.userBelong = data.userBelong;
+            $scope.userBelong = data;
         });
     });
 

@@ -305,7 +305,7 @@ class GroupController extends VoryxController
     {
         try {
             $userBelong = $group->getUserBelong($user);
-            return array('userBelong' => $userBelong);
+            return $userBelong;
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }

@@ -418,7 +418,7 @@ class UserController extends VoryxController
     {
         try {
             $isFriend = $user->getIsFriend($friend);
-            return array('isFriend' => $isFriend);
+            return $isFriend;
         } catch (\Exception $e) {
             return FOSView::create($e->getMessage(), Codes::HTTP_INTERNAL_SERVER_ERROR);
         }
